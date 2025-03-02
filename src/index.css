@@ -1,0 +1,6 @@
+@import "tailwindcss";
+* {
+  direction: rtl;
+  font-family: "Almarai", serif !important;
+}
+
