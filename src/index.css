@@ -1,6 +1,20 @@
 @import "tailwindcss";
 * {
-  direction: rtl;
+  direction: rtl !important;
   font-family: "Almarai", serif !important;
 }
-
+/* // setting scroll bar  */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #3b436f; 
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0056b3;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}

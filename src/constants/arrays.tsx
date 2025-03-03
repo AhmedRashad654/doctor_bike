@@ -12,3 +12,28 @@ export const cardsCount = [
   { name: "تعليق", count: 50, Icon: <People sx={style} /> },
   { name: "اعلان", count: 50, Icon: <People sx={style} /> },
 ];
+
+export const FakeRowUsers = [
+  {
+    id: 1,
+    firstName: "احمد",
+    email: "ahmed@gmail.com",
+    phone: "01092166248",
+    AlternativePhone: "01092166248",
+    city: "القاهرة",
+    address: "مصر، القاهرة",
+    isBlocked: false,
+    role: "admin",
+  },
+  {
+    id: 2,
+    firstName: "محمد",
+    email: "mohamed@gmail.com",
+    phone: "01234567890",
+    AlternativePhone: "01234567890",
+    city: "الإسكندرية",
+    address: "مصر، الإسكندرية",
+    isBlocked: true,
+    role: "user",
+  },
+];

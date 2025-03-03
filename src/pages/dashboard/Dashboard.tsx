@@ -17,6 +17,7 @@ export default function Dashboard() {
         gap={"30px"}
         flexWrap={"wrap"}
         justifyContent="space-between"
+        marginTop={"30px"}
       >
         {cardsCount?.map((item) => (
           <CardCount key={item.name} item={item} />

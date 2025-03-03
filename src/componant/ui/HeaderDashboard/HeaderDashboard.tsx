@@ -3,9 +3,9 @@ import { JSX } from "react";
 
 function HeaderDashboard({ Icon, text }: { Icon: JSX.Element; text: string }) {
   return (
-    <Stack direction="row" alignItems={"center"} sx={{ marginBottom: "40px" }}>
+    <Stack direction="row" alignItems={"center"} sx={{ marginBottom: "10px" }}>
       <ListItemIcon>{Icon}</ListItemIcon>
-      <Typography variant="h4">{text}</Typography>
+      <Typography variant="h5">{text}</Typography>
     </Stack>
   );
 }

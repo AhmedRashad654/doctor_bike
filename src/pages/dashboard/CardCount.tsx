@@ -14,7 +14,7 @@ function CardCount({
     <Stack
       gap={"5px"}
       alignItems={"center"}
-      minWidth="280px"
+      width="280px"
       flexGrow={1}
       sx={{
         backgroundColor: "secondary.main",
