@@ -14,12 +14,17 @@ import { FakeRowUsers } from "../../constants/arrays";
 import ButtonPagination from "../../componant/ui/pagination/ButtonPagination";
 import { useState } from "react";
 import ModalBlockUser from "./ModalBlockUser";
-export default function CustomTable() {
+import ModalEditRole from "./ModalEditRole";
+export default function TableUsers() {
   const [page, setPage] = useState<number>(1);
-    const [openModalBlock, setOpenModalBlock] = useState<{
-      id: number;
-      isBlocked: boolean;
-    } | null>(null);
+  const [openModalBlock, setOpenModalBlock] = useState<{
+    id: number;
+    isActived: boolean;
+  } | null>(null);
+  const [openModalEditRole, setOpenModalEditRole] = useState<{
+    id: number;
+    currentRole: string;
+  } | null>(null);
   return (
     <>
       <TableContainer component={Paper} sx={{ minHeight: "62vh" }}>
@@ -51,19 +56,28 @@ export default function CustomTable() {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {col.field === "isBlocked" ? (
+                    {col.field === "isActived" ? (
                       <Switch
-                        checked={row.isBlocked}
+                        checked={row.isActived}
                         color="primary"
                         onClick={() =>
                           setOpenModalBlock({
                             id: row.id,
-                            isBlocked: row.isBlocked,
+                            isActived: row.isActived,
                           })
                         }
                       />
                     ) : col.field === "editRole" ? (
-                      <Button>تعديل الدور</Button>
+                      <Button
+                        onClick={() =>
+                          setOpenModalEditRole({
+                            id: row.id,
+                            currentRole: row.role,
+                          })
+                        }
+                      >
+                        تعديل الدور
+                      </Button>
                     ) : (
                       row[col.field as keyof typeof row]
                     )}
@@ -78,6 +92,10 @@ export default function CustomTable() {
       <ModalBlockUser
         openModalBlock={openModalBlock}
         setOpenModalBlock={setOpenModalBlock}
+      />
+      <ModalEditRole
+        openModalEditRole={openModalEditRole}
+        setOpenModalEditRole={setOpenModalEditRole}
       />
     </>
   );

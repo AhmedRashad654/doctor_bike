@@ -7,6 +7,8 @@ import VerificationCode from "../pages/auth/verificationCode/VerificationCode";
 import VerificationSuccess from "../pages/auth/verificationSuccess/VerificationSuccess";
 import ChangePassword from "../pages/auth/changePassword/ChangePassword";
 import Users from "../pages/users/Users";
+import MainCategory from "../pages/mainCategory/MainCategory";
+import CreateMainCategory from "../pages/createMainCategory/CreateMainCategory";
 
 export const routes = createBrowserRouter([
   {
@@ -35,6 +37,8 @@ export const routes = createBrowserRouter([
     children: [
       { path: "", element: <Dashboard /> },
       { path: "user", element: <Users /> },
+      { path: "mainCategory", element: <MainCategory /> },
+      { path: "CreateMainCategory", element: <CreateMainCategory /> },
     ],
   },
 ]);

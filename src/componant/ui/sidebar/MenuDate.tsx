@@ -1,6 +1,8 @@
 import { Home, Person } from "@mui/icons-material";
 import PeopleIcon from "@mui/icons-material/People";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
+import CategoryIcon from '@mui/icons-material/Category';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 const styleIcon = { fontSize: 30, color: "gray" };
 
 export const menuItems = [
@@ -27,12 +29,17 @@ export const menuItems = [
   },
   {
     name: "الفئات الرئيسية",
-    icon: <Person sx={styleIcon} />,
+    icon: <CategoryIcon sx={styleIcon} />,
     subLinks: [
-      { name: "انشاء فئة رئيسية جديدة", icon: <PeopleIcon sx={styleIcon} /> },
+      {
+        name: "انشاء فئة رئيسية جديدة",
+        icon: <AddCircleOutlineIcon sx={styleIcon} />,
+        route: "/dashboard/createMainCategory",
+      },
       {
         name: "جميع الفئات الرئيسية",
-        icon: <PeopleOutlineIcon sx={styleIcon} />,
+        icon: <CategoryIcon sx={styleIcon} />,
+        route: "/dashboard/mainCategory",
       },
     ],
   },

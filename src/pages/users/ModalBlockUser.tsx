@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { Dispatch, SetStateAction } from "react";
@@ -7,9 +7,9 @@ export default function ModalBlockUser({
   openModalBlock,
   setOpenModalBlock,
 }: {
-  openModalBlock: { id: number; isBlocked: boolean } | null;
+  openModalBlock: { id: number; isActived: boolean } | null;
   setOpenModalBlock: Dispatch<
-    SetStateAction<{ id: number; isBlocked: boolean } | null>
+    SetStateAction<{ id: number; isActived: boolean } | null>
   >;
 }) {
   const handleClose = () => {
@@ -24,21 +24,43 @@ export default function ModalBlockUser({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "350px",
+          width: "340px",
           bgcolor: "white",
           boxShadow: 24,
           borderRadius: "25px",
-          padding: "20px",
+          padding: "10px",
         }}
       >
-        <Person />
-        <Typography variant="h4" sx={{ color: "primary.main" }}>
-          cangratulations
+        <Person sx={{ fontSize: "120px", color: "primary.main" }} />
+        <Typography
+          variant="h6"
+          sx={{ color: "primary.main", textAlign: "center" }}
+        >
+          {openModalBlock?.isActived
+            ? "هل انت متاكد من رغبتك بحظر هذا المستخدم"
+            : "هل انت متاكد من رغبتك باعدة نشاط هذا المستخدم"}
         </Typography>
 
-        <Typography sx={{ color: "secondary.main" }} variant="h6">
-          passed
-        </Typography>
+        <Stack direction="row" gap={"10px"} mt="10px">
+          <Button
+            sx={{
+              backgroundColor: "primary.main",
+              color: "white",
+              fontSize: "1.1rem",
+            }}
+          >
+            تاكيد
+          </Button>
+          <Button
+            onClick={handleClose}
+            sx={{
+              fontSize: "1.1rem",
+              border: "1px solid #777",
+            }}
+          >
+            الغاء
+          </Button>
+        </Stack>
       </Stack>
     </Modal>
   );

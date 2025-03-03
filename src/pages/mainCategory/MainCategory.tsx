@@ -1,25 +1,16 @@
 import { Box, InputAdornment, TextField } from "@mui/material";
 import HeaderDashboard from "../../componant/ui/HeaderDashboard/HeaderDashboard";
-import { People, Search } from "@mui/icons-material";
-import { useSearchParams } from "react-router-dom";
-import TableUsers from "./TableUsers";
+import TableMainCategory from "./TableMainCategory";
+import CategoryIcon from "@mui/icons-material/Category";
 import { useState } from "react";
-
-function Users() {
-  const [searchParams] = useSearchParams();
+import { Search } from "@mui/icons-material";
+function MainCategory() {
   const [valueSearch, setValueSearch] = useState<string | null>(null);
-  const user = searchParams.get("user");
   return (
     <Box>
       <HeaderDashboard
-        Icon={<People sx={{ fontSize: "40px" }} />}
-        text={
-          user === "sectoral"
-            ? "المستخدمين القطاعي"
-            : user === "sentence"
-            ? "مستخدمين الجملة"
-            : ""
-        }
+        Icon={<CategoryIcon sx={{ fontSize: "40px" }} />}
+        text={"الفئات الرئيسية"}
       />
       <TextField
         variant="standard"
@@ -47,9 +38,9 @@ function Users() {
           ),
         }}
       />
-      <TableUsers />
+      <TableMainCategory />
     </Box>
   );
 }
 
-export default Users;
+export default MainCategory;

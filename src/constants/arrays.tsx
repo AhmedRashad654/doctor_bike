@@ -22,7 +22,7 @@ export const FakeRowUsers = [
     AlternativePhone: "01092166248",
     city: "القاهرة",
     address: "مصر، القاهرة",
-    isBlocked: false,
+    isActived: false,
     role: "admin",
   },
   {
@@ -33,7 +33,30 @@ export const FakeRowUsers = [
     AlternativePhone: "01234567890",
     city: "الإسكندرية",
     address: "مصر، الإسكندرية",
-    isBlocked: true,
+    isActived: true,
     role: "user",
+  },
+];
+
+export const FakeRowCategory = [
+  {
+    id: 1,
+    name_ar: "فئة رئيسية",
+    name_en: "فئة رئيسية",
+    name_ab: "فئة رئيسية",
+    desc_ar: "فئة رئيسية",
+    desc_en: "فئة رئيسية",
+    desc_ab: "فئة رئيسية",
+    image: "فئة رئيسية",
+  },
+  {
+    id: 1,
+    name_ar: "فئة رئيسية",
+    name_en: "فئة رئيسية",
+    name_ab: "فئة رئيسية",
+    desc_ar: "فئة رئيسية",
+    desc_en: "فئة رئيسية",
+    desc_ab: "فئة رئيسية",
+    image: "فئة رئيسية",
   },
 ];
