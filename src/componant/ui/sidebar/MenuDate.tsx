@@ -7,13 +7,22 @@ export const menuItems = [
   {
     name: "لوحة التحكم",
     icon: <Home sx={styleIcon} />,
+    route: "/dashboard",
   },
   {
     name: "المستخدمون",
     icon: <Person sx={styleIcon} />,
     subLinks: [
-      { name: "مستخدمين القطاعي", icon: <PeopleIcon sx={styleIcon} /> },
-      { name: "مستخدمين الجملة", icon: <PeopleOutlineIcon sx={styleIcon} /> },
+      {
+        name: "مستخدمين القطاعي",
+        icon: <PeopleIcon sx={styleIcon} />,
+        route: "/dashboard/user?user=sectoral",
+      },
+      {
+        name: "مستخدمين الجملة",
+        icon: <PeopleOutlineIcon sx={styleIcon} />,
+        route: "/dashboard/user?user=sentence",
+      },
     ],
   },
   {

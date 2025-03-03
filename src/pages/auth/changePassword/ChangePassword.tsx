@@ -11,7 +11,7 @@ function ChangePassword() {
       sx={{ minHeight: "100vh" }}
     >
       <Stack
-        sx={{ width: { md: "450px", xs: "350px" } }}
+        sx={{ width: { md: "450px", xs: "340px" } }}
         alignItems={"center"}
         gap={"20px"}
       >

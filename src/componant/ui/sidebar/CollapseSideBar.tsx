@@ -7,8 +7,10 @@ import {
   Stack,
 } from "@mui/material";
 import { CollapseSideBarProps } from "../../../types/INavbar";
+import { useNavigate } from "react-router-dom";
 
 function CollapseSideBar({ item, openMenus }: CollapseSideBarProps) {
+  const navigate = useNavigate();
   return (
     <Collapse
       in={openMenus[item.name]}
@@ -37,6 +39,7 @@ function CollapseSideBar({ item, openMenus }: CollapseSideBarProps) {
               flexDirection: "column",
               alignItems: "start",
             }}
+            onClick={() => (subLink?.route ? navigate(subLink?.route) : "")}
           >
             <Stack direction={"row"} alignItems={"center"}>
               <ListItemIcon>{subLink.icon}</ListItemIcon>

@@ -7,11 +7,15 @@ import {
 } from "@mui/material";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
 import { ListItemProps } from "../../../types/INavbar";
+import { useNavigate } from "react-router-dom";
 
 function ListItem({ item, toggleMenu, openMenus }: ListItemProps) {
+  const navigate = useNavigate();
   return (
     <ListItemButton
-      onClick={() => toggleMenu(item.name)}
+      onClick={() =>
+        item?.route ? navigate(item?.route) : toggleMenu(item.name)
+      }
       sx={{
         display: "flex",
         justifyContent: "space-between",
@@ -30,7 +34,7 @@ function ListItem({ item, toggleMenu, openMenus }: ListItemProps) {
           sx={{ mr: "-15px" }}
         />
       </Stack>
-      {item?.subLinks ? (
+      {item?.subLinks && item?.subLinks ? (
         <Box
           sx={{
             position: "absolute",

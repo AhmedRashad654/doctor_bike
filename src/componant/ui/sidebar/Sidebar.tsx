@@ -25,6 +25,11 @@ function Sidebar() {
         anchor="right"
         open={open}
         onClose={toggleSidebar}
+        ModalProps={{
+          keepMounted: true,
+          disableAutoFocus: true,
+          disableEnforceFocus: true, 
+        }}
         sx={{
           transition: "width 0.3s",
           "& .MuiDrawer-paper": { width: 290, overflowX: "hidden" },
@@ -43,6 +48,7 @@ function Sidebar() {
                   item={item}
                   toggleMenu={toggleMenu}
                   openMenus={openMenus}
+                  
                 />
                 {item.subLinks && (
                   <CollapseSideBar item={item} openMenus={openMenus} />

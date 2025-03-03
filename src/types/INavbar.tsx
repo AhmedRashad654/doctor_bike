@@ -3,7 +3,8 @@ import { JSX } from "react";
 export interface MenuItem {
   name: string;
   icon: JSX.Element;
-  subLinks?: { name: string; icon: JSX.Element }[];
+  route?: string;
+  subLinks?: { name: string; icon: JSX.Element; route?: string }[];
 }
 
 export interface ListItemProps {

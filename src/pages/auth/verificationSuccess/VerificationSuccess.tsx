@@ -12,7 +12,7 @@ function VerificationSuccess() {
       <Stack
         alignItems={"center"}
         gap={"50px"}
-        sx={{ width: { md: "450px", xs: "350px" } }}
+        sx={{ width: { md: "450px", xs: "340px" } }}
       >
         <Stack alignItems={"center"} gap={"30px"}>
           <CheckCircleOutlineIcon sx={{ fontSize: "150px", color: "green" }} />

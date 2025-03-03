@@ -28,7 +28,7 @@ export default function VerificationCode() {
         alignItems={"center"}
         sx={{
           padding: 4,
-          width: { md: "450px", xs: "350px" },
+          width: { md: "450px", xs: "340px" },
         }}
       >
         <Stack gap={"10px"} alignItems={"center"}>

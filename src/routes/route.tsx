@@ -6,6 +6,7 @@ import ForgetPassword from "../pages/auth/forgePassword/forgetPassword";
 import VerificationCode from "../pages/auth/verificationCode/VerificationCode";
 import VerificationSuccess from "../pages/auth/verificationSuccess/VerificationSuccess";
 import ChangePassword from "../pages/auth/changePassword/ChangePassword";
+import Users from "../pages/users/Users";
 
 export const routes = createBrowserRouter([
   {
@@ -31,6 +32,9 @@ export const routes = createBrowserRouter([
   {
     path: "/dashboard",
     element: <LayoutDashboard />,
-    children: [{ path: "", element: <Dashboard /> }],
+    children: [
+      { path: "", element: <Dashboard /> },
+      { path: "user", element: <Users /> },
+    ],
   },
 ]);
