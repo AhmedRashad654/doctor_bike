@@ -3,13 +3,27 @@
   direction: rtl !important;
   font-family: "Almarai", serif !important;
 }
+/* // active-classess */
+.link-active {
+  background-color: #3b436f;
+  border-radius: 25px;
+  padding: 5px 25px;
+  color: white;
+}
+.not-active {
+  background-color: #E5E7EB;
+  border-radius: 25px;
+  padding: 7px 25px;
+  color: black;
+}
+
 /* // setting scroll bar  */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3b436f; 
+  background: #3b436f;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {

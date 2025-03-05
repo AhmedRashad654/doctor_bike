@@ -16,7 +16,8 @@ export const columnsMainCategory = [
   { field: "name_ab", label: "الاسم بالعبرية" },
   { field: "desc_ar", label: "الوصف بالعربية" },
   { field: "desc_en", label: "الوصف بالانجليزية" },
-  { field: "desc_ab", label: "الاوصف بالعبرية" },
+  { field: "desc_ab", label: "الوصف بالعبرية" },
   { field: "image", label: "صورة" },
+  { field: "isShow", label: "العرض" },
   { field: "edit", label: "تعديل" },
 ];

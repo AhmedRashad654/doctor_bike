@@ -48,9 +48,10 @@ export const FakeRowCategory = [
     desc_en: "فئة رئيسية",
     desc_ab: "فئة رئيسية",
     image: "فئة رئيسية",
+    isShow: true,
   },
   {
-    id: 1,
+    id: 2,
     name_ar: "فئة رئيسية",
     name_en: "فئة رئيسية",
     name_ab: "فئة رئيسية",
@@ -58,5 +59,31 @@ export const FakeRowCategory = [
     desc_en: "فئة رئيسية",
     desc_ab: "فئة رئيسية",
     image: "فئة رئيسية",
+    isShow: false,
+  },
+];
+
+export const FakeSubCategory = [
+  {
+    id: 1,
+    name_ar: "فئة ثانوية",
+    name_en: "فئة ثانوية",
+    name_ab: "فئة ثانوية",
+    desc_ar: "فئة ثانوية",
+    desc_en: "فئة ثانوية",
+    desc_ab: "فئة ثانوية",
+    image: "فئة ثانوية",
+    isShow: true,
+  },
+  {
+    id: 2,
+    name_ar: "فئة ثانوية",
+    name_en: "فئة ثانوية",
+    name_ab: "فئة ثانوية",
+    desc_ar: "فئة ثانوية",
+    desc_en: "فئة ثانوية",
+    desc_ab: "فئة ثانوية",
+    image: "فئة ثانوية",
+    isShow: false,
   },
 ];

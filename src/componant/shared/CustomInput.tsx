@@ -9,6 +9,7 @@ interface CustomInputProps {
   type?: string;
   rows?: number;
   placeholder: string;
+  defaultValue?: string;
   multiline?: boolean;
 }
 
@@ -19,13 +20,14 @@ export default function CustomInput({
   type = "text",
   rows,
   placeholder,
+  defaultValue = "",
   multiline = false,
 }: CustomInputProps) {
   return (
     <Controller
       name={name}
       control={control}
-      defaultValue=""
+      defaultValue={defaultValue || ""}
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}

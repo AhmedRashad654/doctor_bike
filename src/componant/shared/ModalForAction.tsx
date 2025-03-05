@@ -1,22 +1,15 @@
 import { Button, Stack } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-import { Dispatch, SetStateAction } from "react";
 import { Person } from "@mui/icons-material";
-export default function ModalBlockUser({
-  openModalBlock,
-  setOpenModalBlock,
-}: {
-  openModalBlock: { id: number; isActived: boolean } | null;
-  setOpenModalBlock: Dispatch<
-    SetStateAction<{ id: number; isActived: boolean } | null>
-  >;
-}) {
+import useContextState from "../hooks/useContextState";
+export default function ModalForAction({ text }: { text: string }) {
+  const { openModalForAction, setOpenModalForAction } = useContextState();
   const handleClose = () => {
-    setOpenModalBlock(null);
+    setOpenModalForAction(null);
   };
   return (
-    <Modal keepMounted open={!!openModalBlock?.id} onClose={handleClose}>
+    <Modal keepMounted open={!!openModalForAction?.id} onClose={handleClose}>
       <Stack
         alignItems={"center"}
         sx={{
@@ -36,9 +29,7 @@ export default function ModalBlockUser({
           variant="h6"
           sx={{ color: "primary.main", textAlign: "center" }}
         >
-          {openModalBlock?.isActived
-            ? "هل انت متاكد من رغبتك بحظر هذا المستخدم"
-            : "هل انت متاكد من رغبتك باعدة نشاط هذا المستخدم"}
+          {text}
         </Typography>
 
         <Stack direction="row" gap={"10px"} mt="10px">

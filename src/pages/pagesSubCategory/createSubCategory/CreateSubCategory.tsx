@@ -1,8 +1,8 @@
 import { Box, Stack } from "@mui/material";
-import HeaderDashboard from "../../componant/ui/HeaderDashboard/HeaderDashboard";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import FormCreateMainCategory from "./FormCreateMainCategory";
-function CreateMainCategory() {
+import HeaderDashboard from "../../../componant/ui/HeaderDashboard/HeaderDashboard";
+import FormCreateSubCategory from "./FormCreateSubCategory";
+function CreateSubCategory() {
   return (
     <Box>
       <HeaderDashboard
@@ -10,10 +10,10 @@ function CreateMainCategory() {
         text={"انشاء فئة رئيسية"}
       />
       <Stack alignItems={"center"} justifyContent={"center"} minHeight={"80vh"}>
-        <FormCreateMainCategory />
+        <FormCreateSubCategory />
       </Stack>
     </Box>
   );
 }
 
-export default CreateMainCategory;
+export default CreateSubCategory;

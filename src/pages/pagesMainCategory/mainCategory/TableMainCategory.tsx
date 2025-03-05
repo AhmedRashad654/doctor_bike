@@ -7,13 +7,19 @@ import {
   TableRow,
   Paper,
   Button,
+  Switch,
 } from "@mui/material";
-import { columnsMainCategory } from "../../constants/columnTables";
-import { FakeRowCategory } from "../../constants/arrays";
-import ButtonPagination from "../../componant/ui/pagination/ButtonPagination";
 import { useState } from "react";
+import { FakeRowCategory } from "../../../constants/arrays";
+import { columnsMainCategory } from "../../../constants/columnTables";
+import { useNavigate } from "react-router-dom";
+import ButtonPagination from "../../../componant/ui/pagination/ButtonPagination";
+import useContextState from "../../../componant/hooks/useContextState";
+import ModalForAction from "../../../componant/shared/ModalForAction";
 export default function TableMainCategory() {
   const [page, setPage] = useState<number>(1);
+  const { openModalForAction, setOpenModalForAction } = useContextState();
+  const navigate = useNavigate();
   return (
     <>
       <TableContainer component={Paper} sx={{ minHeight: "62vh" }}>
@@ -46,7 +52,26 @@ export default function TableMainCategory() {
                     }}
                   >
                     {col.field === "edit" ? (
-                      <Button>تعديل </Button>
+                      <Button
+                        onClick={() =>
+                          navigate("/dashboard/editMainCategory", {
+                            state: { row },
+                          })
+                        }
+                      >
+                        تعديل{" "}
+                      </Button>
+                    ) : col.field === "isShow" ? (
+                      <Switch
+                        checked={row.isShow}
+                        color="primary"
+                        onClick={() =>
+                          setOpenModalForAction({
+                            id: row.id,
+                            status: row.isShow,
+                          })
+                        }
+                      />
                     ) : (
                       row[col.field as keyof typeof row]
                     )}
@@ -58,6 +83,13 @@ export default function TableMainCategory() {
         </Table>
       </TableContainer>
       <ButtonPagination page={page} setPage={setPage} totalPages={6} />
+      <ModalForAction
+        text={
+          openModalForAction?.status === true
+            ? "هل انت متاكد من رغبتك بالغاء ظهور هذة الفئة"
+            : "هل انت متاكد من رغبتك باعادة ظهور هذة الفئة"
+        }
+      />
     </>
   );
 }

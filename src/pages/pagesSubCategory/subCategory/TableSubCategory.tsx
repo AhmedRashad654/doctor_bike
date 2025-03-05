@@ -6,30 +6,28 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Switch,
   Button,
+  Switch,
 } from "@mui/material";
-import { columnsUser } from "../../constants/columnTables";
-import { FakeRowUsers } from "../../constants/arrays";
-import ButtonPagination from "../../componant/ui/pagination/ButtonPagination";
 import { useState } from "react";
-import ModalEditRole from "./ModalEditRole";
-import ModalForAction from "../../componant/shared/ModalForAction";
-import useContextState from "../../componant/hooks/useContextState";
-export default function TableUsers() {
+import { FakeSubCategory } from "../../../constants/arrays";
+import { columnsMainCategory } from "../../../constants/columnTables";
+import { useNavigate } from "react-router-dom";
+import ButtonPagination from "../../../componant/ui/pagination/ButtonPagination";
+import useContextState from "../../../componant/hooks/useContextState";
+import ModalForAction from "../../../componant/shared/ModalForAction";
+
+export default function TableSubCategory() {
   const [page, setPage] = useState<number>(1);
   const { openModalForAction, setOpenModalForAction } = useContextState();
-  const [openModalEditRole, setOpenModalEditRole] = useState<{
-    id: number;
-    currentRole: string;
-  } | null>(null);
+  const navigate = useNavigate();
   return (
     <>
       <TableContainer component={Paper} sx={{ minHeight: "62vh" }}>
         <Table>
           <TableHead>
             <TableRow>
-              {columnsUser.map((col) => (
+              {columnsMainCategory.map((col) => (
                 <TableCell
                   key={col.field}
                   sx={{
@@ -44,9 +42,9 @@ export default function TableUsers() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {FakeRowUsers.map((row) => (
+            {FakeSubCategory.map((row) => (
               <TableRow key={row.id}>
-                {columnsUser.map((col) => (
+                {columnsMainCategory.map((col) => (
                   <TableCell
                     key={col.field}
                     sx={{
@@ -54,28 +52,26 @@ export default function TableUsers() {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {col.field === "isActived" ? (
+                    {col.field === "edit" ? (
+                      <Button
+                        onClick={() =>
+                          navigate("/dashboard/editMainCategory", {
+                            state: { row },
+                          })
+                        }
+                      >
+                        تعديل{" "}
+                      </Button>
+                    ) : col.field === "isShow" ? (
                       <Switch
-                        checked={row.isActived}
+                        checked={row.isShow}
                         color="primary"
                         onClick={() =>
                           setOpenModalForAction({
                             id: row.id,
-                            status: row.isActived,
                           })
                         }
                       />
-                    ) : col.field === "editRole" ? (
-                      <Button
-                        onClick={() =>
-                          setOpenModalEditRole({
-                            id: row.id,
-                            currentRole: row.role,
-                          })
-                        }
-                      >
-                        تعديل الدور
-                      </Button>
                     ) : (
                       row[col.field as keyof typeof row]
                     )}
@@ -90,13 +86,9 @@ export default function TableUsers() {
       <ModalForAction
         text={
           openModalForAction?.status === true
-            ? "هل انت متاكد من رغبتك بحظر هذا المستخدم"
-            : "هل انت متاكد من رغبتك باعادة نشاط هذا المستخدم"
+            ? "هل انت متاكد من رغبتك بالغاء ظهور هذة الفئة"
+            : "هل انت متاكد من رغبتك باعادة ظهور هذة الفئة"
         }
-      />
-      <ModalEditRole
-        openModalEditRole={openModalEditRole}
-        setOpenModalEditRole={setOpenModalEditRole}
       />
     </>
   );

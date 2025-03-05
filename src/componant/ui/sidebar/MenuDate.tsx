@@ -1,8 +1,9 @@
 import { Home, Person } from "@mui/icons-material";
 import PeopleIcon from "@mui/icons-material/People";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
-import CategoryIcon from '@mui/icons-material/Category';
+import CategoryIcon from "@mui/icons-material/Category";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import ClassIcon from "@mui/icons-material/Class";
 const styleIcon = { fontSize: 30, color: "gray" };
 
 export const menuItems = [
@@ -45,12 +46,17 @@ export const menuItems = [
   },
   {
     name: "الفئات الثانوية",
-    icon: <Person sx={styleIcon} />,
+    icon: <ClassIcon sx={styleIcon} />,
     subLinks: [
-      { name: "انشاء فئة ثانوية جديدة", icon: <PeopleIcon sx={styleIcon} /> },
+      {
+        name: "انشاء فئة ثانوية جديدة",
+        icon: <AddCircleOutlineIcon sx={styleIcon} />,
+        route: "/dashboard/createSubCategory",
+      },
       {
         name: "جميع الفئات الثانوية",
-        icon: <PeopleOutlineIcon sx={styleIcon} />,
+        icon: <ClassIcon sx={styleIcon} />,
+        route: "/dashboard/subCategory?category=mobile",
       },
     ],
   },
