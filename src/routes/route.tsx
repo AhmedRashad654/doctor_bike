@@ -16,6 +16,9 @@ import EditSubCategory from "../pages/pagesSubCategory/editSubCategory/EditSubCa
 import CreateCities from "../pages/pagesCities/createCities/CreateCities";
 import Cities from "../pages/pagesCities/cities/Cities";
 import EditCities from "../pages/pagesCities/editCities/EditCities";
+import CreateProduct from "../pages/pagesProduct/createProduct/CreateProduct";
+import Product from "../pages/pagesProduct/product/Product";
+import EditProduct from "../pages/pagesProduct/editProduct/EditProduct";
 
 export const routes = createBrowserRouter([
   {
@@ -53,6 +56,9 @@ export const routes = createBrowserRouter([
       { path: "createCity", element: <CreateCities /> },
       { path: "cities", element: <Cities /> },
       { path: "editCity", element: <EditCities /> },
+      { path: "createProduct", element: <CreateProduct /> },
+      { path: "products", element: <Product /> },
+      { path: "editProduct", element: <EditProduct /> },
     ],
   },
 ]);

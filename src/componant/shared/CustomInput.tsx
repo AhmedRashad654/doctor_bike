@@ -10,6 +10,7 @@ interface CustomInputProps {
   rows?: number;
   placeholder: string;
   defaultValue?: string;
+  step?: string;
   multiline?: boolean;
 }
 
@@ -22,12 +23,19 @@ export default function CustomInput({
   placeholder,
   defaultValue = "",
   multiline = false,
+  step,
 }: CustomInputProps) {
   return (
     <Controller
       name={name}
       control={control}
       defaultValue={defaultValue || ""}
+      rules={{
+        pattern:
+          step !== "any" && type === "number"
+            ? { value: /^-?\d+$/, message: "يجب إدخال رقم صحيح فقط" }
+            : undefined,
+      }}
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
@@ -40,6 +48,11 @@ export default function CustomInput({
           error={!!error}
           placeholder={placeholder}
           helperText={error?.message}
+          sx={{ "& .MuiFormHelperText-root": { textAlign: "right" } }}
+          inputProps={{
+            step,
+            inputMode: "decimal",
+          }}
         />
       )}
     />

@@ -5,6 +5,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import ClassIcon from "@mui/icons-material/Class";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
+import Inventory2Icon from "@mui/icons-material/Inventory2";
 const styleIcon = { fontSize: 30, color: "gray" };
 
 export const menuItems = [
@@ -79,12 +80,17 @@ export const menuItems = [
   },
   {
     name: "  المنتجات",
-    icon: <Person sx={styleIcon} />,
+    icon: <Inventory2Icon sx={styleIcon} />,
     subLinks: [
-      { name: "اضافة منتج جديد", icon: <PeopleIcon sx={styleIcon} /> },
+      {
+        name: "اضافة منتج جديد",
+        icon: <AddCircleOutlineIcon sx={styleIcon} />,
+        route: "/dashboard/createProduct",
+      },
       {
         name: "جميع المنتجات",
-        icon: <PeopleOutlineIcon sx={styleIcon} />,
+        icon: <Inventory2Icon sx={styleIcon} />,
+        route: "/dashboard/products",
       },
     ],
   },

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function useImageUpload() {
   const [image, setImage] = useState<string | null>(null);
@@ -13,6 +13,8 @@ export default function useImageUpload() {
       reader.readAsDataURL(file);
     }
   };
-
+  useEffect(() => {
+    return () => setImage(null);
+  }, []);
   return { image, handleImageUpload };
 }
