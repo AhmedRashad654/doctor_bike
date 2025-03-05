@@ -36,7 +36,7 @@ export default function NavbarCategory() {
         <Link
           to={item.path}
           key={item.path}
-          className={` font-semibold text-[1.1rem] p-[10px] ${
+          className={` font-semibold text-[1.1rem] p-[10px] transition ${
             category === item.active ? "link-active" : "not-active"
           }`}
         >
