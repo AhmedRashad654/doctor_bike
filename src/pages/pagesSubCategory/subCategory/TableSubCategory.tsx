@@ -69,6 +69,7 @@ export default function TableSubCategory() {
                         onClick={() =>
                           setOpenModalForAction({
                             id: row.id,
+                            status: row.isShow,
                           })
                         }
                       />
