@@ -10,14 +10,14 @@ import {
   Switch,
 } from "@mui/material";
 import { useState } from "react";
-import { FakeSubCategory } from "../../../constants/arrays";
-import { columnsMainCategory } from "../../../constants/columnTables";
+import { FakeCities } from "../../../constants/arrays";
+import { columnsCities } from "../../../constants/columnTables";
 import { useNavigate } from "react-router-dom";
 import ButtonPagination from "../../../componant/ui/pagination/ButtonPagination";
 import useContextState from "../../../componant/hooks/useContextState";
 import ModalForAction from "../../../componant/shared/ModalForAction";
 
-export default function TableSubCategory() {
+export default function TableCities() {
   const [page, setPage] = useState<number>(1);
   const { openModalForAction, setOpenModalForAction } = useContextState();
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ export default function TableSubCategory() {
         <Table>
           <TableHead>
             <TableRow>
-              {columnsMainCategory.map((col) => (
+              {columnsCities.map((col) => (
                 <TableCell
                   key={col.field}
                   sx={{
@@ -42,9 +42,9 @@ export default function TableSubCategory() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {FakeSubCategory.map((row) => (
+            {FakeCities.map((row) => (
               <TableRow key={row.id}>
-                {columnsMainCategory.map((col) => (
+                {columnsCities.map((col) => (
                   <TableCell
                     key={col.field}
                     sx={{
@@ -55,7 +55,7 @@ export default function TableSubCategory() {
                     {col.field === "edit" ? (
                       <Button
                         onClick={() =>
-                          navigate("/dashboard/editSubCategory", {
+                          navigate("/dashboard/editCity", {
                             state: { row },
                           })
                         }
@@ -69,6 +69,7 @@ export default function TableSubCategory() {
                         onClick={() =>
                           setOpenModalForAction({
                             id: row.id,
+                            status: row?.isShow,
                           })
                         }
                       />
@@ -86,8 +87,8 @@ export default function TableSubCategory() {
       <ModalForAction
         text={
           openModalForAction?.status === true
-            ? "هل انت متاكد من رغبتك بالغاء ظهور هذة الفئة"
-            : "هل انت متاكد من رغبتك باعادة ظهور هذة الفئة"
+            ? "هل انت متاكد من رغبتك بالغاء ظهور هذة المدينة"
+            : "هل انت متاكد من رغبتك باعادة ظهور هذة المدينة"
         }
       />
     </>

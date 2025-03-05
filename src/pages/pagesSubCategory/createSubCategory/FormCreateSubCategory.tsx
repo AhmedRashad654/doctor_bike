@@ -1,11 +1,21 @@
-import { CardContent, Button, Avatar, Stack, Box } from "@mui/material";
+import {
+  CardContent,
+  Button,
+  Avatar,
+  Stack,
+  Box,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IMainCategory } from "../../../types/category";
 import useImageUpload from "../../../componant/hooks/useImageUpload";
 import CustomInput from "../../../componant/shared/CustomInput";
+import { useState } from "react";
 
 function FormCreateSubCategory() {
   const { image, handleImageUpload } = useImageUpload();
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const { control, handleSubmit } = useForm<IMainCategory>();
   const onSubmit: SubmitHandler<IMainCategory> = (data) => {
     console.log(data);
@@ -86,7 +96,21 @@ function FormCreateSubCategory() {
             multiline
             rows={4}
           />
-
+          <Select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            displayEmpty
+            sx={{ width: "100%", marginBottom: "15px" }}
+          >
+            <MenuItem value="" disabled>
+              اختر الفئة الرئيسية
+            </MenuItem>
+            {["الكترونيات", "لابتوب", "موبايل"].map((role) => (
+              <MenuItem key={role} value={role}>
+                {role}
+              </MenuItem>
+            ))}
+          </Select>
           <Button type="submit" variant="contained" color="primary" fullWidth>
             انشاء
           </Button>

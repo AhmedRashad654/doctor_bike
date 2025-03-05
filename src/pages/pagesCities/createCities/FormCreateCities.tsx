@@ -1,11 +1,9 @@
-import { CardContent, Button, Avatar, Stack, Box } from "@mui/material";
+import { CardContent, Button, Stack, Box } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IMainCategory } from "../../../types/category";
-import useImageUpload from "../../../componant/hooks/useImageUpload";
 import CustomInput from "../../../componant/shared/CustomInput";
-
-function FormCreateMainCategory() {
-  const { image, handleImageUpload } = useImageUpload();
+import logo_Bike from "../../../assets/images/logo_Bike.png";
+export default function FormCreateCities() {
   const { control, handleSubmit } = useForm<IMainCategory>();
   const onSubmit: SubmitHandler<IMainCategory> = (data) => {
     console.log(data);
@@ -23,24 +21,11 @@ function FormCreateMainCategory() {
     >
       <CardContent>
         <Stack alignItems="center" spacing={2}>
-          <label htmlFor="image-upload">
-            <input
-              type="file"
-              accept="image/*"
-              id="image-upload"
-              hidden
-              onChange={handleImageUpload}
-            />
-            <Avatar
-              src={image || ""}
-              sx={{
-                width: 100,
-                height: 100,
-                cursor: "pointer",
-              }}
-            />
-          </label>
-
+          <img
+            src={logo_Bike}
+            alt="logo"
+            className="w-[120px] h-[120px] mx-auto"
+          />
           <CustomInput
             control={control}
             name="name_ar"
@@ -60,40 +45,19 @@ function FormCreateMainCategory() {
             label="الاسم باللغة العبرية"
             placeholder="ادخل الاسم باللغة العبرية"
           />
-
           <CustomInput
             control={control}
-            name="description_ar"
-            label=" الوصف باللغة العربية"
-            placeholder=" ادخل الوصف باللغة العربية"
-            multiline
-            rows={4}
-          />
-          <CustomInput
-            control={control}
-            name="description_en"
-            label="الوصف باللغة الانجليزية"
-            placeholder="ادخل الوصف باللغة الانجليزية"
-            multiline
-            rows={4}
-          />
-
-          <CustomInput
-            control={control}
-            name="description_ab"
-            label="الوصف باللغة العبرية"
-            placeholder="ادخل الوصف باللغة العبرية"
-            multiline
-            rows={4}
+            name="deliver"
+            label="سعر التوصيل"
+            placeholder="ادخل  سعر التوصيل"
+            type="number"
           />
 
           <Button type="submit" variant="contained" color="primary" fullWidth>
-            تعديل
+            انشاء
           </Button>
         </Stack>
       </CardContent>
     </Box>
   );
 }
-
-export default FormCreateMainCategory;

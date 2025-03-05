@@ -87,3 +87,22 @@ export const FakeSubCategory = [
     isShow: false,
   },
 ];
+
+export const FakeCities = [
+  {
+    id: 1,
+    name_ar: "القاهرة",
+    name_en: "القاهرة",
+    name_ab: "القاهرة",
+    isShow: true,
+    deliver: 50,
+  },
+  {
+    id: 2,
+    name_ar: "القاهرة",
+    name_en: "القاهرة",
+    name_ab: "القاهرة",
+    isShow: false,
+    deliver: 50,
+  },
+];

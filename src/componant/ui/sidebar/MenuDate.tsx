@@ -4,6 +4,7 @@ import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import CategoryIcon from "@mui/icons-material/Category";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import ClassIcon from "@mui/icons-material/Class";
+import LocationCityIcon from "@mui/icons-material/LocationCity";
 const styleIcon = { fontSize: 30, color: "gray" };
 
 export const menuItems = [
@@ -62,12 +63,17 @@ export const menuItems = [
   },
   {
     name: "المدن واسعار التوصيل",
-    icon: <Person sx={styleIcon} />,
+    icon: <LocationCityIcon sx={styleIcon} />,
     subLinks: [
-      { name: "اضافة مدينة جديدة", icon: <PeopleIcon sx={styleIcon} /> },
+      {
+        name: "اضافة مدينة جديدة",
+        icon: <AddCircleOutlineIcon sx={styleIcon} />,
+        route: "/dashboard/createCity",
+      },
       {
         name: "جميع المدن",
-        icon: <PeopleOutlineIcon sx={styleIcon} />,
+        icon: <LocationCityIcon sx={styleIcon} />,
+        route: "/dashboard/cities",
       },
     ],
   },

@@ -103,7 +103,7 @@ function FormEditSubCategory() {
           />
 
           <Button type="submit" variant="contained" color="primary" fullWidth>
-            انشاء
+            تعديل
           </Button>
         </Stack>
       </CardContent>

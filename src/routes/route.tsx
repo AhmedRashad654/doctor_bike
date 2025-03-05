@@ -13,6 +13,9 @@ import CreateMainCategory from "../pages/pagesMainCategory/createMainCategory/Cr
 import SubCategory from "../pages/pagesSubCategory/subCategory/SubCategory";
 import CreateSubCategory from "../pages/pagesSubCategory/createSubCategory/CreateSubCategory";
 import EditSubCategory from "../pages/pagesSubCategory/editSubCategory/EditSubCategory";
+import CreateCities from "../pages/pagesCities/createCities/CreateCities";
+import Cities from "../pages/pagesCities/cities/Cities";
+import EditCities from "../pages/pagesCities/editCities/EditCities";
 
 export const routes = createBrowserRouter([
   {
@@ -47,6 +50,9 @@ export const routes = createBrowserRouter([
       { path: "subCategory", element: <SubCategory /> },
       { path: "createSubCategory", element: <CreateSubCategory /> },
       { path: "EditSubCategory", element: <EditSubCategory /> },
+      { path: "createCity", element: <CreateCities /> },
+      { path: "cities", element: <Cities /> },
+      { path: "editCity", element: <EditCities /> },
     ],
   },
 ]);

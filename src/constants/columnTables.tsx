@@ -21,3 +21,12 @@ export const columnsMainCategory = [
   { field: "isShow", label: "العرض" },
   { field: "edit", label: "تعديل" },
 ];
+
+export const columnsCities = [
+  { field: "name_ar", label: "الاسم بالعربية" },
+  { field: "name_en", label: "الاسم بالانجليزية" },
+  { field: "name_ab", label: "الاسم بالعبرية" },
+  { field: "isShow", label: "العرض" },
+  { field: "deliver", label: "سعر التوصيل" },
+  { field: "edit", label: "تعديل" },
+];
