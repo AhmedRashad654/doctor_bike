@@ -14,11 +14,11 @@ function CardCount({
     <Stack
       gap={"5px"}
       alignItems={"center"}
-      width="280px"
+      width="250px"
       flexGrow={1}
       sx={{
         backgroundColor: "secondary.main",
-        padding: "20px",
+        padding: "15px",
         borderRadius: "20px",
         boxShadow: 3,
       }}
@@ -31,7 +31,7 @@ function CardCount({
         <Typography
           variant="h6"
           color="primary.main"
-          sx={{ fontWeight: "bold", fontSize: "1.3rem" }}
+          sx={{ fontWeight: "bold", fontSize: "1.2rem" }}
         >
           {item?.name}
         </Typography>
