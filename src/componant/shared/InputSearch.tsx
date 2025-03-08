@@ -16,7 +16,7 @@ export default function InputSearch({
       value={valueSearch || ""}
       onChange={(e) => setValueSearch(e.target.value)}
       sx={{
-        maxWidth: 300,
+        maxWidth: 200,
 
         marginBottom: "20px",
         "& .MuiInputBase-root": {

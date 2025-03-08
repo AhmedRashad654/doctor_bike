@@ -6,6 +6,14 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import ClassIcon from "@mui/icons-material/Class";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
+import RequestPageIcon from "@mui/icons-material/RequestPage";
+import FactCheckIcon from "@mui/icons-material/FactCheck";
+import PendingIcon from "@mui/icons-material/Pending";
+import CancelIcon from "@mui/icons-material/Cancel";
+import ReportIcon from "@mui/icons-material/Report";
+import CommentIcon from "@mui/icons-material/Comment";
+import ListIcon from "@mui/icons-material/List";
+import FeaturedVideoIcon from "@mui/icons-material/FeaturedVideo";
 const styleIcon = { fontSize: 30, color: "gray" };
 
 export const menuItems = [
@@ -96,40 +104,53 @@ export const menuItems = [
   },
   {
     name: "طلبات الشراء",
-    icon: <Person sx={styleIcon} />,
+    icon: <RequestPageIcon sx={styleIcon} />,
     subLinks: [
-      { name: "طلبات مكتملة", icon: <PeopleIcon sx={styleIcon} /> },
+      {
+        name: "طلبات مكتملة",
+        icon: <FactCheckIcon sx={styleIcon} />,
+        route: "/dashboard/orders?status=completed",
+      },
       {
         name: "طلبات جارية",
-        icon: <PeopleOutlineIcon sx={styleIcon} />,
+        icon: <PendingIcon sx={styleIcon} />,
+        route: "/dashboard/orders?status=pending",
       },
       {
         name: "طلبات ملغية",
-        icon: <PeopleOutlineIcon sx={styleIcon} />,
+        icon: <CancelIcon sx={styleIcon} />,
+        route: "/dashboard/orders?status=cancelled",
       },
     ],
   },
   {
     name: "البلاغات",
-    icon: <Person sx={styleIcon} />,
+    icon: <ReportIcon sx={styleIcon} />,
+    route: "/dashboard/reports",
   },
   {
     name: "التعليقات",
-    icon: <Person sx={styleIcon} />,
+    icon: <CommentIcon sx={styleIcon} />,
+    route: "/dashboard/comments",
   },
   {
     name: "الاعلانات",
-    icon: <Person sx={styleIcon} />,
+    icon: <FeaturedVideoIcon sx={styleIcon} />,
     subLinks: [
-      { name: "اضافة اعلان", icon: <PeopleIcon sx={styleIcon} /> },
+      {
+        name: "اضافة اعلان",
+        icon: <AddCircleOutlineIcon sx={styleIcon} />,
+        route: "/dashboard/createAdvertisement",
+      },
       {
         name: "جميع الاعلانات",
-        icon: <PeopleOutlineIcon sx={styleIcon} />,
+        icon: <FeaturedVideoIcon sx={styleIcon} />,
+        route: "/dashboard/advertisement",
       },
     ],
   },
   {
     name: "خيارات لوحة التحكم",
-    icon: <Person sx={styleIcon} />,
+    icon: <ListIcon sx={styleIcon} />,
   },
 ];

@@ -113,6 +113,7 @@ export default function FormCreateProduct() {
               </MenuItem>
             ))}
           </Select>
+          <br />
           <CustomInput
             control={control}
             name="description_ar"

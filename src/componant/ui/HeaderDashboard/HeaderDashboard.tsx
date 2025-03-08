@@ -1,7 +1,13 @@
 import { ListItemIcon, Stack, Typography } from "@mui/material";
 import { JSX } from "react";
 
-function HeaderDashboard({ Icon, text }: { Icon: JSX.Element; text: string }) {
+function HeaderDashboard({
+  Icon,
+  text,
+}: {
+  Icon: JSX.Element | undefined;
+  text: string;
+}) {
   return (
     <Stack direction="row" alignItems={"center"} sx={{ marginBottom: "10px" }}>
       <ListItemIcon>{Icon}</ListItemIcon>

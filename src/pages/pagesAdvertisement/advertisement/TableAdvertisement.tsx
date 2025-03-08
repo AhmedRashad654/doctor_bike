@@ -10,14 +10,14 @@ import {
   Switch,
 } from "@mui/material";
 import { useState } from "react";
-import {FakeProduct } from "../../../constants/arrays";
-import {columnsProduct } from "../../../constants/columnTables";
+import { FakeAdvertisement } from "../../../constants/arrays";
+import { columnsAdvertisement } from "../../../constants/columnTables";
 import { useNavigate } from "react-router-dom";
 import ButtonPagination from "../../../componant/ui/pagination/ButtonPagination";
 import useContextState from "../../../componant/hooks/useContextState";
 import ModalForAction from "../../../componant/shared/ModalForAction";
 
-export default function TableProduct() {
+export default function TableAdvertisement() {
   const [page, setPage] = useState<number>(1);
   const { openModalForAction, setOpenModalForAction } = useContextState();
   const navigate = useNavigate();
@@ -27,13 +27,13 @@ export default function TableProduct() {
         <Table>
           <TableHead>
             <TableRow>
-              {columnsProduct.map((col) => (
+              {columnsAdvertisement.map((col) => (
                 <TableCell
                   key={col.field}
                   sx={{
                     fontWeight: "bold",
                     textAlign: "right",
-                    minWidth: "180px",
+                    minWidth: "150px",
                   }}
                 >
                   {col.label}
@@ -42,9 +42,9 @@ export default function TableProduct() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {FakeProduct.map((row) => (
+            {FakeAdvertisement.map((row) => (
               <TableRow key={row.id}>
-                {columnsProduct.map((col) => (
+                {columnsAdvertisement.map((col) => (
                   <TableCell
                     key={col.field}
                     sx={{
@@ -55,7 +55,7 @@ export default function TableProduct() {
                     {col.field === "edit" ? (
                       <Button
                         onClick={() =>
-                          navigate("/dashboard/editProduct", {
+                          navigate("/dashboard/editAdvertisement", {
                             state: { row },
                           })
                         }
@@ -69,7 +69,7 @@ export default function TableProduct() {
                         onClick={() =>
                           setOpenModalForAction({
                             id: row.id,
-                            status: row?.isShow,
+                            status: row.isShow,
                           })
                         }
                       />
@@ -87,8 +87,8 @@ export default function TableProduct() {
       <ModalForAction
         text={
           openModalForAction?.status === true
-            ? "هل انت متاكد من رغبتك بالغاء ظهور هذا المنتج"
-            : "هل انت متاكد من رغبتك باعادة ظهور هذا المنتج"
+            ? "هل انت متاكد من رغبتك بالغاء ظهور ألاعلان"
+            : "هل انت متاكد من رغبتك باعادة ظهور هذا الاعلان"
         }
       />
     </>

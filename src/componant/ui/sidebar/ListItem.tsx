@@ -39,7 +39,11 @@ function ListItem({ item, toggleMenu, openMenus }: ListItemProps) {
           sx={{
             position: "absolute",
             backgroundColor: "secondary.main",
-            height: openMenus[item.name] ? "95px" : 0,
+            height: openMenus[item.name]
+              ? item?.name === "طلبات الشراء"
+                ? "140px"
+                : "95px"
+              : 0,
             width: "3px",
             borderRadius: "5px",
             top: "50px",
