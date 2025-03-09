@@ -25,6 +25,7 @@ import Advertisement from "../pages/pagesAdvertisement/advertisement/Advertiseme
 import CreateAdvertisement from "../pages/pagesAdvertisement/createAdvertisement/CreateAdvertisement";
 import EditAdvertisement from "../pages/pagesAdvertisement/editSubCategory/EditAdvertisement";
 import EditProduct from "../pages/pagesProduct/editProduct/EditProduct";
+import ProtectedRoutedMyDashboard from "../protectedRouted/ProtectedRoutedDashboard";
 
 export const routes = createBrowserRouter([
   {
@@ -49,7 +50,11 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <LayoutDashboard />,
+    element: (
+      <ProtectedRoutedMyDashboard>
+        <LayoutDashboard />
+      </ProtectedRoutedMyDashboard>
+    ),
     children: [
       { path: "", element: <Dashboard /> },
       { path: "user", element: <Users /> },

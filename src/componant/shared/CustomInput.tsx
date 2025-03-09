@@ -12,6 +12,7 @@ interface CustomInputProps {
   defaultValue?: string;
   step?: string;
   multiline?: boolean;
+  rules?: object;
 }
 
 export default function CustomInput({
@@ -24,6 +25,7 @@ export default function CustomInput({
   defaultValue = "",
   multiline = false,
   step,
+  rules = {},
 }: CustomInputProps) {
   return (
     <Controller
@@ -31,6 +33,7 @@ export default function CustomInput({
       control={control}
       defaultValue={defaultValue || ""}
       rules={{
+        ...rules,
         pattern:
           step !== "any" && type === "number"
             ? { value: /^-?\d+$/, message: "يجب إدخال رقم صحيح فقط" }
