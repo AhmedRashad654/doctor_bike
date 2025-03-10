@@ -2,17 +2,53 @@ import { Button, Stack, Typography } from "@mui/material";
 import OTPInput from "react-otp-input";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { ForgetPasswordUser } from "../../../services/auth/auth";
+import { useToast } from "../../../componant/hooks/useToast";
+import {
+  setEnableChangePassword,
+  setOTP,
+} from "../../../redux/features/userSlice";
 
 export default function VerificationCode() {
   const [otp, setOtp] = useState("");
   const [timeLeft, setTimeLeft] = useState(60);
-  const navigate = useNavigate()
+  const { showToast, ToastComponent } = useToast();
+  const userOTP = useAppSelector((state) => state?.user?.otp);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  // decrease count
   useEffect(() => {
     if (timeLeft > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer);
     }
   }, [timeLeft]);
+  // check send email
+  useEffect(() => {
+    if (userOTP?.otp === "") {
+      navigate("/");
+    }
+  }, [navigate, userOTP?.otp]);
+  // handle repeat send otp
+  const handleRepeatSendOTP = async () => {
+    const data = { email: userOTP?.email };
+    const response = await ForgetPasswordUser(data, showToast);
+    if (response) {
+      dispatch(setOTP(response?.data));
+      setTimeLeft(60);
+    }
+  };
+  const handleVerificationCode = () => {
+    if (otp?.length < 4) return showToast("رمز ال OTP غير مكتمل", "error");
+    if (Number(otp) !== Number(userOTP?.otp)) {
+      return showToast("رمز ال OTP غير صحيح", "error");
+    } else {
+      dispatch(setEnableChangePassword(true));
+      navigate("/verifictionSuccess");
+    }
+  };
+
   return (
     <Stack
       justifyContent={"center"}
@@ -23,6 +59,7 @@ export default function VerificationCode() {
         minHeight: "100vh",
       }}
     >
+      {ToastComponent}
       <Stack
         gap={"20px"}
         alignItems={"center"}
@@ -69,7 +106,7 @@ export default function VerificationCode() {
             fontWeight: "bold",
             fontSize: "1.1rem",
           }}
-          onClick={()=>navigate("/verifictionSuccess")}
+          onClick={handleVerificationCode}
         >
           تحقق
         </Button>
@@ -86,6 +123,7 @@ export default function VerificationCode() {
             <Typography
               variant="h6"
               sx={{ fontWeight: "bold", cursor: "pointer" }}
+              onClick={handleRepeatSendOTP}
             >
               أعد الإرسال الآن
             </Typography>

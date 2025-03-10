@@ -1,12 +1,12 @@
 export const columnsUser = [
-  { field: "firstName", label: "اسم المستخدم" },
+  { field: "userName", label: "اسم المستخدم" },
+  { field: "fullName", label: "الاسم بالكامل" },
   { field: "email", label: "الإيميل" },
-  { field: "phone", label: "رقم الهاتف" },
-  { field: "AlternativePhone", label: "رقم الهاتف البديل" },
+  { field: "phoneNumber", label: "رقم الهاتف" },
+  { field: "phoneNumber2", label: "رقم الهاتف البديل" },
   { field: "city", label: "المدينة" },
   { field: "address", label: "العنوان" },
-  { field: "isActived", label: "ألنشاط" },
-  { field: "role", label: "الدور" },
+  { field: "block", label: "ألنشاط" },
   { field: "editRole", label: "تعديل علي الدور" },
 ];
 

@@ -7,15 +7,15 @@ import {
 } from "react";
 
 interface ContextType {
-  openModalForAction: { id: number; status?: boolean } | null;
+  openModalForAction: { id: string; status?: boolean } | null;
   setOpenModalForAction: Dispatch<
-    SetStateAction<{ id: number; status?: boolean } | null>
+    SetStateAction<{ id: string; status?: boolean } | null>
   >;
 }
 const ContextUseState = createContext<ContextType | undefined>(undefined);
 function ContextProvider({ children }: { children: ReactNode }) {
   const [openModalForAction, setOpenModalForAction] = useState<{
-    id: number;
+    id: string;
   } | null>(null);
 
   return (

@@ -1,11 +1,16 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { IDataUser, IUser, TokenPayload } from "../../types/user";
+import { IDataUser, IOPT, IUser, TokenPayload } from "../../types/user";
 import Cookies from "js-cookie";
 import { request } from "../../axios/axios";
 import { jwtDecode } from "jwt-decode";
 
 const initialState: IUser = {
-  otp: null,
+  otp: {
+    otp: "",
+    email: "",
+    userId: "",
+    enabaleChangePassword: false,
+  },
   data: {
     id: "",
     userName: "",
@@ -75,6 +80,20 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<IDataUser>) => {
       state.data = action.payload;
     },
+    setOTP: (state, action: PayloadAction<IOPT>) => {
+      state.otp = { ...state.otp, ...action.payload };
+    },
+    setEnableChangePassword: (state, action: PayloadAction<boolean>) => {
+      state.otp.enabaleChangePassword = action.payload;
+    },
+    setResetOTP: (state) => {
+      state.otp = {
+        otp: "",
+        email: "",
+        userId: "",
+        enabaleChangePassword: false,
+      };
+    },
     setLogout: () => {
       Cookies.remove("token_doctor_bike");
       return { ...initialState };
@@ -99,5 +118,11 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUser, setLogout } = userSlice.actions;
+export const {
+  setUser,
+  setOTP,
+  setEnableChangePassword,
+  setResetOTP,
+  setLogout,
+} = userSlice.actions;
 export default userSlice.reducer;

@@ -9,7 +9,7 @@ import {
 import { CollapseSideBarProps } from "../../../types/INavbar";
 import { useNavigate } from "react-router-dom";
 
-function CollapseSideBar({ item, openMenus }: CollapseSideBarProps) {
+export default function CollapseSideBar({ item, openMenus }: CollapseSideBarProps) {
   const navigate = useNavigate();
   return (
     <Collapse
@@ -56,4 +56,3 @@ function CollapseSideBar({ item, openMenus }: CollapseSideBarProps) {
   );
 }
 
-export default CollapseSideBar;

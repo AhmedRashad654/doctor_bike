@@ -40,7 +40,7 @@ function ListItem({ item, toggleMenu, openMenus }: ListItemProps) {
             position: "absolute",
             backgroundColor: "secondary.main",
             height: openMenus[item.name]
-              ? item?.name === "طلبات الشراء"
+              ? item?.name === "طلبات الشراء" || item?.name === "المستخدمون"
                 ? "140px"
                 : "95px"
               : 0,

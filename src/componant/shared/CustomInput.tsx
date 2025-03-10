@@ -12,7 +12,11 @@ interface CustomInputProps {
   defaultValue?: string;
   step?: string;
   multiline?: boolean;
-  rules?: object;
+  rules?: {
+    required?: string;
+    pattern?: { value: RegExp; message: string };
+    validate?: (value: string) => boolean | string | Promise<boolean | string>;
+  };
 }
 
 export default function CustomInput({
@@ -35,9 +39,10 @@ export default function CustomInput({
       rules={{
         ...rules,
         pattern:
-          step !== "any" && type === "number"
+          rules.pattern ||
+          (step !== "any" && type === "number"
             ? { value: /^-?\d+$/, message: "يجب إدخال رقم صحيح فقط" }
-            : undefined,
+            : undefined),
       }}
       render={({ field, fieldState: { error } }) => (
         <TextField

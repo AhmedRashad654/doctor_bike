@@ -1,15 +1,36 @@
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import logo_Bike from "../../../assets/images/logo_Bike.png";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../../componant/hooks/useToast";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { ILoginUser } from "../../../types/user";
+import CustomInput from "../../../componant/shared/CustomInput";
+import { ForgetPasswordUser } from "../../../services/auth/auth";
+import { useAppDispatch } from "../../../redux/hooks";
+import { setOTP } from "../../../redux/features/userSlice";
 function ForgetPassword() {
   const navigate = useNavigate();
+  const { showToast, ToastComponent } = useToast();
+  const dispatch = useAppDispatch();
+  const { control, handleSubmit } = useForm<ILoginUser>();
+  // handle forget password
+  const onSubmit: SubmitHandler<ILoginUser> = async (data) => {
+    const response = await ForgetPasswordUser(data, showToast);
+    if (response) {
+      dispatch(setOTP(response?.data));
+      navigate("/verificationCode")
+    }
+  };
   return (
     <Stack
       justifyContent={"center"}
       alignItems={"center"}
       sx={{ minHeight: "100vh" }}
     >
+      {ToastComponent}
       <Stack
+        component={"form"}
+        onSubmit={handleSubmit(onSubmit)}
         sx={{ width: { md: "450px", xs: "340px" } }}
         alignItems={"center"}
         gap={"20px"}
@@ -19,13 +40,16 @@ function ForgetPassword() {
           {" "}
           سنقوم بارسال رمز للتحقق علي بريدك الالكتروني
         </Typography>
-        <TextField
+        <CustomInput
+          control={control}
+          name="email"
           label="البريد الالكتروني"
-          variant="outlined"
+          placeholder="ادخل البريد الالكتروني"
           type="email"
-          fullWidth
+          rules={{ required: "البريد الالكتروني مطلوب" }}
         />
         <Button
+          type="submit"
           sx={{
             width: "100%",
             backgroundColor: "primary.main",
@@ -33,7 +57,6 @@ function ForgetPassword() {
             padding: "10px",
             fontWeight: "bold",
           }}
-          onClick={() => navigate("/verificationCode")}
         >
           التالي
         </Button>

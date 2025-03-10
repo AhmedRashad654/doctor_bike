@@ -1,8 +1,17 @@
 import { Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-function VerificationSuccess() {
+import { useEffect } from "react";
+import { useAppSelector } from "../../../redux/hooks";
+export default function VerificationSuccess() {
   const navigate = useNavigate();
+  const userOTP = useAppSelector((state) => state?.user?.otp);
+  useEffect(() => {
+    if (!userOTP?.enabaleChangePassword) {
+      navigate("/");
+    }
+  }, [navigate, userOTP?.enabaleChangePassword]);
+  if (!userOTP?.enabaleChangePassword) return;
   return (
     <Stack
       justifyContent="center"
@@ -37,5 +46,3 @@ function VerificationSuccess() {
     </Stack>
   );
 }
-
-export default VerificationSuccess;

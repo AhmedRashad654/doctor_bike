@@ -13,10 +13,8 @@ export default function ModalEditRole({
   openModalEditRole,
   setOpenModalEditRole,
 }: {
-  openModalEditRole: { id: number; currentRole: string } | null;
-  setOpenModalEditRole: Dispatch<
-    SetStateAction<{ id: number; currentRole: string } | null>
-  >;
+  openModalEditRole: { id: string } | null;
+  setOpenModalEditRole: Dispatch<SetStateAction<{ id: string } | null>>;
 }) {
   const [selectedRole, setSelectedRole] = useState("");
   const handleClose = () => {

@@ -1,26 +1,30 @@
 import { Box } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { Dispatch, SetStateAction } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 export default function ButtonPagination({
-  page,
-  setPage,
   totalPages,
 }: {
-  page: number;
-  setPage: Dispatch<SetStateAction<number>>;
   totalPages: number;
 }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get("page")) || 1;
+ const setPage = (newPage: number) => {
+   const searchParams = new URLSearchParams(location.search);
+   searchParams.set("page", newPage.toString());
+   navigate(`${location.pathname}?${searchParams.toString()}`);
+ };
   return (
     <Box mt={3} display="flex" alignItems="center" gap={1}>
       <Box
-        onClick={() => (page > 1 ? setPage((e: number) => e - 1) : null)}
+        onClick={() => (page > 1 ? setPage(page - 1) : null)}
         sx={{ cursor: page > 1 ? "pointer" : "default" }}
       >
         <ChevronRight sx={{ fontSize: 30, color: "gray" }} />
       </Box>
 
-      {/* أرقام الصفحات */}
       <Box display="flex" gap={2} alignItems="center">
         {totalPages <= 3 ? (
           Array.from({ length: totalPages }).map((_, i) => (
@@ -70,11 +74,8 @@ export default function ButtonPagination({
         )}
       </Box>
 
-      {/* زر الانتقال للأمام */}
       <Box
-        onClick={() =>
-          totalPages > page ? setPage((e: number) => e + 1) : null
-        }
+        onClick={() => (totalPages > page ? setPage(page + 1) : null)}
         sx={{ cursor: totalPages > page ? "pointer" : "default" }}
       >
         <ChevronLeft sx={{ fontSize: 25, color: "gray" }} />

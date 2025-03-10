@@ -32,3 +32,22 @@ export const LoginUser = async (
     }
   }
 };
+//forget password
+export const ForgetPasswordUser = async (
+  data: ILoginUser,
+  showToast: (message: string, type: "success" | "error") => void
+) => {
+  try {
+    const response = await request.post(
+      `/Auth/ForgotPassword?Email=${data?.email}`
+    );
+    if (response?.status === 200) {
+      showToast("تم ارسال رمز OTP الي الايميل الخاص بك", "success");
+      return response;
+    }
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      showToast(error?.response?.data?.message, "error");
+    }
+  }
+};

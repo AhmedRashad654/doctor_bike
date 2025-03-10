@@ -14,6 +14,7 @@ import ReportIcon from "@mui/icons-material/Report";
 import CommentIcon from "@mui/icons-material/Comment";
 import ListIcon from "@mui/icons-material/List";
 import FeaturedVideoIcon from "@mui/icons-material/FeaturedVideo";
+import Diversity3Icon from "@mui/icons-material/Diversity3";
 const styleIcon = { fontSize: 30, color: "gray" };
 
 export const menuItems = [
@@ -29,12 +30,17 @@ export const menuItems = [
       {
         name: "مستخدمين القطاعي",
         icon: <PeopleIcon sx={styleIcon} />,
-        route: "/dashboard/user?user=sectoral",
+        route: "/dashboard/user?user=Normail&page=1",
       },
       {
         name: "مستخدمين الجملة",
         icon: <PeopleOutlineIcon sx={styleIcon} />,
-        route: "/dashboard/user?user=sentence",
+        route: "/dashboard/user?user=Wholesale&page=1",
+      },
+      {
+        name: "كل المستخدمين",
+        icon: <Diversity3Icon sx={styleIcon} />,
+        route: "/dashboard/user?user=all&page=1",
       },
     ],
   },

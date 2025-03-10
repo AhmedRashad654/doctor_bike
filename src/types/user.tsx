@@ -15,7 +15,7 @@ export interface TokenPayload {
 }
 export interface ILoginUser {
   email: string;
-  password: string;
+  password?: string;
 }
 export interface IDataUser {
   id: string;
@@ -46,8 +46,39 @@ export interface IDataUser {
   mainOrders: [];
   roles: IRole[];
 }
+export interface IOPT {
+  otp: "";
+  email: string;
+  userId: string;
+  enabaleChangePassword: boolean;
+}
+export interface IChangePassword {
+  newPassword: string;
+  confirmPassword: string;
+}
 export interface IUser {
-  otp: number | null;
+  otp: IOPT;
   data: IDataUser;
   status: "idle" | "loading" | "succeeded" | "failed";
+}
+export interface IPagination {
+  totalRowsCount: number;
+  totalPagesCount: number;
+}
+export interface IDataUserAPI {
+  id: string;
+  userName: string;
+  email: string;
+  emailConfirmed: boolean;
+  phoneNumber: string | null;
+  address: string | null;
+  block: boolean;
+  fullName: string | null;
+  phoneNumber2: string | null;
+  typeUser: string | null;
+  city: string | null;
+}
+export interface IUserAPI {
+  rows: IDataUserAPI[];
+  paginationInfo: IPagination;
 }

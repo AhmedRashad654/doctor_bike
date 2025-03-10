@@ -19,7 +19,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <RouterProvider router={routes} />
+      <RouterProvider router={routes}/>
     </ThemeProvider>
   );
 }

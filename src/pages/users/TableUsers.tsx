@@ -10,22 +10,23 @@ import {
   Button,
 } from "@mui/material";
 import { columnsUser } from "../../constants/columnTables";
-import { FakeRowUsers } from "../../constants/arrays";
 import ButtonPagination from "../../componant/ui/pagination/ButtonPagination";
 import { useState } from "react";
 import ModalEditRole from "./ModalEditRole";
 import ModalForAction from "../../componant/shared/ModalForAction";
 import useContextState from "../../componant/hooks/useContextState";
-export default function TableUsers() {
-  const [page, setPage] = useState<number>(1);
+import { IDataUserAPI, IUserAPI } from "../../types/user";
+export default function TableUsers({ user }: { user: IUserAPI }) {
   const { openModalForAction, setOpenModalForAction } = useContextState();
   const [openModalEditRole, setOpenModalEditRole] = useState<{
-    id: number;
-    currentRole: string;
+    id: string;
   } | null>(null);
   return (
     <>
-      <TableContainer component={Paper} sx={{ minHeight: "62vh" }}>
+      <TableContainer
+        component={Paper}
+        sx={{ height: "75vh", marginTop: "30px" }}
+      >
         <Table>
           <TableHead>
             <TableRow>
@@ -44,7 +45,7 @@ export default function TableUsers() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {FakeRowUsers.map((row) => (
+            {user?.rows?.map((row: IDataUserAPI) => (
               <TableRow key={row.id}>
                 {columnsUser.map((col) => (
                   <TableCell
@@ -54,14 +55,14 @@ export default function TableUsers() {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {col.field === "isActived" ? (
+                    {col.field === "block" ? (
                       <Switch
-                        checked={row.isActived}
+                        checked={row.block}
                         color="primary"
                         onClick={() =>
                           setOpenModalForAction({
                             id: row.id,
-                            status: row.isActived,
+                            status: row.block,
                           })
                         }
                       />
@@ -70,7 +71,6 @@ export default function TableUsers() {
                         onClick={() =>
                           setOpenModalEditRole({
                             id: row.id,
-                            currentRole: row.role,
                           })
                         }
                       >
@@ -86,7 +86,7 @@ export default function TableUsers() {
           </TableBody>
         </Table>
       </TableContainer>
-      <ButtonPagination page={page} setPage={setPage} totalPages={6} />
+      <ButtonPagination totalPages={user?.paginationInfo?.totalPagesCount} />
       <ModalForAction
         text={
           openModalForAction?.status === true
