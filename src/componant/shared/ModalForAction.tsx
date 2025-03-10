@@ -3,13 +3,23 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { Person } from "@mui/icons-material";
 import useContextState from "../hooks/useContextState";
-export default function ModalForAction({ text }: { text: string }) {
+export default function ModalForAction({
+  text,
+  action,
+}: {
+  text: string;
+  action: () => void;
+}) {
   const { openModalForAction, setOpenModalForAction } = useContextState();
   const handleClose = () => {
     setOpenModalForAction(null);
   };
+  const handleAction = () => {
+    action();
+    setOpenModalForAction(null);
+  };
   return (
-    <Modal keepMounted open={!!openModalForAction?.id} onClose={handleClose}>
+    <Modal keepMounted open={!!openModalForAction} onClose={handleClose}>
       <Stack
         alignItems={"center"}
         sx={{
@@ -39,6 +49,7 @@ export default function ModalForAction({ text }: { text: string }) {
               color: "white",
               fontSize: "1.1rem",
             }}
+            onClick={handleAction}
           >
             تاكيد
           </Button>

@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { request } from "../../axios/axios";
-import { ILoginUser } from "../../types/user";
+import { IChangePassword, ILoginUser } from "../../types/user";
 import Cookies from "js-cookie";
 // login user
 export const LoginUser = async (
@@ -44,6 +44,28 @@ export const ForgetPasswordUser = async (
     if (response?.status === 200) {
       showToast("تم ارسال رمز OTP الي الايميل الخاص بك", "success");
       return response;
+    }
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      showToast(error?.response?.data?.message, "error");
+    }
+  }
+};
+// change password
+export const ChangePasswordUser = async (
+  newData: IChangePassword,
+  showToast: (message: string, type: "success" | "error") => void
+) => {
+  try {
+    const response = await request.patch(
+      `/Auth/ChangePasswordToForgot`,
+      newData
+    );
+    if (response?.status === 200) {
+      showToast("تم تغيير كلمة المرور بنجاح", "success");
+      return response;
+    } else {
+      return null;
     }
   } catch (error: unknown) {
     if (error instanceof AxiosError) {

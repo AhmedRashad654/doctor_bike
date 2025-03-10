@@ -7,7 +7,11 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { fetchRole } from "../../redux/features/rolesSlice";
+import { EditOnRole } from "../../services/users/user";
+import useToast from "../../componant/hooks/useToast";
 
 export default function ModalEditRole({
   openModalEditRole,
@@ -16,11 +20,33 @@ export default function ModalEditRole({
   openModalEditRole: { id: string } | null;
   setOpenModalEditRole: Dispatch<SetStateAction<{ id: string } | null>>;
 }) {
+  // selected role
   const [selectedRole, setSelectedRole] = useState("");
+
+  // hook for show text
+  const { showToast } = useToast();
+
+  // close modal
   const handleClose = () => {
     setSelectedRole("");
     setOpenModalEditRole(null);
   };
+
+  // get roles with redux
+  const role = useAppSelector((state) => state?.role);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (role?.status === "idle") {
+      dispatch(fetchRole());
+    }
+  }, [dispatch, role?.status]);
+
+  // handle Edit Role
+  const handleEditRole = async (type: string) => {
+    await EditOnRole(type, openModalEditRole, selectedRole, showToast);
+    handleClose();
+  };
+
   return (
     <Modal keepMounted open={!!openModalEditRole} onClose={handleClose}>
       <Stack
@@ -51,19 +77,29 @@ export default function ModalEditRole({
           <MenuItem value="" disabled>
             اختر دورًا جديدًا
           </MenuItem>
-          {["ادمن", "يوزر", "مشرف", "بائع"].map((role) => (
-            <MenuItem key={role} value={role}>
-              {role}
+          {role?.data?.map((role) => (
+            <MenuItem key={role?.id} value={role?.name}>
+              {role?.name}
             </MenuItem>
           ))}
         </Select>
 
         <Stack direction="row" gap={"10px"}>
-          <Button variant="contained" color="primary" disabled={!selectedRole}>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={!selectedRole}
+            onClick={() => handleEditRole("AddRoleToUser")}
+          >
             إضافة الدور
           </Button>
 
-          <Button variant="contained" color="error" disabled={!selectedRole}>
+          <Button
+            variant="contained"
+            color="error"
+            disabled={!selectedRole}
+            onClick={() => handleEditRole("RemoveRoleFromUser")}
+          >
             إزالة الدور
           </Button>
 

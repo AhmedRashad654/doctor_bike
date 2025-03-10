@@ -66,6 +66,9 @@ export const fetchUser = createAsyncThunk(
       if (!isSuberAdmin) {
         return thunkAPI.rejectWithValue("Unauthorized: User is not SuperAdmin");
       }
+      if (response?.data?.block === true) {
+        return thunkAPI.rejectWithValue("user is blocked");
+      }
       return response.data;
     } catch {
       return thunkAPI.rejectWithValue("Failed to fetch user data");

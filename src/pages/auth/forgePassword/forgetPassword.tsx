@@ -1,16 +1,16 @@
 import { Button, Stack, Typography } from "@mui/material";
 import logo_Bike from "../../../assets/images/logo_Bike.png";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "../../../componant/hooks/useToast";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ILoginUser } from "../../../types/user";
 import CustomInput from "../../../componant/shared/CustomInput";
 import { ForgetPasswordUser } from "../../../services/auth/auth";
 import { useAppDispatch } from "../../../redux/hooks";
 import { setOTP } from "../../../redux/features/userSlice";
+import useToast from "../../../componant/hooks/useToast";
 function ForgetPassword() {
   const navigate = useNavigate();
-  const { showToast, ToastComponent } = useToast();
+  const { showToast } = useToast();
   const dispatch = useAppDispatch();
   const { control, handleSubmit } = useForm<ILoginUser>();
   // handle forget password
@@ -27,7 +27,6 @@ function ForgetPassword() {
       alignItems={"center"}
       sx={{ minHeight: "100vh" }}
     >
-      {ToastComponent}
       <Stack
         component={"form"}
         onSubmit={handleSubmit(onSubmit)}

@@ -1,14 +1,19 @@
 import { Button, Stack, Typography } from "@mui/material";
 import logo_Bike from "../../../assets/images/logo_Bike.png";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IChangePassword } from "../../../types/user";
 import CustomInput from "../../../componant/shared/CustomInput";
+import { ChangePasswordUser } from "../../../services/auth/auth";
+import { setResetOTP } from "../../../redux/features/userSlice";
+import useToast from "../../../componant/hooks/useToast";
 
 export default function ChangePassword() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { showToast } = useToast();
   const userOTP = useAppSelector((state) => state?.user?.otp);
   const { control, handleSubmit } = useForm<IChangePassword>();
   // check enable change password
@@ -20,8 +25,16 @@ export default function ChangePassword() {
 
   // handle change password
   const onSubmit: SubmitHandler<IChangePassword> = async (data) => {
-    console.log(data);
-    // const response = await changePasswordUser(data);
+    const newData = {
+      ...data,
+      userID: userOTP?.userId,
+      dateUpdate: new Date(),
+    };
+    const response = await ChangePasswordUser(newData, showToast);
+    if (response) {
+      dispatch(setResetOTP());
+      navigate("/");
+    }
   };
   if (!userOTP?.enabaleChangePassword) return;
   return (
@@ -30,6 +43,7 @@ export default function ChangePassword() {
       alignItems={"center"}
       sx={{ minHeight: "100vh" }}
     >
+     
       <Stack
         component={"form"}
         onSubmit={handleSubmit(onSubmit)}
@@ -42,7 +56,7 @@ export default function ChangePassword() {
 
         <CustomInput
           control={control}
-          name="password"
+          name="newPassword"
           label="كلمة المرور"
           placeholder="ادخل كلمة المرور"
           type="password"
@@ -64,7 +78,7 @@ export default function ChangePassword() {
           rules={{
             required: "تأكيد كلمة المرور مطلوب",
             validate: (value: string) =>
-              value === control._formValues.password ||
+              value === control._formValues.newPassword ||
               "كلمة المرور غير متطابقة",
           }}
         />

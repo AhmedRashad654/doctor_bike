@@ -4,16 +4,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { ForgetPasswordUser } from "../../../services/auth/auth";
-import { useToast } from "../../../componant/hooks/useToast";
+
 import {
   setEnableChangePassword,
   setOTP,
 } from "../../../redux/features/userSlice";
+import useToast from "../../../componant/hooks/useToast";
 
 export default function VerificationCode() {
   const [otp, setOtp] = useState("");
   const [timeLeft, setTimeLeft] = useState(60);
-  const { showToast, ToastComponent } = useToast();
+  const { showToast } = useToast();
   const userOTP = useAppSelector((state) => state?.user?.otp);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -59,7 +60,6 @@ export default function VerificationCode() {
         minHeight: "100vh",
       }}
     >
-      {ToastComponent}
       <Stack
         gap={"20px"}
         alignItems={"center"}

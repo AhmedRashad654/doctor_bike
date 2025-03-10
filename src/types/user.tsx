@@ -2,6 +2,10 @@ export interface IRole {
   id: string;
   name: string;
 }
+export interface IRoleRedux {
+  data: IRole[];
+  status: "idle" | "loading" | "succeeded" | "failed";
+}
 
 export interface TokenPayload {
   nameid: string;
@@ -13,10 +17,12 @@ export interface TokenPayload {
   iss: string;
   aud: string;
 }
+
 export interface ILoginUser {
   email: string;
   password?: string;
 }
+
 export interface IDataUser {
   id: string;
   userName: string;
@@ -46,25 +52,31 @@ export interface IDataUser {
   mainOrders: [];
   roles: IRole[];
 }
+
 export interface IOPT {
   otp: "";
   email: string;
   userId: string;
   enabaleChangePassword: boolean;
 }
+
 export interface IChangePassword {
+  userId?: string;
   newPassword: string;
   confirmPassword: string;
 }
+
 export interface IUser {
   otp: IOPT;
   data: IDataUser;
   status: "idle" | "loading" | "succeeded" | "failed";
 }
+
 export interface IPagination {
   totalRowsCount: number;
   totalPagesCount: number;
 }
+
 export interface IDataUserAPI {
   id: string;
   userName: string;
@@ -78,6 +90,7 @@ export interface IDataUserAPI {
   typeUser: string | null;
   city: string | null;
 }
+
 export interface IUserAPI {
   rows: IDataUserAPI[];
   paginationInfo: IPagination;

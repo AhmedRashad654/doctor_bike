@@ -17,7 +17,8 @@ import OpenAndCloseSidebar from "./OpenAndCloseSidebar";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAppDispatch } from "../../../redux/hooks";
 import { setLogout } from "../../../redux/features/userSlice";
-function Sidebar() {
+
+export default function Sidebar() {
   const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
@@ -27,7 +28,6 @@ function Sidebar() {
     setOpenMenus((prev) => ({ ...prev, [name]: !prev[name] }));
   function handleLogout() {
     dispatch(setLogout());
-    
   }
   return (
     <>
@@ -95,4 +95,3 @@ function Sidebar() {
     </>
   );
 }
-export default Sidebar;

@@ -5,18 +5,16 @@ import {
   SetStateAction,
   useState,
 } from "react";
+import { IDataUserAPI } from "../types/user";
 
 interface ContextType {
-  openModalForAction: { id: string; status?: boolean } | null;
-  setOpenModalForAction: Dispatch<
-    SetStateAction<{ id: string; status?: boolean } | null>
-  >;
+  openModalForAction: IDataUserAPI | null;
+  setOpenModalForAction: Dispatch<SetStateAction<IDataUserAPI | null>>;
 }
 const ContextUseState = createContext<ContextType | undefined>(undefined);
 function ContextProvider({ children }: { children: ReactNode }) {
-  const [openModalForAction, setOpenModalForAction] = useState<{
-    id: string;
-  } | null>(null);
+  const [openModalForAction, setOpenModalForAction] =
+    useState<IDataUserAPI | null>(null);
 
   return (
     <ContextUseState.Provider

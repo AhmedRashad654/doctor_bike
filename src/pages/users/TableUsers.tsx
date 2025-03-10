@@ -16,11 +16,35 @@ import ModalEditRole from "./ModalEditRole";
 import ModalForAction from "../../componant/shared/ModalForAction";
 import useContextState from "../../componant/hooks/useContextState";
 import { IDataUserAPI, IUserAPI } from "../../types/user";
+import { EditBlock } from "../../services/users/user";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom";
+import useToast from "../../componant/hooks/useToast";
 export default function TableUsers({ user }: { user: IUserAPI }) {
+  // state open modal for block
   const { openModalForAction, setOpenModalForAction } = useContextState();
+  // search params
+  const [searchParams] = useSearchParams();
+  const userQuery = searchParams.get("user");
+  const page = Number(searchParams.get("page"));
+  // query client from reqct-query
+  const queryClient = useQueryClient();
+  // hook for show text such alert
+  const { showToast } = useToast();
+  // state open modal for edit role
   const [openModalEditRole, setOpenModalEditRole] = useState<{
     id: string;
   } | null>(null);
+  // handle active and unactive user
+  const handleBlock = async () => {
+    if (!openModalForAction) return;
+    const newData = {
+      ...openModalForAction,
+      block: !openModalForAction?.block,
+      dateUpdate: new Date(),
+    };
+    await EditBlock(newData, queryClient, userQuery, page, showToast);
+  };
   return (
     <>
       <TableContainer
@@ -57,14 +81,9 @@ export default function TableUsers({ user }: { user: IUserAPI }) {
                   >
                     {col.field === "block" ? (
                       <Switch
-                        checked={row.block}
+                        checked={!row.block}
                         color="primary"
-                        onClick={() =>
-                          setOpenModalForAction({
-                            id: row.id,
-                            status: row.block,
-                          })
-                        }
+                        onClick={() => setOpenModalForAction(row)}
                       />
                     ) : col.field === "editRole" ? (
                       <Button
@@ -89,10 +108,11 @@ export default function TableUsers({ user }: { user: IUserAPI }) {
       <ButtonPagination totalPages={user?.paginationInfo?.totalPagesCount} />
       <ModalForAction
         text={
-          openModalForAction?.status === true
+          openModalForAction?.block === false
             ? "هل انت متاكد من رغبتك بحظر هذا المستخدم"
             : "هل انت متاكد من رغبتك باعادة نشاط هذا المستخدم"
         }
+        action={handleBlock}
       />
       <ModalEditRole
         openModalEditRole={openModalEditRole}

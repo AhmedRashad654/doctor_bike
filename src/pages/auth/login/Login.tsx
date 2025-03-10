@@ -5,15 +5,15 @@ import CustomInput from "../../../componant/shared/CustomInput";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ILoginUser } from "../../../types/user";
 import { LoginUser } from "../../../services/auth/auth";
-import { useToast } from "../../../componant/hooks/useToast";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { setUser } from "../../../redux/features/userSlice";
 import { useEffect } from "react";
+import useToast from "../../../componant/hooks/useToast";
 export default function Login() {
   const navigate = useNavigate();
   const user = useAppSelector((state) => state?.user?.data);
   // handle login
-  const { showToast, ToastComponent } = useToast();
+  const { showToast } = useToast();
   const { control, handleSubmit } = useForm<ILoginUser>();
   const dispatch = useAppDispatch();
   const onSubmit: SubmitHandler<ILoginUser> = async (data) => {
@@ -35,7 +35,6 @@ export default function Login() {
       alignItems={"center"}
       sx={{ minHeight: "100vh" }}
     >
-      {ToastComponent}
       <Stack
         component={"form"}
         onSubmit={handleSubmit(onSubmit)}
