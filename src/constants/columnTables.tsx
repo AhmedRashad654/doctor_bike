@@ -11,14 +11,14 @@ export const columnsUser = [
 ];
 
 export const columnsMainCategory = [
-  { field: "name_ar", label: "الاسم بالعربية" },
-  { field: "name_en", label: "الاسم بالانجليزية" },
-  { field: "name_ab", label: "الاسم بالعبرية" },
-  { field: "desc_ar", label: "الوصف بالعربية" },
-  { field: "desc_en", label: "الوصف بالانجليزية" },
-  { field: "desc_ab", label: "الوصف بالعبرية" },
-  { field: "image", label: "صورة" },
+  { field: "nameAr", label: "الاسم بالعربية" },
+  { field: "nameEng", label: "الاسم بالانجليزية" },
+  { field: "nameAbree", label: "الاسم بالعبرية" },
+  { field: "descriptionAr", label: "الوصف بالعربية" },
+  { field: "descriptionEng", label: "الوصف بالانجليزية" },
+  { field: "descriptionAbree", label: "الوصف بالعبرية" },
   { field: "isShow", label: "العرض" },
+  { field: "imageUrl", label: "صورة" },
   { field: "edit", label: "تعديل" },
 ];
 

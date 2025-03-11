@@ -5,23 +5,34 @@ import { IMainCategory } from "../../../types/category";
 import useImageUpload from "../../../componant/hooks/useImageUpload";
 import CustomInput from "../../../componant/shared/CustomInput";
 import { useEffect } from "react";
+import { useAppDispatch } from "../../../redux/hooks";
+import useToast from "../../../componant/hooks/useToast";
+import { EditDataMainCategory } from "../../../services/category/category";
 
 function FormEditMainCategory() {
   const { state } = useLocation();
-  const { image, handleImageUpload } = useImageUpload();
+  const { image, previewUrl, handleImageUpload } = useImageUpload();
+  const dispatch = useAppDispatch();
+  const { showToast } = useToast();
   const { control, handleSubmit, reset } = useForm<IMainCategory>();
-  const onSubmit: SubmitHandler<IMainCategory> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<IMainCategory> = async (data) => {
+    const newData: IMainCategory = {
+      ...state.row,
+      ...data,
+      imageUrl: image || state?.imageUrl,
+    };
+    await EditDataMainCategory(newData, dispatch, showToast);
   };
+  // initial state
   useEffect(() => {
     if (state?.row) {
       reset({
-        name_ar: state.row.name_ar || "",
-        name_en: state.row.name_en || "",
-        name_ab: state.row.name_ab || "",
-        description_ar: state.row.desc_ar || "",
-        description_en: state.row.desc_en || "",
-        description_ab: state.row.desc_ab || "",
+        nameAr: state.row.nameAr || "",
+        nameEng: state.row.nameEng || "",
+        nameAbree: state.row.nameAbree || "",
+        descriptionAr: state.row.descriptionAr || "",
+        descriptionEng: state.row.descriptionEng || "",
+        descriptionAbree: state.row.descriptionAbree || "",
       });
     }
   }, [state?.row, reset]);
@@ -47,7 +58,12 @@ function FormEditMainCategory() {
               onChange={handleImageUpload}
             />
             <Avatar
-              src={image || ""}
+              src={
+                previewUrl ||
+                (state?.row?.imageUrl !== null &&
+                  `${import.meta.env.VITE_BASE_URL}${state?.row?.imageUrl}`) ||
+                undefined
+              }
               sx={{
                 width: 100,
                 height: 100,
@@ -58,27 +74,27 @@ function FormEditMainCategory() {
 
           <CustomInput
             control={control}
-            name="name_ar"
+            name="nameAr"
             label="الاسم باللغة العربية"
             placeholder="ادخل الاسم بالعربية"
           />
           <CustomInput
             control={control}
-            name="name_en"
+            name="nameEng"
             label="الاسم باللغة الانجليزية"
             placeholder="ادخل الاسم باللغة الانجليزية"
           />
 
           <CustomInput
             control={control}
-            name="name_ab"
+            name="nameAbree"
             label="الاسم باللغة العبرية"
             placeholder="ادخل الاسم باللغة العبرية"
           />
 
           <CustomInput
             control={control}
-            name="description_ar"
+            name="descriptionAr"
             label=" الوصف باللغة العربية"
             placeholder=" ادخل الوصف باللغة العربية"
             multiline
@@ -86,7 +102,7 @@ function FormEditMainCategory() {
           />
           <CustomInput
             control={control}
-            name="description_en"
+            name="descriptionEng"
             label="الوصف باللغة الانجليزية"
             placeholder="ادخل الوصف باللغة الانجليزية"
             multiline
@@ -95,7 +111,7 @@ function FormEditMainCategory() {
 
           <CustomInput
             control={control}
-            name="description_ab"
+            name="descriptionAbree"
             label="الوصف باللغة العبرية"
             placeholder="ادخل الوصف باللغة العبرية"
             multiline
@@ -103,7 +119,7 @@ function FormEditMainCategory() {
           />
 
           <Button type="submit" variant="contained" color="primary" fullWidth>
-            انشاء
+            تعديل
           </Button>
         </Stack>
       </CardContent>

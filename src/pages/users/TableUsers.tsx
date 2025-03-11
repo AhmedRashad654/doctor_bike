@@ -38,9 +38,12 @@ export default function TableUsers({ user }: { user: IUserAPI }) {
   // handle active and unactive user
   const handleBlock = async () => {
     if (!openModalForAction) return;
-    const newData = {
-      ...openModalForAction,
-      block: !openModalForAction?.block,
+    const newData: IDataUserAPI = {
+      ...(openModalForAction as IDataUserAPI),
+      block:
+        openModalForAction && "block" in openModalForAction
+          ? !openModalForAction?.block
+          : false,
       dateUpdate: new Date(),
     };
     await EditBlock(newData, queryClient, userQuery, page, showToast);
@@ -96,7 +99,7 @@ export default function TableUsers({ user }: { user: IUserAPI }) {
                         تعديل الدور
                       </Button>
                     ) : (
-                      row[col.field as keyof typeof row]
+                      (row[col.field as keyof typeof row] as React.ReactNode)
                     )}
                   </TableCell>
                 ))}
@@ -108,9 +111,11 @@ export default function TableUsers({ user }: { user: IUserAPI }) {
       <ButtonPagination totalPages={user?.paginationInfo?.totalPagesCount} />
       <ModalForAction
         text={
-          openModalForAction?.block === false
-            ? "هل انت متاكد من رغبتك بحظر هذا المستخدم"
-            : "هل انت متاكد من رغبتك باعادة نشاط هذا المستخدم"
+          openModalForAction && "block" in openModalForAction
+            ? openModalForAction.block === false
+              ? "هل انت متأكد من رغبتك بحظر هذا المستخدم؟"
+              : "هل انت متأكد من رغبتك بإعادة نشاط هذا المستخدم؟"
+            : ""
         }
         action={handleBlock}
       />

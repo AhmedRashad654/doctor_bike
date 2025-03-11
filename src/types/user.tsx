@@ -89,6 +89,7 @@ export interface IDataUserAPI {
   phoneNumber2: string | null;
   typeUser: string | null;
   city: string | null;
+  dateUpdate: Date;
 }
 
 export interface IUserAPI {
