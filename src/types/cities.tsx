@@ -1,7 +1,12 @@
 export interface ICity {
-  name_en: string;
-  name_ar: string;
-  name_ab: string;
+  id: number;
+  cityNameAr: string;
+  cityNameEng: string;
+  cityNameAbree: string;
   deliver: number;
   isShow: boolean;
+  userIdAdd: string;
+  dateAdd: string;
+  userUpdate: string;
+  dateUpdate: string;
 }

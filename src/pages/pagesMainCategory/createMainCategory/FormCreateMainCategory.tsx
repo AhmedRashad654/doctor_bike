@@ -3,12 +3,23 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { IMainCategory } from "../../../types/category";
 import useImageUpload from "../../../componant/hooks/useImageUpload";
 import CustomInput from "../../../componant/shared/CustomInput";
+import { EditAndAddDataMainCategory } from "../../../services/category/category";
+import { useAppDispatch } from "../../../redux/hooks";
+import useToast from "../../../componant/hooks/useToast";
 
-function FormCreateMainCategory() {
-  const { image, handleImageUpload } = useImageUpload();
+export default function FormCreateMainCategory() {
+  const { image, previewUrl, handleImageUpload } = useImageUpload();
   const { control, handleSubmit } = useForm<IMainCategory>();
-  const onSubmit: SubmitHandler<IMainCategory> = (data) => {
-    console.log(data);
+  const { showToast } = useToast();
+  const dispatch = useAppDispatch();
+  const onSubmit: SubmitHandler<IMainCategory> = async (data) => {
+    if (!image) return showToast("الصورة مطلوبة","error");
+    const newData: IMainCategory = {
+      ...data,
+      imageUrl: image,
+      id: 0,
+    };
+    await EditAndAddDataMainCategory(newData, dispatch, showToast);
   };
   return (
     <Box
@@ -32,7 +43,7 @@ function FormCreateMainCategory() {
               onChange={handleImageUpload}
             />
             <Avatar
-              src={image || ""}
+              src={previewUrl || ""}
               sx={{
                 width: 100,
                 height: 100,
@@ -43,57 +54,61 @@ function FormCreateMainCategory() {
 
           <CustomInput
             control={control}
-            name="name_ar"
+            name="nameAr"
             label="الاسم باللغة العربية"
             placeholder="ادخل الاسم بالعربية"
+            rules={{ required: " الاسم باللغة العربية مطلوب" }}
           />
           <CustomInput
             control={control}
-            name="name_en"
+            name="nameEng"
             label="الاسم باللغة الانجليزية"
             placeholder="ادخل الاسم باللغة الانجليزية"
+            rules={{ required: " الاسم باللغة الانجليزية مطلوب" }}
           />
 
           <CustomInput
             control={control}
-            name="name_ab"
+            name="nameAbree"
             label="الاسم باللغة العبرية"
             placeholder="ادخل الاسم باللغة العبرية"
+            rules={{ required: " الاسم باللغة العبرية مطلوب" }}
           />
 
           <CustomInput
             control={control}
-            name="description_ar"
+            name="descriptionAr"
             label=" الوصف باللغة العربية"
             placeholder=" ادخل الوصف باللغة العربية"
             multiline
             rows={4}
+            rules={{ required: " الاسم باللغة العربية مطلوب" }}
           />
           <CustomInput
             control={control}
-            name="description_en"
+            name="descriptionEng"
             label="الوصف باللغة الانجليزية"
             placeholder="ادخل الوصف باللغة الانجليزية"
+            rules={{ required: " الاسم باللغة الانجليزية مطلوب" }}
             multiline
             rows={4}
           />
 
           <CustomInput
             control={control}
-            name="description_ab"
+            name="descriptionAbree"
             label="الوصف باللغة العبرية"
             placeholder="ادخل الوصف باللغة العبرية"
+            rules={{ required: " الاسم باللغة العبرية مطلوب" }}
             multiline
             rows={4}
           />
 
           <Button type="submit" variant="contained" color="primary" fullWidth>
-            تعديل
+            انشاء
           </Button>
         </Stack>
       </CardContent>
     </Box>
   );
 }
-
-export default FormCreateMainCategory;

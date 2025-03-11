@@ -7,17 +7,24 @@ import {
 } from "react";
 import { IDataUserAPI } from "../types/user";
 import { IMainCategory } from "../types/category";
+import { ISubCategory } from "../types/subCategory";
+import { ICity } from "../types/cities";
 
 interface ContextType {
-  openModalForAction: IDataUserAPI | IMainCategory | null;
+  openModalForAction:
+    | IDataUserAPI
+    | IMainCategory
+    | ISubCategory
+    | ICity
+    | null;
   setOpenModalForAction: Dispatch<
-    SetStateAction<IDataUserAPI | IMainCategory | null>
+    SetStateAction<IDataUserAPI | IMainCategory | ISubCategory | ICity | null>
   >;
 }
 const ContextUseState = createContext<ContextType | undefined>(undefined);
 function ContextProvider({ children }: { children: ReactNode }) {
   const [openModalForAction, setOpenModalForAction] = useState<
-    IDataUserAPI | IMainCategory | null
+    IDataUserAPI | IMainCategory | ISubCategory | ICity | null
   >(null);
 
   return (

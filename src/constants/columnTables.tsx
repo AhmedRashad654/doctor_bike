@@ -10,7 +10,7 @@ export const columnsUser = [
   { field: "editRole", label: "تعديل علي الدور" },
 ];
 
-export const columnsMainCategory = [
+export const columnsMainAndSubCategory = [
   { field: "nameAr", label: "الاسم بالعربية" },
   { field: "nameEng", label: "الاسم بالانجليزية" },
   { field: "nameAbree", label: "الاسم بالعبرية" },
@@ -23,11 +23,11 @@ export const columnsMainCategory = [
 ];
 
 export const columnsCities = [
-  { field: "name_ar", label: "الاسم بالعربية" },
-  { field: "name_en", label: "الاسم بالانجليزية" },
-  { field: "name_ab", label: "الاسم بالعبرية" },
-  { field: "isShow", label: "العرض" },
+  { field: "cityNameAr", label: "الاسم بالعربية" },
+  { field: "cityNameEng", label: "الاسم بالانجليزية" },
+  { field: "cityNameAbree", label: "الاسم بالعبرية" },
   { field: "deliver", label: "سعر التوصيل" },
+  { field: "isShow", label: "العرض" },
   { field: "edit", label: "تعديل" },
 ];
 

@@ -1,10 +1,13 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import { request } from "../../axios/axios";
-import { IMainCategory } from "../../types/category";
-import { setAddNewItem, setEditMainCategory } from "../../redux/features/mainCategorySlice";
+import { ISubCategory } from "../../types/subCategory";
+import {
+  setAddNewItemSubCategory,
+  setEditSubCategory,
+} from "../../redux/features/subCategorySlice";
 
-export const EditAndAddDataMainCategory = async (
-  newData: IMainCategory | null,
+export const EditAndAddDataSubCategory = async (
+  newData: ISubCategory | null,
   dispatch: Dispatch,
   showToast: (message: string, type: "success" | "error") => void
 ) => {
@@ -36,17 +39,17 @@ export const EditAndAddDataMainCategory = async (
 
   try {
     const response = await request.post(
-      `/MainCategorys/ManageMainCategory`,
+      `/SupCategorys/ManageSupCategory`,
       formData
     );
 
     if (response?.status === 200) {
       if (newData.id == 0) {
-        showToast("تم اضافة الفئة بنجاح", "success");
-        dispatch(setAddNewItem(response?.data));
+        showToast("تم اضافة الفئة الثانوية بنجاح", "success");
+        dispatch(setAddNewItemSubCategory(response?.data));
       } else {
-        showToast("تم تحديث الفئة بنجاح", "success");
-        dispatch(setEditMainCategory(response?.data));
+        showToast("تم تحديث الفئة الثانوية بنجاح", "success");
+        dispatch(setEditSubCategory(response?.data));
       }
     }
   } catch {

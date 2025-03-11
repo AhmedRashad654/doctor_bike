@@ -9,25 +9,50 @@ import {
   Button,
   Switch,
 } from "@mui/material";
-import { useState } from "react";
-import { FakeSubCategory } from "../../../constants/arrays";
-import { columnsMainCategory } from "../../../constants/columnTables";
-import { useNavigate } from "react-router-dom";
-import ButtonPagination from "../../../componant/ui/pagination/ButtonPagination";
+import { columnsMainAndSubCategory } from "../../../constants/columnTables";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import useContextState from "../../../componant/hooks/useContextState";
 import ModalForAction from "../../../componant/shared/ModalForAction";
+import React from "react";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { ISubCategory } from "../../../types/subCategory";
+import useToast from "../../../componant/hooks/useToast";
+import { EditAndAddDataSubCategory } from "../../../services/subCategoryApi/subCategoryApi";
 
 export default function TableSubCategory() {
-  const [page, setPage] = useState<number>(1);
   const { openModalForAction, setOpenModalForAction } = useContextState();
+  // show text such alert
+  const {showToast} = useToast()
+  // route
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category");
   const navigate = useNavigate();
+  // redux
+  const dispatch = useAppDispatch();
+  const subCategory = useAppSelector((state) => state?.subCategory);
+
+  // handle edit show sub category
+  const handleEditShowSubCategory = async () => {
+    if (!openModalForAction) return;
+    const newData: ISubCategory = {
+      ...(openModalForAction as ISubCategory),
+      isShow:
+        openModalForAction && "isShow" in openModalForAction
+          ? !openModalForAction?.isShow
+          : false,
+    };
+    await EditAndAddDataSubCategory(newData, dispatch, showToast);
+  };
   return (
     <>
-      <TableContainer component={Paper} sx={{ minHeight: "62vh" }}>
+      <TableContainer
+        component={Paper}
+        sx={{ height: "72vh", marginTop: "10px" }}
+      >
         <Table>
           <TableHead>
             <TableRow>
-              {columnsMainCategory.map((col) => (
+              {columnsMainAndSubCategory.map((col) => (
                 <TableCell
                   key={col.field}
                   sx={{
@@ -42,54 +67,66 @@ export default function TableSubCategory() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {FakeSubCategory.map((row) => (
-              <TableRow key={row.id}>
-                {columnsMainCategory.map((col) => (
-                  <TableCell
-                    key={col.field}
-                    sx={{
-                      textAlign: "right",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {col.field === "edit" ? (
-                      <Button
-                        onClick={() =>
-                          navigate("/dashboard/editSubCategory", {
-                            state: { row },
-                          })
-                        }
-                      >
-                        تعديل{" "}
-                      </Button>
-                    ) : col.field === "isShow" ? (
-                      <Switch
-                        checked={row.isShow}
-                        color="primary"
-                        onClick={() =>
-                          setOpenModalForAction({
-                            id: row.id,
-                            status: row.isShow,
-                          })
-                        }
-                      />
-                    ) : (
-                      row[col.field as keyof typeof row]
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
+            {subCategory?.data
+              ?.filter((e) => e?.mainCategoryId.toString() === category)
+              .map((row: ISubCategory) => (
+                <TableRow key={row.id}>
+                  {columnsMainAndSubCategory.map((col) => (
+                    <TableCell
+                      key={col.field}
+                      sx={{
+                        textAlign: "right",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {col.field === "edit" ? (
+                        <Button
+                          onClick={() =>
+                            navigate("/dashboard/editSubCategory", {
+                              state: { row },
+                            })
+                          }
+                        >
+                          تعديل{" "}
+                        </Button>
+                      ) : col.field === "imageUrl" ? (
+                        <img
+                          loading="lazy"
+                          src={
+                            row.imageUrl !== null
+                              ? `${import.meta.env.VITE_BASE_URL}${
+                                  row.imageUrl
+                                }`
+                              : undefined
+                          }
+                          className="w-[50px] h-[50px] rounded-[50%]"
+                          alt="main category"
+                        />
+                      ) : col.field === "isShow" ? (
+                        <Switch
+                          checked={row.isShow}
+                          color="primary"
+                          onClick={() => setOpenModalForAction(row)}
+                        />
+                      ) : (
+                        (row[col.field as keyof typeof row] as React.ReactNode)
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <ButtonPagination page={page} setPage={setPage} totalPages={6} />
       <ModalForAction
         text={
-          openModalForAction?.status === true
-            ? "هل انت متاكد من رغبتك بالغاء ظهور هذة الفئة"
-            : "هل انت متاكد من رغبتك باعادة ظهور هذة الفئة"
+          openModalForAction && "isShow" in openModalForAction
+            ? openModalForAction?.isShow === true
+              ? "هل انت متاكد من رغبتك بالغاء ظهور هذة الفئة"
+              : "هل انت متاكد من رغبتك باعادة ظهور هذة الفئة"
+            : ""
         }
+        action={handleEditShowSubCategory}
       />
     </>
   );

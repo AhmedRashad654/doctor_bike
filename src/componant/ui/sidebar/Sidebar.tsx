@@ -7,19 +7,21 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeaderSidebar from "./HeaderSidebar";
-import { menuItems } from "./MenuDate";
+import { getMenuItems } from "./MenuDate";
 import ListItem from "./ListItem";
 import CollapseSideBar from "./CollapseSideBar";
 import { useMediaQuery } from "@mui/material";
 import OpenAndCloseSidebar from "./OpenAndCloseSidebar";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useAppDispatch } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { setLogout } from "../../../redux/features/userSlice";
+import { fetchMainCategory } from "../../../redux/features/mainCategorySlice";
 
 export default function Sidebar() {
   const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
+  const mainCategory = useAppSelector((state) => state?.mainCategory);
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
   const toggleSidebar = () => setOpen((prev) => !prev);
@@ -29,6 +31,12 @@ export default function Sidebar() {
   function handleLogout() {
     dispatch(setLogout());
   }
+  useEffect(() => {
+    if (mainCategory.status === "idle") {
+      dispatch(fetchMainCategory());
+    }
+  }, [dispatch, mainCategory.status]);
+  const menuItems = getMenuItems(mainCategory?.data[0]?.id?.toString() || "");
   return (
     <>
       {isSmallScreen && !open && (

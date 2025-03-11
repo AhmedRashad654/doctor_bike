@@ -1,12 +1,28 @@
 import { Box } from "@mui/material";
 import ClassIcon from "@mui/icons-material/Class";
-import { useState } from "react";
 import HeaderDashboard from "../../../componant/ui/HeaderDashboard/HeaderDashboard";
 import TableSubCategory from "./TableSubCategory";
-import InputSearch from "../../../componant/shared/InputSearch";
 import NavbarCategory from "./NavbarCategory";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { useEffect } from "react";
+import { fetchSubCategory } from "../../../redux/features/subCategorySlice";
+import NotFoundData from "../../../componant/shared/NotFoundData";
+import notFound from "../../../assets/images/not-found.png";
+import LoadingSkeleton from "../../../componant/shared/LoadingSkeleton";
 export default function SubCategory() {
-  const [valueSearch, setValueSearch] = useState<string | null>(null);
+  // const [valueSearch, setValueSearch] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const subCategory = useAppSelector((state) => state?.subCategory);
+
+  // fetch sub category
+  useEffect(() => {
+    if (subCategory?.status === "idle") {
+      dispatch(fetchSubCategory());
+    }
+  }, [dispatch, subCategory?.status]);
+  if (subCategory?.status === "loading")
+    return <LoadingSkeleton height={100} width={"100%"} text="column" />;
+  if (subCategory?.data?.length === 0) return <NotFoundData image={notFound} />;
   return (
     <Box>
       <HeaderDashboard
@@ -14,7 +30,7 @@ export default function SubCategory() {
         text={"الفئات الثانوية"}
       />
       <NavbarCategory />
-      <InputSearch valueSearch={valueSearch} setValueSearch={setValueSearch} />
+      {/* <InputSearch valueSearch={valueSearch} setValueSearch={setValueSearch} /> */}
       <TableSubCategory />
     </Box>
   );

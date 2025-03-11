@@ -1,30 +1,47 @@
 import { Avatar, Box, Button, CardContent, Stack } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
-import { IMainCategory } from "../../../types/category";
 import useImageUpload from "../../../componant/hooks/useImageUpload";
 import CustomInput from "../../../componant/shared/CustomInput";
 import { useEffect } from "react";
+import { ISubCategory } from "../../../types/subCategory";
+import { EditAndAddDataSubCategory } from "../../../services/subCategoryApi/subCategoryApi";
+import useToast from "../../../componant/hooks/useToast";
+import { useAppDispatch } from "../../../redux/hooks";
 
 function FormEditSubCategory() {
   const { state } = useLocation();
-  const { image, handleImageUpload } = useImageUpload();
-  const { control, handleSubmit, reset } = useForm<IMainCategory>();
-  const onSubmit: SubmitHandler<IMainCategory> = (data) => {
-    console.log(data);
+  const { image, previewUrl, handleImageUpload } = useImageUpload();
+  const { control, handleSubmit, reset } = useForm<ISubCategory>();
+
+  // show text such alert
+  const { showToast } = useToast();
+
+  // handle Edit sub category
+  const dispatch = useAppDispatch();
+  const onSubmit: SubmitHandler<ISubCategory> = async (data) => {
+    const newData: ISubCategory = {
+      ...state.row,
+      ...data,
+      imageUrl: image || state?.imageUrl,
+    };
+    await EditAndAddDataSubCategory(newData, dispatch, showToast);
   };
+
+  // initial data
   useEffect(() => {
     if (state?.row) {
       reset({
-        name_ar: state.row.name_ar || "",
-        name_en: state.row.name_en || "",
-        name_ab: state.row.name_ab || "",
-        description_ar: state.row.desc_ar || "",
-        description_en: state.row.desc_en || "",
-        description_ab: state.row.desc_ab || "",
+        nameAr: state.row.nameAr || "",
+        nameEng: state.row.nameEng || "",
+        nameAbree: state.row.nameAbree || "",
+        descriptionAr: state.row.descriptionAr || "",
+        descriptionEng: state.row.descriptionEng || "",
+        descriptionAbree: state.row.descriptionAbree || "",
       });
     }
   }, [state?.row, reset]);
+
   return (
     <Box
       component={"form"}
@@ -47,7 +64,12 @@ function FormEditSubCategory() {
               onChange={handleImageUpload}
             />
             <Avatar
-              src={image || ""}
+              src={
+                previewUrl ||
+                (state?.row?.imageUrl !== null &&
+                  `${import.meta.env.VITE_BASE_URL}${state?.row?.imageUrl}`) ||
+                undefined
+              }
               sx={{
                 width: 100,
                 height: 100,
@@ -58,46 +80,52 @@ function FormEditSubCategory() {
 
           <CustomInput
             control={control}
-            name="name_ar"
+            name="nameAr"
             label="الاسم باللغة العربية"
             placeholder="ادخل الاسم بالعربية"
+            rules={{ required: " الاسم باللغة العربية مطلوب" }}
           />
           <CustomInput
             control={control}
-            name="name_en"
+            name="nameEng"
             label="الاسم باللغة الانجليزية"
             placeholder="ادخل الاسم باللغة الانجليزية"
+            rules={{ required: " الاسم باللغة الانجليزية مطلوب" }}
           />
 
           <CustomInput
             control={control}
-            name="name_ab"
+            name="nameAbree"
             label="الاسم باللغة العبرية"
             placeholder="ادخل الاسم باللغة العبرية"
+            rules={{ required: " الاسم باللغة العبرية مطلوب" }}
           />
 
           <CustomInput
             control={control}
-            name="description_ar"
+            name="descriptionAr"
             label=" الوصف باللغة العربية"
             placeholder=" ادخل الوصف باللغة العربية"
+            rules={{ required: " الوصف باللغة العربية مطلوب" }}
             multiline
             rows={4}
           />
           <CustomInput
             control={control}
-            name="description_en"
+            name="descriptionEng"
             label="الوصف باللغة الانجليزية"
             placeholder="ادخل الوصف باللغة الانجليزية"
+            rules={{ required: " الوصف باللغة الانجليزية مطلوب" }}
             multiline
             rows={4}
           />
 
           <CustomInput
             control={control}
-            name="description_ab"
+            name="descriptionAbree"
             label="الوصف باللغة العبرية"
             placeholder="ادخل الوصف باللغة العبرية"
+            rules={{ required: " الوصف باللغة العبرية مطلوب" }}
             multiline
             rows={4}
           />

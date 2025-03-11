@@ -5,19 +5,35 @@ import CustomInput from "../../../componant/shared/CustomInput";
 import logo_Bike from "../../../assets/images/logo_Bike.png";
 import { useEffect } from "react";
 import { ICity } from "../../../types/cities";
+import { EditAndAddCity } from "../../../services/city/city";
+import { useQueryClient } from "@tanstack/react-query";
+import useToast from "../../../componant/hooks/useToast";
 
 export default function FormEditCities() {
   const { state } = useLocation();
   const { control, handleSubmit, reset } = useForm<ICity>();
-  const onSubmit: SubmitHandler<ICity> = (data) => {
-    console.log(data);
+
+  // query client from reqct-query
+  const queryClient = useQueryClient();
+
+  // hook to show text such alert
+  const { showToast } = useToast();
+
+  // edit on city
+  const onSubmit: SubmitHandler<ICity> = async (data) => {
+    const newData: ICity = {
+      ...state.row,
+      ...data,
+      dateUpdate: new Date().toISOString(),
+    };
+    await EditAndAddCity(newData, queryClient, showToast);
   };
   useEffect(() => {
     if (state?.row) {
       reset({
-        name_ar: state.row.name_ar || "",
-        name_en: state.row.name_en || "",
-        name_ab: state.row.name_ab || "",
+        cityNameAr: state.row.cityNameAr || "",
+        cityNameEng: state.row.cityNameEng || "",
+        cityNameAbree: state.row.cityNameAbree || "",
         deliver: state.row.deliver || "",
       });
     }
@@ -43,28 +59,34 @@ export default function FormEditCities() {
 
           <CustomInput
             control={control}
-            name="name_ar"
+            name="cityNameAr"
             label="الاسم باللغة العربية"
             placeholder="ادخل الاسم بالعربية"
+            rules={{ required: " الاسم باللغة العربية مطلوب" }}
           />
           <CustomInput
             control={control}
-            name="name_en"
+            name="cityNameEng"
             label="الاسم باللغة الانجليزية"
             placeholder="ادخل الاسم باللغة الانجليزية"
+            rules={{ required: " الاسم باللغة الانجليزية مطلوب" }}
           />
 
           <CustomInput
             control={control}
-            name="name_ab"
+            name="cityNameAbree"
             label="الاسم باللغة العبرية"
             placeholder="ادخل الاسم باللغة العبرية"
+            rules={{ required: " الاسم باللغة العبرية مطلوب" }}
           />
           <CustomInput
             control={control}
+            type="number"
+            step="any"
             name="deliver"
             label="سعر التوصيل"
             placeholder="ادخل سعر التوصيل"
+            rules={{ required: "ألسعر مطلوب" }}
           />
 
           <Button type="submit" variant="contained" color="primary" fullWidth>

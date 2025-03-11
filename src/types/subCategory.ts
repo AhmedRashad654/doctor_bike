@@ -1,4 +1,4 @@
-export interface IMainCategory {
+export interface ISubCategory {
   id: number;
   nameAr: string;
   nameEng: string;
@@ -8,13 +8,14 @@ export interface IMainCategory {
   descriptionAbree: string;
   imageUrl: string | File | null;
   isShow: boolean;
-  serAdd: string;
+  mainCategoryId: number | string;
+  userAdd: string;
   dateAdd: string;
-  serEdit: string;
-  dateEdit: Date;
-  supCategories: [];
+  userEdit: string;
+  dateEdit: string;
+  mainCategoryWriteDto: null;
 }
-export interface IMainCategoryRedux {
-  data: IMainCategory[];
+export interface ISubCategoryRedux {
+  data: ISubCategory[];
   status: "idle" | "loading" | "succeeded" | "failed";
 }

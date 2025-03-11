@@ -4,7 +4,7 @@ export const fetchImageAsFile = async (imageUrl: string, fileName: string) => {
     const blob = await response.blob();
     return new File([blob], fileName, { type: blob.type });
   } catch (error) {
-    console.error("فشل تحميل الصورة:", error);
+    console.error(error);
     return null;
   }
 };

@@ -1,26 +1,11 @@
 import { Stack } from "@mui/material";
 import { Link, useSearchParams } from "react-router-dom";
+import { useAppSelector } from "../../../redux/hooks";
 
 export default function NavbarCategory() {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
-  const links = [
-    {
-      path: "/dashboard/subCategory?category=mobile",
-      name: "موبايل",
-      active: "mobile",
-    },
-    {
-      path: "/dashboard/subCategory?category=labtop",
-      name: "لابتوب",
-      active: "labtop",
-    },
-    {
-      path: "/dashboard/subCategory?category=electronic",
-      name: "الكترونيات",
-      active: "electronic",
-    },
-  ];
+  const mainCategory = useAppSelector((state) => state?.mainCategory?.data);
   return (
     <Stack
       sx={{
@@ -32,15 +17,15 @@ export default function NavbarCategory() {
       }}
       direction="row"
     >
-      {links.map((item) => (
+      {mainCategory?.map((item) => (
         <Link
-          to={item.path}
-          key={item.path}
+          to={`/dashboard/subCategory?category=${item?.id}`}
+          key={item.id}
           className={` font-semibold text-[1.1rem] p-[10px] transition ${
-            category === item.active ? "link-active" : "not-active"
+            category === item.id.toString() ? "link-active" : "not-active"
           }`}
         >
-          {item.name}
+          {item.nameEng}
         </Link>
       ))}
     </Stack>

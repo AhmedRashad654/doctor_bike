@@ -7,12 +7,14 @@ import CustomInput from "../../../componant/shared/CustomInput";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../../redux/hooks";
 import useToast from "../../../componant/hooks/useToast";
-import { EditDataMainCategory } from "../../../services/category/category";
+import { EditAndAddDataMainCategory } from "../../../services/category/category";
 
-function FormEditMainCategory() {
+export default function FormEditMainCategory() {
   const { state } = useLocation();
   const { image, previewUrl, handleImageUpload } = useImageUpload();
   const dispatch = useAppDispatch();
+  
+  // hook to show text such alert
   const { showToast } = useToast();
   const { control, handleSubmit, reset } = useForm<IMainCategory>();
   const onSubmit: SubmitHandler<IMainCategory> = async (data) => {
@@ -21,7 +23,7 @@ function FormEditMainCategory() {
       ...data,
       imageUrl: image || state?.imageUrl,
     };
-    await EditDataMainCategory(newData, dispatch, showToast);
+    await EditAndAddDataMainCategory(newData, dispatch, showToast);
   };
   // initial state
   useEffect(() => {
@@ -77,12 +79,14 @@ function FormEditMainCategory() {
             name="nameAr"
             label="الاسم باللغة العربية"
             placeholder="ادخل الاسم بالعربية"
+            rules={{ required: " الاسم باللغة العربية مطلوب" }}
           />
           <CustomInput
             control={control}
             name="nameEng"
             label="الاسم باللغة الانجليزية"
             placeholder="ادخل الاسم باللغة الانجليزية"
+            rules={{ required: " الاسم باللغة الانجليزية مطلوب" }}
           />
 
           <CustomInput
@@ -90,6 +94,7 @@ function FormEditMainCategory() {
             name="nameAbree"
             label="الاسم باللغة العبرية"
             placeholder="ادخل الاسم باللغة العبرية"
+            rules={{ required: " الاسم باللغة العبرية مطلوب" }}
           />
 
           <CustomInput
@@ -97,6 +102,7 @@ function FormEditMainCategory() {
             name="descriptionAr"
             label=" الوصف باللغة العربية"
             placeholder=" ادخل الوصف باللغة العربية"
+            rules={{ required: " الوصف باللغة العربية مطلوب" }}
             multiline
             rows={4}
           />
@@ -105,6 +111,7 @@ function FormEditMainCategory() {
             name="descriptionEng"
             label="الوصف باللغة الانجليزية"
             placeholder="ادخل الوصف باللغة الانجليزية"
+            rules={{ required: " الوصف باللغة الانجليزية مطلوب" }}
             multiline
             rows={4}
           />
@@ -114,6 +121,7 @@ function FormEditMainCategory() {
             name="descriptionAbree"
             label="الوصف باللغة العبرية"
             placeholder="ادخل الوصف باللغة العبرية"
+            rules={{ required: " الوصف باللغة العبرية مطلوب" }}
             multiline
             rows={4}
           />
@@ -126,5 +134,3 @@ function FormEditMainCategory() {
     </Box>
   );
 }
-
-export default FormEditMainCategory;

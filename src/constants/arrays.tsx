@@ -14,30 +14,6 @@ export const cardsCount = [
   { name: "اعلان", count: 50, Icon: <People sx={style} /> },
 ];
 
-export const FakeSubCategory = [
-  {
-    id: 1,
-    name_ar: "فئة ثانوية",
-    name_en: "فئة ثانوية",
-    name_ab: "فئة ثانوية",
-    desc_ar: "فئة ثانوية",
-    desc_en: "فئة ثانوية",
-    desc_ab: "فئة ثانوية",
-    image: "فئة ثانوية",
-    isShow: true,
-  },
-  {
-    id: 2,
-    name_ar: "فئة ثانوية",
-    name_en: "فئة ثانوية",
-    name_ab: "فئة ثانوية",
-    desc_ar: "فئة ثانوية",
-    desc_en: "فئة ثانوية",
-    desc_ab: "فئة ثانوية",
-    image: "فئة ثانوية",
-    isShow: false,
-  },
-];
 
 export const FakeCities = [
   {

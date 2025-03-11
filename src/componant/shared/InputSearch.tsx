@@ -6,8 +6,8 @@ export default function InputSearch({
   valueSearch,
   setValueSearch,
 }: {
-  valueSearch: string | null;
-  setValueSearch: Dispatch<SetStateAction<string | null>>;
+  valueSearch: string;
+  setValueSearch: Dispatch<SetStateAction<string>>;
 }) {
   return (
     <TextField

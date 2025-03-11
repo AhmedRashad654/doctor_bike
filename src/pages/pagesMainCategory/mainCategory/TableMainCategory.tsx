@@ -9,14 +9,14 @@ import {
   Button,
   Switch,
 } from "@mui/material";
-import { columnsMainCategory } from "../../../constants/columnTables";
+import { columnsMainAndSubCategory } from "../../../constants/columnTables";
 import useContextState from "../../../componant/hooks/useContextState";
 import ModalForAction from "../../../componant/shared/ModalForAction";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { IMainCategory } from "../../../types/category";
 import useToast from "../../../componant/hooks/useToast";
-import { EditDataMainCategory } from "../../../services/category/category";
+import { EditAndAddDataMainCategory } from "../../../services/category/category";
 
 export default function TableMainCategory() {
   // constrol open modal
@@ -38,7 +38,7 @@ export default function TableMainCategory() {
           ? !openModalForAction?.isShow
           : false,
     };
-    await EditDataMainCategory(newData, dispatch, showToast);
+    await EditAndAddDataMainCategory(newData, dispatch, showToast);
   };
   return (
     <>
@@ -49,7 +49,7 @@ export default function TableMainCategory() {
         <Table>
           <TableHead>
             <TableRow>
-              {columnsMainCategory.map((col) => (
+              {columnsMainAndSubCategory.map((col) => (
                 <TableCell
                   key={col.field}
                   sx={{
@@ -66,7 +66,7 @@ export default function TableMainCategory() {
           <TableBody>
             {mainCategory?.map((row: IMainCategory) => (
               <TableRow key={row.id}>
-                {columnsMainCategory.map((col) => (
+                {columnsMainAndSubCategory.map((col) => (
                   <TableCell
                     key={col.field}
                     sx={{
@@ -82,6 +82,7 @@ export default function TableMainCategory() {
                       />
                     ) : col.field === "imageUrl" ? (
                       <img
+                      loading="lazy"
                         src={
                           row.imageUrl !== null
                             ? `${import.meta.env.VITE_BASE_URL}${row.imageUrl}`

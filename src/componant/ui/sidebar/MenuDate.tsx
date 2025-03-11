@@ -15,9 +15,10 @@ import CommentIcon from "@mui/icons-material/Comment";
 import ListIcon from "@mui/icons-material/List";
 import FeaturedVideoIcon from "@mui/icons-material/FeaturedVideo";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
+import FiberNewIcon from "@mui/icons-material/FiberNew";
 const styleIcon = { fontSize: 30, color: "gray" };
 
-export const menuItems = [
+export const getMenuItems = (firstCategory: string) => [
   {
     name: "لوحة التحكم",
     icon: <Home sx={styleIcon} />,
@@ -72,7 +73,7 @@ export const menuItems = [
       {
         name: "جميع الفئات الثانوية",
         icon: <ClassIcon sx={styleIcon} />,
-        route: "/dashboard/subCategory?category=mobile",
+        route: `/dashboard/subCategory?category=${firstCategory}`,
       },
     ],
   },
@@ -112,6 +113,11 @@ export const menuItems = [
     name: "طلبات الشراء",
     icon: <RequestPageIcon sx={styleIcon} />,
     subLinks: [
+      {
+        name: "طلبات جديدة",
+        icon: <FiberNewIcon sx={styleIcon} />,
+        route: "/dashboard/orders?status=new",
+      },
       {
         name: "طلبات مكتملة",
         icon: <FactCheckIcon sx={styleIcon} />,

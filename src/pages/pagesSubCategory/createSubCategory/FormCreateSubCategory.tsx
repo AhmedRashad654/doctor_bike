@@ -8,17 +8,35 @@ import {
   MenuItem,
 } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IMainCategory } from "../../../types/category";
 import useImageUpload from "../../../componant/hooks/useImageUpload";
 import CustomInput from "../../../componant/shared/CustomInput";
 import { useState } from "react";
+import useToast from "../../../componant/hooks/useToast";
+import { EditAndAddDataSubCategory } from "../../../services/subCategoryApi/subCategoryApi";
+import { ISubCategory } from "../../../types/subCategory";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 
-function FormCreateSubCategory() {
-  const { image, handleImageUpload } = useImageUpload();
+export default function FormCreateSubCategory() {
+  const { image, previewUrl, handleImageUpload } = useImageUpload();
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const { control, handleSubmit } = useForm<IMainCategory>();
-  const onSubmit: SubmitHandler<IMainCategory> = (data) => {
-    console.log(data);
+  const { showToast } = useToast();
+
+  // redux
+  const mainCategory = useAppSelector((state) => state?.mainCategory?.data);
+  const dispatch = useAppDispatch();
+
+  // handle create sub category
+  const { control, handleSubmit } = useForm<ISubCategory>();
+  const onSubmit: SubmitHandler<ISubCategory> = async (data) => {
+    if (!image) return showToast("الصورة مطلوبة", "error");
+    if (!selectedCategory) return showToast("الفئة الرئيسية مطلوبة", "error");
+    const newData: ISubCategory = {
+      ...data,
+      imageUrl: image,
+      id: 0,
+      mainCategoryId: selectedCategory,
+    };
+    await EditAndAddDataSubCategory(newData, dispatch, showToast);
   };
   return (
     <Box
@@ -42,7 +60,7 @@ function FormCreateSubCategory() {
               onChange={handleImageUpload}
             />
             <Avatar
-              src={image || ""}
+              src={previewUrl || ""}
               sx={{
                 width: 100,
                 height: 100,
@@ -53,46 +71,52 @@ function FormCreateSubCategory() {
 
           <CustomInput
             control={control}
-            name="name_ar"
+            name="nameAr"
             label="الاسم باللغة العربية"
             placeholder="ادخل الاسم بالعربية"
+            rules={{ required: " الاسم باللغة العربية مطلوب" }}
           />
           <CustomInput
             control={control}
-            name="name_en"
+            name="nameEng"
             label="الاسم باللغة الانجليزية"
             placeholder="ادخل الاسم باللغة الانجليزية"
+            rules={{ required: " الاسم باللغة الانجليزية مطلوب" }}
           />
 
           <CustomInput
             control={control}
-            name="name_ab"
+            name="nameAbree"
             label="الاسم باللغة العبرية"
             placeholder="ادخل الاسم باللغة العبرية"
+            rules={{ required: " الاسم باللغة العبرية مطلوب" }}
           />
 
           <CustomInput
             control={control}
-            name="description_ar"
+            name="descriptionAr"
             label=" الوصف باللغة العربية"
             placeholder=" ادخل الوصف باللغة العربية"
+            rules={{ required: " الوصف باللغة العربية مطلوب" }}
             multiline
             rows={4}
           />
           <CustomInput
             control={control}
-            name="description_en"
+            name="descriptionEng"
             label="الوصف باللغة الانجليزية"
             placeholder="ادخل الوصف باللغة الانجليزية"
+            rules={{ required: " الوصف باللغة الانجليزية مطلوب" }}
             multiline
             rows={4}
           />
 
           <CustomInput
             control={control}
-            name="description_ab"
+            name="descriptionAbree"
             label="الوصف باللغة العبرية"
             placeholder="ادخل الوصف باللغة العبرية"
+            rules={{ required: " الوصف باللغة العبرية مطلوب" }}
             multiline
             rows={4}
           />
@@ -105,9 +129,9 @@ function FormCreateSubCategory() {
             <MenuItem value="" disabled>
               اختر الفئة الرئيسية
             </MenuItem>
-            {["الكترونيات", "لابتوب", "موبايل"].map((role) => (
-              <MenuItem key={role} value={role}>
-                {role}
+            {mainCategory?.map((category) => (
+              <MenuItem key={category?.id} value={category?.id}>
+                {category?.nameAr}
               </MenuItem>
             ))}
           </Select>
@@ -119,5 +143,3 @@ function FormCreateSubCategory() {
     </Box>
   );
 }
-
-export default FormCreateSubCategory;
