@@ -9,18 +9,40 @@ import {
   Button,
   Switch,
 } from "@mui/material";
-import { useState } from "react";
-import {FakeProduct } from "../../../constants/arrays";
-import {columnsProduct } from "../../../constants/columnTables";
-import { useNavigate } from "react-router-dom";
+import { FakeProduct } from "../../../constants/arrays";
+import { columnsProduct } from "../../../constants/columnTables";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ButtonPagination from "../../../componant/ui/pagination/ButtonPagination";
 import useContextState from "../../../componant/hooks/useContextState";
 import ModalForAction from "../../../componant/shared/ModalForAction";
+import { useQuery } from "@tanstack/react-query";
+import { GetProductBySubCategory } from "../../../services/productApi/productApi";
+import LoadingSkeleton from "../../../componant/shared/LoadingSkeleton";
+import NotFoundData from "../../../componant/shared/NotFoundData";
+import notFound from "../../../assets/images/not-found.png";
 
-export default function TableProduct() {
-  const [page, setPage] = useState<number>(1);
+export default function TableProduct({ valueSearch }: { valueSearch: number }) {
   const { openModalForAction, setOpenModalForAction } = useContextState();
+
+  // route
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get("page"));
+
+  // get product by sub category
+  const { data, isLoading } = useQuery({
+    queryKey: ["GetProductBySubCategory", valueSearch, page],
+    queryFn: () => GetProductBySubCategory(valueSearch, page),
+    enabled: !!valueSearch || !!page,
+  });
+
+  // return loading
+  if (isLoading)
+    return <LoadingSkeleton height={100} width={"100%"} text="column" />;
+  if (data?.data?.rows?.length === 0) return <NotFoundData image={notFound} />;
+
+  // handle Edit Product
+  const handleEditProduct = () => {};
   return (
     <>
       <TableContainer component={Paper} sx={{ minHeight: "62vh" }}>
@@ -66,12 +88,7 @@ export default function TableProduct() {
                       <Switch
                         checked={row.isShow}
                         color="primary"
-                        onClick={() =>
-                          setOpenModalForAction({
-                            id: row.id,
-                            status: row?.isShow,
-                          })
-                        }
+                        onClick={() => setOpenModalForAction(row)}
                       />
                     ) : (
                       row[col.field as keyof typeof row]
@@ -83,13 +100,16 @@ export default function TableProduct() {
           </TableBody>
         </Table>
       </TableContainer>
-      <ButtonPagination page={page} setPage={setPage} totalPages={6} />
+      <ButtonPagination
+        totalPages={data?.data?.paginationInfo?.totalPagesCount}
+      />
       <ModalForAction
         text={
-          openModalForAction?.status === true
+          openModalForAction?.isShow === true
             ? "هل انت متاكد من رغبتك بالغاء ظهور هذا المنتج"
             : "هل انت متاكد من رغبتك باعادة ظهور هذا المنتج"
         }
+        action={handleEditProduct}
       />
     </>
   );

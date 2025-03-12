@@ -8,7 +8,7 @@ export const GetComments = async (page: number) => {
     return await request.post(`/api/Comments/GetAllComments`, {
       paginationInfo: {
         pageIndex: page,
-        pageSize: 40,
+        pageSize: 20,
       },
     });
   } catch {

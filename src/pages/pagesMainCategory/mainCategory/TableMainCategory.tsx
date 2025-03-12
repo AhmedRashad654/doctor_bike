@@ -18,16 +18,24 @@ import { IMainCategory } from "../../../types/category";
 import useToast from "../../../componant/hooks/useToast";
 import { EditAndAddDataMainCategory } from "../../../services/category/category";
 
-export default function TableMainCategory() {
+export default function TableMainCategory({
+  valueSearch,
+}: {
+  valueSearch: string;
+}) {
   // constrol open modal
   const { openModalForAction, setOpenModalForAction } = useContextState();
+
   // redux toolkit
   const mainCategory = useAppSelector((state) => state?.mainCategory?.data);
   const dispatch = useAppDispatch();
+
   // navigate
   const navigate = useNavigate();
+
   // hook for show text such alert
   const { showToast } = useToast();
+
   // handle edit showmain category
   const handleShowCategory = async () => {
     if (!openModalForAction) return;
@@ -44,7 +52,7 @@ export default function TableMainCategory() {
     <>
       <TableContainer
         component={Paper}
-        sx={{ height: "80vh", marginTop: "30px" }}
+        sx={{ height: "75vh", marginTop: "5px" }}
       >
         <Table>
           <TableHead>
@@ -64,50 +72,58 @@ export default function TableMainCategory() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {mainCategory?.map((row: IMainCategory) => (
-              <TableRow key={row.id}>
-                {columnsMainAndSubCategory.map((col) => (
-                  <TableCell
-                    key={col.field}
-                    sx={{
-                      textAlign: "right",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {col.field === "isShow" ? (
-                      <Switch
-                        checked={row.isShow}
-                        color="primary"
-                        onClick={() => setOpenModalForAction(row)}
-                      />
-                    ) : col.field === "imageUrl" ? (
-                      <img
-                      loading="lazy"
-                        src={
-                          row.imageUrl !== null
-                            ? `${import.meta.env.VITE_BASE_URL}${row.imageUrl}`
-                            : undefined
-                        }
-                        className="w-[50px] h-[50px] rounded-[50%]"
-                        alt="main category"
-                      />
-                    ) : col.field === "edit" ? (
-                      <Button
-                        onClick={() =>
-                          navigate("/dashboard/editMainCategory", {
-                            state: { row },
-                          })
-                        }
-                      >
-                        تعديل
-                      </Button>
-                    ) : (
-                      (row[col.field as keyof typeof row] as React.ReactNode)
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
+            {mainCategory
+              ?.filter(
+                (e) =>
+                  !valueSearch ||
+                  e?.nameAr.toLowerCase().includes(valueSearch.toLowerCase())
+              )
+              .map((row: IMainCategory) => (
+                <TableRow key={row.id}>
+                  {columnsMainAndSubCategory.map((col) => (
+                    <TableCell
+                      key={col.field}
+                      sx={{
+                        textAlign: "right",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {col.field === "isShow" ? (
+                        <Switch
+                          checked={row.isShow}
+                          color="primary"
+                          onClick={() => setOpenModalForAction(row)}
+                        />
+                      ) : col.field === "imageUrl" ? (
+                        <img
+                          loading="lazy"
+                          src={
+                            row.imageUrl !== null
+                              ? `${import.meta.env.VITE_BASE_URL}${
+                                  row.imageUrl
+                                }`
+                              : undefined
+                          }
+                          className="w-[50px] h-[50px] rounded-[50%]"
+                          alt="main category"
+                        />
+                      ) : col.field === "edit" ? (
+                        <Button
+                          onClick={() =>
+                            navigate("/dashboard/editMainCategory", {
+                              state: { row },
+                            })
+                          }
+                        >
+                          تعديل
+                        </Button>
+                      ) : (
+                        (row[col.field as keyof typeof row] as React.ReactNode)
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

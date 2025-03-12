@@ -105,7 +105,7 @@ export const getMenuItems = (firstCategory: string) => [
       {
         name: "جميع المنتجات",
         icon: <Inventory2Icon sx={styleIcon} />,
-        route: "/dashboard/products",
+        route: `/dashboard/products?page=1`,
       },
     ],
   },

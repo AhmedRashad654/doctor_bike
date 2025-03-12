@@ -26,7 +26,7 @@ export default function Sidebar() {
   // open modalLogout
   const [openModalForLogout, setOpenModalForLogout] = useState<boolean>(false);
 
-  // main category from redux
+  // main category and sub from redux
   const mainCategory = useAppSelector((state) => state?.mainCategory);
   const dispatch = useAppDispatch();
 
@@ -45,6 +45,7 @@ export default function Sidebar() {
       dispatch(fetchMainCategory());
     }
   }, [dispatch, mainCategory.status]);
+
   //array links sidebar
   const menuItems = getMenuItems(mainCategory?.data[0]?.id?.toString() || "");
 

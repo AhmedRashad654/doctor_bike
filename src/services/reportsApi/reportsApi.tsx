@@ -6,7 +6,7 @@ export const getReports = async (page: number) => {
     return await request.post(`/Complaints/GetAllComplaints`, {
       paginationInfo: {
         pageIndex: page,
-        pageSize: 40,
+        pageSize: 20,
       },
     });
   } catch {
