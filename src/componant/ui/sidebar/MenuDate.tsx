@@ -116,34 +116,34 @@ export const getMenuItems = (firstCategory: string) => [
       {
         name: "طلبات جديدة",
         icon: <FiberNewIcon sx={styleIcon} />,
-        route: "/dashboard/orders?status=new",
+        route: "/dashboard/orders?status=New&page=1",
       },
       {
         name: "طلبات مكتملة",
         icon: <FactCheckIcon sx={styleIcon} />,
-        route: "/dashboard/orders?status=completed",
+        route: "/dashboard/orders?status=Done&page=1",
       },
       {
         name: "طلبات جارية",
         icon: <PendingIcon sx={styleIcon} />,
-        route: "/dashboard/orders?status=pending",
+        route: "/dashboard/orders?status=Pending&page=1",
       },
       {
         name: "طلبات ملغية",
         icon: <CancelIcon sx={styleIcon} />,
-        route: "/dashboard/orders?status=cancelled",
+        route: "/dashboard/orders?status=Canceled&page=1",
       },
     ],
   },
   {
     name: "البلاغات",
     icon: <ReportIcon sx={styleIcon} />,
-    route: "/dashboard/reports",
+    route: "/dashboard/reports?page=1",
   },
   {
     name: "التعليقات",
     icon: <CommentIcon sx={styleIcon} />,
-    route: "/dashboard/comments",
+    route: "/dashboard/comments?page=1",
   },
   {
     name: "الاعلانات",

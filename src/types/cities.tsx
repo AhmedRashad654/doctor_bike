@@ -10,3 +10,9 @@ export interface ICity {
   userUpdate: string;
   dateUpdate: string;
 }
+
+
+export interface ICityRedux {
+  data: ICity[];
+  status: "idle" | "loading" | "succeeded" | "failed";
+}

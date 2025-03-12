@@ -3,6 +3,7 @@ import userSlice from "./features/userSlice";
 import roleSlice from "./features/rolesSlice";
 import mainCategorySlice from "./features/mainCategorySlice";
 import subCategorySlice from "./features/subCategorySlice";
+import citySlice from "./features/citySlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     role: roleSlice,
     mainCategory: mainCategorySlice,
     subCategory: subCategorySlice,
+    city: citySlice,
   },
   devTools: import.meta.env.VITE_NODE_ENV !== "production",
 });

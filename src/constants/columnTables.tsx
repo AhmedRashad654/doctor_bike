@@ -51,8 +51,9 @@ export const columnsOrders = [
   { field: "customerName", label: "اسم العميل" },
   { field: "phoneNum1", label: "رقم التليفون" },
   { field: "phoneNum2", label: "رقم التليفون الثاني" },
-  { field: "city", label: "المدينة" },
+  { field: "cityId", label: "المدينة" },
   { field: "address", label: "العنوان" },
+  { field: "status", label: "الحالة" },
   { field: "isWholesale", label: "مدفوع بالجملة" },
   { field: "priceDelivery", label: "سعر التوصيل" },
   { field: "totalPriceWithDiscound", label: "السعر بالخصم" },
@@ -61,15 +62,18 @@ export const columnsOrders = [
 ];
 
 export const columnsReports = [
-  { field: "ReportOwnerName", label: "اسم صاحب الريبورت" },
-  { field: "nameProduct", label: "اسم المنتج" },
-  { field: "textReport", label: "نص البلاغ" },
+  { field: "customerName", label: "اسم صاحب البلاغ" },
+  { field: "itemName", label: "اسم المنتج" },
+  { field: "dateAdd", label: "تاريخ البلاغ" },
 ];
 
 export const columnsComment = [
-  { field: "commentOwnerName", label: "اسم صاحب الكومنت" },
-  { field: "nameProduct", label: "اسم المنتج" },
-  { field: "textComment", label: "نص الكومنت" },
+  { field: "userName", label: "اسم صاحب الكومنت" },
+  { field: "productName", label: "اسم المنتج" },
+  { field: "comment", label: "نص الكومنت" },
+  { field: "rate", label: "التقييم" },
+  { field: "isShow", label: "العرض" },
+  { field: "dateAdd", label: "تاريخ الكومنت" },
 ];
 
 export const columnsAdvertisement = [

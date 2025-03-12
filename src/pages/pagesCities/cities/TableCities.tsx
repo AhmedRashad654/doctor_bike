@@ -14,17 +14,11 @@ import { useNavigate } from "react-router-dom";
 import useContextState from "../../../componant/hooks/useContextState";
 import ModalForAction from "../../../componant/shared/ModalForAction";
 import { ICity } from "../../../types/cities";
-import { useQueryClient } from "@tanstack/react-query";
 import useToast from "../../../componant/hooks/useToast";
 import { EditAndAddCity } from "../../../services/city/city";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 
-export default function TableCities({
-  city,
-  valueSearch,
-}: {
-  city: ICity[];
-  valueSearch: string;
-}) {
+export default function TableCities({ valueSearch }: { valueSearch: string }) {
   const { openModalForAction, setOpenModalForAction } = useContextState();
   // hook to show text such alert
   const { showToast } = useToast();
@@ -32,8 +26,9 @@ export default function TableCities({
   // route
   const navigate = useNavigate();
 
-  // query client from reqct-query
-  const queryClient = useQueryClient();
+  // redux
+  const dispatch = useAppDispatch();
+  const city = useAppSelector((state) => state?.city?.data);
 
   // edit show city
   const handleEditShowCity = async () => {
@@ -46,7 +41,7 @@ export default function TableCities({
           : false,
       dateUpdate: new Date().toISOString(),
     };
-    await EditAndAddCity(newData, queryClient, showToast);
+    await EditAndAddCity(newData, dispatch, showToast);
   };
   return (
     <>

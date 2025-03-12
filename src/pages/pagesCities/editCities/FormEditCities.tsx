@@ -6,27 +6,27 @@ import logo_Bike from "../../../assets/images/logo_Bike.png";
 import { useEffect } from "react";
 import { ICity } from "../../../types/cities";
 import { EditAndAddCity } from "../../../services/city/city";
-import { useQueryClient } from "@tanstack/react-query";
 import useToast from "../../../componant/hooks/useToast";
+import { useAppDispatch } from "../../../redux/hooks";
 
 export default function FormEditCities() {
   const { state } = useLocation();
-  const { control, handleSubmit, reset } = useForm<ICity>();
 
-  // query client from reqct-query
-  const queryClient = useQueryClient();
+  // redux
+  const dispatch = useAppDispatch();
 
   // hook to show text such alert
   const { showToast } = useToast();
 
   // edit on city
+  const { control, handleSubmit, reset } = useForm<ICity>();
   const onSubmit: SubmitHandler<ICity> = async (data) => {
     const newData: ICity = {
       ...state.row,
       ...data,
       dateUpdate: new Date().toISOString(),
     };
-    await EditAndAddCity(newData, queryClient, showToast);
+    await EditAndAddCity(newData, dispatch, showToast);
   };
   useEffect(() => {
     if (state?.row) {

@@ -9,19 +9,45 @@ import {
   Button,
 } from "@mui/material";
 import { columnsOrders } from "../../constants/columnTables";
-import { FakeOrders } from "../../constants/arrays";
 import ButtonPagination from "../../componant/ui/pagination/ButtonPagination";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import ModalEditStatus from "./ModalEditStatus";
-export default function TableOrders() {
-  const [page, setPage] = useState<number>(1);
-  const [openModalEditStatus, setOpenModalEditStatus] = useState<{
-    id: number;
-    currentStatus: string;
-  } | null>(null);
+import LoadingSkeleton from "../../componant/shared/LoadingSkeleton";
+import { IDataOrders, IOrders } from "../../types/IOrders";
+import NotFoundData from "../../componant/shared/NotFoundData";
+import notFound from "../../assets/images/not-found.png";
+import { useAppSelector } from "../../redux/hooks";
+
+export default function TableOrders({
+  isLoading,
+  orders,
+  valueSearch,
+}: {
+  isLoading: boolean;
+  orders: IOrders;
+  valueSearch: number;
+}) {
+  const [openModalEditStatus, setOpenModalEditStatus] =
+    useState<IDataOrders | null>(null);
+
+  // city from redux
+  const city = useAppSelector((state) => state?.city?.data);
+  const cityMap = useMemo(() => {
+    return city.reduce((acc, cur) => {
+      acc[cur.id] = cur.cityNameAr;
+      return acc;
+    }, {} as Record<number, string>);
+  }, [city]);
+  const getNameCityById = (id: number) => cityMap[id] || "";
+
+  // loading and not found
+  if (isLoading)
+    return <LoadingSkeleton height={100} width={"100%"} text="column" />;
+  if (orders?.rows?.length === 0) return <NotFoundData image={notFound} />;
+
   return (
     <>
-      <TableContainer component={Paper} sx={{ minHeight: "62vh" }}>
+      <TableContainer component={Paper} sx={{ height: "69vh" }}>
         <Table>
           <TableHead>
             <TableRow>
@@ -40,7 +66,7 @@ export default function TableOrders() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {FakeOrders.map((row) => (
+            {orders?.rows?.map((row) => (
               <TableRow key={row.id}>
                 {columnsOrders.map((col) => (
                   <TableCell
@@ -51,18 +77,19 @@ export default function TableOrders() {
                     }}
                   >
                     {col.field === "edit" ? (
-                      <Button
-                        onClick={() =>
-                          setOpenModalEditStatus({
-                            id: row.id,
-                            currentStatus: row.status,
-                          })
-                        }
-                      >
+                      <Button onClick={() => setOpenModalEditStatus(row)}>
                         تعديل ألحالة
                       </Button>
+                    ) : col.field === "isWholesale" ? (
+                      row.isWholesale === true ? (
+                        "نعم"
+                      ) : (
+                        "لا"
+                      )
+                    ) : col.field === "cityId" ? (
+                      getNameCityById(row.cityId)
                     ) : (
-                      row[col.field as keyof typeof row]
+                      (row[col.field as keyof typeof row] as React.ReactNode)
                     )}
                   </TableCell>
                 ))}
@@ -71,10 +98,11 @@ export default function TableOrders() {
           </TableBody>
         </Table>
       </TableContainer>
-      <ButtonPagination page={page} setPage={setPage} totalPages={6} />
+      <ButtonPagination totalPages={orders?.paginationInfo?.totalPagesCount} />
       <ModalEditStatus
         openModalEditStatus={openModalEditStatus}
         setOpenModalEditStatus={setOpenModalEditStatus}
+        valueSearch={valueSearch}
       />
     </>
   );

@@ -16,27 +16,38 @@ import { useMediaQuery } from "@mui/material";
 import OpenAndCloseSidebar from "./OpenAndCloseSidebar";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { setLogout } from "../../../redux/features/userSlice";
 import { fetchMainCategory } from "../../../redux/features/mainCategorySlice";
+import ModalForLogout from "../../shared/ModalForLogout";
 
 export default function Sidebar() {
+  // open collepse
   const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
+
+  // open modalLogout
+  const [openModalForLogout, setOpenModalForLogout] = useState<boolean>(false);
+
+  // main category from redux
   const mainCategory = useAppSelector((state) => state?.mainCategory);
   const dispatch = useAppDispatch();
+
+  // open sidebar in small screen
   const [open, setOpen] = useState(false);
   const toggleSidebar = () => setOpen((prev) => !prev);
   const isSmallScreen = useMediaQuery("(max-width: 1000px)");
+
+  // function opn collepse
   const toggleMenu = (name: string) =>
     setOpenMenus((prev) => ({ ...prev, [name]: !prev[name] }));
-  function handleLogout() {
-    dispatch(setLogout());
-  }
+
+  // get main category
   useEffect(() => {
     if (mainCategory.status === "idle") {
       dispatch(fetchMainCategory());
     }
   }, [dispatch, mainCategory.status]);
+  //array links sidebar
   const menuItems = getMenuItems(mainCategory?.data[0]?.id?.toString() || "");
+
   return (
     <>
       {isSmallScreen && !open && (
@@ -85,7 +96,7 @@ export default function Sidebar() {
               position: "relative",
               width: "100%",
             }}
-            onClick={handleLogout}
+            onClick={() => setOpenModalForLogout(true)}
           >
             <Stack direction={"row"} alignItems={"center"}>
               <ListItemIcon>
@@ -99,6 +110,10 @@ export default function Sidebar() {
             </Stack>
           </ListItemButton>
         </Stack>
+        <ModalForLogout
+          openModalForLogout={openModalForLogout}
+          setOpenModalForLogout={setOpenModalForLogout}
+        />
       </Drawer>
     </>
   );

@@ -6,18 +6,66 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Switch,
 } from "@mui/material";
 import { columnsComment } from "../../constants/columnTables";
-import { FakeComment } from "../../constants/arrays";
 import ButtonPagination from "../../componant/ui/pagination/ButtonPagination";
-import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  EditShowComment,
+  GetComments,
+} from "../../services/commentsApi/commentsApi";
+import LoadingSkeleton from "../../componant/shared/LoadingSkeleton";
+import notFound from "../../assets/images/not-found.png";
+import NotFoundData from "../../componant/shared/NotFoundData";
+import { IComments } from "../../types/IComments";
+import useContextState from "../../componant/hooks/useContextState";
+import ModalForAction from "../../componant/shared/ModalForAction";
+import useToast from "../../componant/hooks/useToast";
 
 export default function TableComments() {
-  const [page, setPage] = useState<number>(1);
+  // state open modal for edit show
+  const { openModalForAction, setOpenModalForAction } = useContextState();
+
+  // search params
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get("page"));
+
+  // hook for show text such alert
+  const { showToast } = useToast();
+
+  // query client from reqct-query
+  const queryClient = useQueryClient();
+
+  // handle edit comment
+  const handleEditShowComment = async () => {
+    if (!openModalForAction) return;
+    const newData: IComments = {
+      ...(openModalForAction as IComments),
+      isShow:
+        openModalForAction && "isShow" in openModalForAction
+          ? !openModalForAction?.isShow
+          : false,
+    };
+    await EditShowComment(newData, queryClient, page, showToast);
+  };
+
+  // get reports
+  const { data, isLoading } = useQuery({
+    queryKey: ["getComments", page],
+    queryFn: () => GetComments(page),
+  });
+  if (isLoading)
+    return <LoadingSkeleton height={100} width={"100%"} text="column" />;
+  if (data?.data?.rows?.length === 0) return <NotFoundData image={notFound} />;
 
   return (
     <>
-      <TableContainer component={Paper} sx={{ minHeight: "62vh" }}>
+      <TableContainer
+        component={Paper}
+        sx={{ height: "75vh", marginTop: "20px" }}
+      >
         <Table>
           <TableHead>
             <TableRow>
@@ -36,7 +84,7 @@ export default function TableComments() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {FakeComment.map((row) => (
+            {data?.data?.rows.map((row: IComments) => (
               <TableRow key={row.id}>
                 {columnsComment.map((col) => (
                   <TableCell
@@ -46,7 +94,17 @@ export default function TableComments() {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {row[col.field as keyof typeof row]}
+                    {col.field === "isShow" ? (
+                      <Switch
+                        checked={row.isShow}
+                        color="primary"
+                        onClick={() => setOpenModalForAction(row)}
+                      />
+                    ) : col.field === "dateAdd" ? (
+                      row?.dateAdd?.slice(0, 10)
+                    ) : (
+                      row[col.field as keyof typeof row]
+                    )}
                   </TableCell>
                 ))}
               </TableRow>
@@ -54,7 +112,19 @@ export default function TableComments() {
           </TableBody>
         </Table>
       </TableContainer>
-      <ButtonPagination page={page} setPage={setPage} totalPages={6} />
+      <ButtonPagination
+        totalPages={data?.data?.paginationInfo?.totalPagesCount}
+      />
+      <ModalForAction
+        text={
+          openModalForAction && "isShow" in openModalForAction
+            ? openModalForAction.isShow === true
+              ? "هل انت متأكد من رغبتك بالغاء ظهور هذا التعليق"
+              : "هل انت متأكد من رغبتك بإعادة ظهور هذا التعليق"
+            : ""
+        }
+        action={handleEditShowComment}
+      />
     </>
   );
 }

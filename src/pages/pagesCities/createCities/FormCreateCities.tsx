@@ -3,13 +3,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import CustomInput from "../../../componant/shared/CustomInput";
 import logo_Bike from "../../../assets/images/logo_Bike.png";
 import { ICity } from "../../../types/cities";
-import { useQueryClient } from "@tanstack/react-query";
 import { EditAndAddCity } from "../../../services/city/city";
 import useToast from "../../../componant/hooks/useToast";
+import { useAppDispatch } from "../../../redux/hooks";
 export default function FormCreateCities() {
-  // query client from reqct-query
-  const queryClient = useQueryClient();
-
+  // redux
+  const dispatch = useAppDispatch();
   // hook to show text such alert
   const { showToast } = useToast();
 
@@ -22,7 +21,7 @@ export default function FormCreateCities() {
       dateUpdate: new Date().toISOString(),
       id: 0,
     };
-    await EditAndAddCity(newData, queryClient, showToast);
+    await EditAndAddCity(newData, dispatch, showToast);
   };
   return (
     <Box

@@ -43,6 +43,7 @@ export default function TableSubCategory() {
     };
     await EditAndAddDataSubCategory(newData, dispatch, showToast);
   };
+  
   return (
     <>
       <TableContainer

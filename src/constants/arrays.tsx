@@ -14,26 +14,6 @@ export const cardsCount = [
   { name: "اعلان", count: 50, Icon: <People sx={style} /> },
 ];
 
-
-export const FakeCities = [
-  {
-    id: 1,
-    name_ar: "القاهرة",
-    name_en: "القاهرة",
-    name_ab: "القاهرة",
-    isShow: true,
-    deliver: 50,
-  },
-  {
-    id: 2,
-    name_ar: "القاهرة",
-    name_en: "القاهرة",
-    name_ab: "القاهرة",
-    isShow: false,
-    deliver: 50,
-  },
-];
-
 export const FakeProduct = [
   {
     id: 1,
@@ -67,49 +47,8 @@ export const FakeProduct = [
   },
 ];
 
-export const FakeOrders = [
-  {
-    id: 1,
-    customerName: "احمد رشاد",
-    phoneNum1: "01029166248",
-    phoneNum2: "01029166248",
-    city: "القاهرة",
-    address: "القاهرة",
-    isWholesale: "لا",
-    priceDelivery: 100,
-    totalPriceWithDiscound: 150,
-    totalPriceWithOutDiscound: 200,
-    status: "pending",
-  },
-  {
-    id: 2,
-    customerName: "احمد رشاد",
-    phoneNum1: "01029166248",
-    phoneNum2: "01029166248",
-    city: "القاهرة",
-    address: "القاهرة",
-    isWholesale: "نعم",
-    priceDelivery: 100,
-    totalPriceWithDiscound: 150,
-    totalPriceWithOutDiscound: 200,
-    status: "pending",
-  },
-];
 
-export const FakeReport = [
-  {
-    id: 1,
-    ReportOwnerName: "احمد رشاد",
-    nameProduct: "لابتوب",
-    textReport: "بلاغ",
-  },
-  {
-    id: 2,
-    ReportOwnerName: "احمد رشاد",
-    nameProduct: "لابتوب",
-    textReport: "بلاغ",
-  },
-];
+
 
 export const FakeComment = [
   {

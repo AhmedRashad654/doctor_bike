@@ -8,16 +8,33 @@ import {
   Paper,
 } from "@mui/material";
 import { columnsReports } from "../../constants/columnTables";
-import { FakeReport } from "../../constants/arrays";
 import ButtonPagination from "../../componant/ui/pagination/ButtonPagination";
-import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import notFound from "../../assets/images/not-found.png";
+import NotFoundData from "../../componant/shared/NotFoundData";
+import LoadingSkeleton from "../../componant/shared/LoadingSkeleton";
+import { getReports } from "../../services/reportsApi/reportsApi";
+import { IReports } from "../../types/IReports";
 
 export default function TableReports() {
-  const [page, setPage] = useState<number>(1);
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get("page"));
 
+  // get reports
+  const { data, isLoading } = useQuery({
+    queryKey: ["getReports", page],
+    queryFn: () => getReports(page),
+  });
+  if (isLoading)
+    return <LoadingSkeleton height={100} width={"100%"} text="column" />;
+  if (data?.data?.rows?.length === 0) return <NotFoundData image={notFound} />;
   return (
     <>
-      <TableContainer component={Paper} sx={{ minHeight: "62vh" }}>
+      <TableContainer
+        component={Paper}
+        sx={{ height: "75vh", marginTop: "20px" }}
+      >
         <Table>
           <TableHead>
             <TableRow>
@@ -36,7 +53,7 @@ export default function TableReports() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {FakeReport.map((row) => (
+            {data?.data?.rows.map((row: IReports) => (
               <TableRow key={row.id}>
                 {columnsReports.map((col) => (
                   <TableCell
@@ -46,7 +63,9 @@ export default function TableReports() {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {row[col.field as keyof typeof row]}
+                    {col.field === "dateAdd"
+                      ? row?.dateAdd?.slice(0, 10)
+                      : row[col.field as keyof typeof row]}
                   </TableCell>
                 ))}
               </TableRow>
@@ -54,7 +73,9 @@ export default function TableReports() {
           </TableBody>
         </Table>
       </TableContainer>
-      <ButtonPagination page={page} setPage={setPage} totalPages={6} />
+      <ButtonPagination
+        totalPages={data?.data?.paginationInfo?.totalPagesCount}
+      />
     </>
   );
 }
