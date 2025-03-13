@@ -48,7 +48,7 @@ export default function UploadVideo({
         </Typography>
       ) : (
         <Typography variant="body1" color="textSecondary">
-          اضغط هنا لرفع فيديو
+          اضغط هنا لرفع فيديو 
         </Typography>
       )}
     </Box>

@@ -8,18 +8,19 @@ import UploadVideo from "../createProduct/UploadVideo";
 import { IProduct } from "../../../types/IProduct";
 import { GetSingleProductById } from "../../../services/productApi/productApi";
 import { useQuery } from "@tanstack/react-query";
-import UploadMultiImageForUpdate from "./UploadMultiImageForUpdate";
+import UploadMultiImageForUpdate from "./DisplayMultiImageForUpdate";
+import LoadingSkeleton from "../../../componant/shared/LoadingSkeleton";
 
 export default function FormEditProduct() {
   const { control, handleSubmit, reset } = useForm<IProduct>();
   const { productId } = useParams();
-  const [imagesNormal, setImagesNormal] = useState<File[] | []>([]);
-  const [imagesThreeD, setImagesThreeD] = useState<File[] | []>([]);
-  const [imagesView, setImagesView] = useState<File[] | []>([]);
+  const [imagesNormal, setImagesNormal] = useState<File | null>(null);
+  const [imagesThreeD, setImagesThreeD] = useState<File | null>(null);
+  const [imagesView, setImagesView] = useState<File | null>(null);
   const [videoFile, setVideoFile] = useState<File | null>(null);
 
   // get product by sub category
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["GetSingleProductById", productId],
     queryFn: () => GetSingleProductById(productId),
     enabled: !!productId,
@@ -34,8 +35,8 @@ export default function FormEditProduct() {
         NameAr: data?.data?.nameAr || "",
         NameEng: data?.data.nameEng || "",
         NameAbree: data?.data?.nameAbree || "",
-        NormailPrice: data?.data?.NormailPrice || "",
-        WholesalePrice: data?.data?.WholesalePrice || "",
+        NormailPrice: data?.data?.normailPrice || "",
+        WholesalePrice: data?.data?.wholesalePrice || "",
         stock: data?.data?.stock || "",
         discount: data?.data?.discount || "",
         DescriptionAr: data?.data?.descriptionAr || "",
@@ -44,6 +45,10 @@ export default function FormEditProduct() {
       });
     }
   }, [data?.data, reset]);
+  console.log(data);
+  // return loading
+  if (isLoading)
+    return <LoadingSkeleton height={100} width={"100%"} text="column" />;
   return (
     <Box
       component={"form"}
@@ -117,6 +122,7 @@ export default function FormEditProduct() {
             type="number"
             step="any"
           />
+          <br />
           <CustomInput
             control={control}
             name="DescriptionAr"
@@ -144,19 +150,19 @@ export default function FormEditProduct() {
         </div>
         <Stack gap="15px" marginTop={"15px"}>
           <UploadMultiImageForUpdate
-            images={imagesNormal}
+            images={data?.data?.normalImagesItems}
             setImages={setImagesNormal}
             text="عادية"
             id="normalFiles"
           />
           <UploadMultiImageForUpdate
-            images={imagesThreeD}
+            images={data?.data?._3DImagesItems}
             setImages={setImagesThreeD}
             text="ثلاثية الابعاد"
             id="threeDFiles"
           />
           <UploadMultiImageForUpdate
-            images={imagesView}
+            images={data?.data?.viewImagesItems}
             setImages={setImagesView}
             text="طبيعية"
             id="viewFiles"

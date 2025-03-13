@@ -1,36 +1,25 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import { IImageProduct } from "../../../types/IProduct";
 
-export default function UploadMuitiImageForUpdate({
+export default function DisplayMuitiImageForUpdate({
   images,
   setImages,
   text,
   id,
 }: {
-  images: File[] | [];
-  setImages: Dispatch<SetStateAction<File[] | []>>;
+  images: IImageProduct[];
+  setImages: Dispatch<SetStateAction<File | null>>;
   text: string;
   id: string;
 }) {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      const newImages = Array.from(event.target.files);
-      setImages((prev) => [...prev, ...newImages]);
+      setImages(event.target.files[0]);
     }
   };
 
-  const removeImage = (index: number) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  useEffect(() => {
-    return () => {
-      images.forEach((image) =>
-        URL.revokeObjectURL(URL.createObjectURL(image))
-      );
-    };
-  }, [images]);
   return (
     <Box
       sx={{
@@ -52,7 +41,6 @@ export default function UploadMuitiImageForUpdate({
       <input
         id={id}
         type="file"
-        multiple
         accept="image/*"
         hidden
         onChange={handleFileChange}
@@ -70,7 +58,7 @@ export default function UploadMuitiImageForUpdate({
             }}
           >
             <img
-              src={URL.createObjectURL(image)}
+              src={`${import.meta.env.VITE_BASE_URL}${image?.imageUrl}`}
               alt="preview"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
@@ -84,7 +72,7 @@ export default function UploadMuitiImageForUpdate({
               }}
               onClick={(e) => {
                 e.stopPropagation();
-                removeImage(index);
+                // removeImage(index);
               }}
             >
               <Delete color="error" />
@@ -93,7 +81,7 @@ export default function UploadMuitiImageForUpdate({
         ))
       ) : (
         <Typography variant="body1" color="textSecondary">
-          اضغط هنا لرفع صور {text}
+          اضغط هنا لرفع صورة {text}
         </Typography>
       )}
     </Box>

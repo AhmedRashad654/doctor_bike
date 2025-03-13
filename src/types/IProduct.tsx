@@ -1,3 +1,8 @@
+export interface IImageProduct {
+  id: number;
+  imageUrl: string;
+  itemId: number;
+}
 export interface IProduct {
   id: number;
   nameAr: string;
@@ -32,7 +37,7 @@ export interface IProduct {
   dateUpdate: string | Date;
   DateUpdate?: string | Date;
   supCategory: null;
-  normalImagesItems: [];
-  _3DImagesItems: [];
-  viewImagesItems: [];
+  normalImagesItems: IImageProduct[];
+  _3DImagesItems: IImageProduct[];
+  viewImagesItems: IImageProduct[];
 }
