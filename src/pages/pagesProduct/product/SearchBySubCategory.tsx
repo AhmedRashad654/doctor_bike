@@ -9,8 +9,8 @@ export default function SearchBySubCategory({
   setValueSearch,
   options,
 }: {
-  valueSearch: number;
-  setValueSearch: Dispatch<SetStateAction<number>>;
+  valueSearch: number | null;
+  setValueSearch: Dispatch<SetStateAction<number | null>>;
   options: ISubCategory[];
 }) {
   // fetch sub category
@@ -21,17 +21,18 @@ export default function SearchBySubCategory({
       dispatch(fetchSubCategory());
     }
   }, [dispatch, subCategory.status]);
-    
+
   // initial state for select
   useEffect(() => {
-    if (subCategory?.data?.length === 0) return;
-    setValueSearch(subCategory?.data[0]?.id);
-  }, [setValueSearch, subCategory?.data]);
+    if (subCategory?.data?.length > 0 && valueSearch === null) {
+      setValueSearch(subCategory.data[0].id);
+    }
+  }, [setValueSearch, subCategory.data, valueSearch]);
 
   return (
     <FormControl variant="standard" sx={{ width: 200, marginBottom: "20px" }}>
       <Select
-        value={valueSearch}
+        value={valueSearch ?? ""}
         onChange={(e) => setValueSearch(Number(e.target.value))}
         displayEmpty
         sx={{ color: "#777" }}

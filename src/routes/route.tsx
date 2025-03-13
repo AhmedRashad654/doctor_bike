@@ -26,6 +26,7 @@ import CreateAdvertisement from "../pages/pagesAdvertisement/createAdvertisement
 import EditAdvertisement from "../pages/pagesAdvertisement/editSubCategory/EditAdvertisement";
 import EditProduct from "../pages/pagesProduct/editProduct/EditProduct";
 import ProtectedRoutedMyDashboard from "../protectedRouted/ProtectedRoutedDashboard";
+import DetailsOrder from "../pages/pagesOrders/detailsOrder/DetailsOrder";
 
 export const routes = createBrowserRouter([
   {
@@ -69,8 +70,9 @@ export const routes = createBrowserRouter([
       { path: "editCity", element: <EditCities /> },
       { path: "createProduct", element: <CreateProduct /> },
       { path: "products", element: <Product /> },
-      { path: "editProduct", element: <EditProduct /> },
+      { path: "editProduct/:productId", element: <EditProduct /> },
       { path: "orders", element: <Orders /> },
+      { path: "orders/:orderId", element: <DetailsOrder /> },
       { path: "reports", element: <Reports /> },
       { path: "comments", element: <Comments /> },
       { path: "advertisement", element: <Advertisement /> },

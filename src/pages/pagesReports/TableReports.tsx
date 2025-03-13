@@ -16,6 +16,7 @@ import NotFoundData from "../../componant/shared/NotFoundData";
 import LoadingSkeleton from "../../componant/shared/LoadingSkeleton";
 import { getReports } from "../../services/reportsApi/reportsApi";
 import { IReports } from "../../types/IReports";
+import { formatDate } from "../../componant/shared/formatDate";
 
 export default function TableReports() {
   const [searchParams] = useSearchParams();
@@ -64,7 +65,7 @@ export default function TableReports() {
                     }}
                   >
                     {col.field === "dateAdd"
-                      ? row?.dateAdd?.slice(0, 10)
+                      ? formatDate(row?.dateAdd)
                       : row[col.field as keyof typeof row]}
                   </TableCell>
                 ))}

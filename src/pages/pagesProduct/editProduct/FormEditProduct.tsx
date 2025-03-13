@@ -1,48 +1,49 @@
-import {
-  Box,
-  Button,
-  CardContent,
-  MenuItem,
-  Select,
-  Stack,
-} from "@mui/material";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
+import { Box, Button, CardContent, Stack } from "@mui/material";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 import CustomInput from "../../../componant/shared/CustomInput";
 import logo_Bike from "../../../assets/images/logo_Bike.png";
 import { useEffect, useState } from "react";
-import { IProduct } from "../../../types/product";
-import UploadMultiImage from "../createProduct/UploadMultiImage";
 import UploadVideo from "../createProduct/UploadVideo";
+import { IProduct } from "../../../types/IProduct";
+import { GetSingleProductById } from "../../../services/productApi/productApi";
+import { useQuery } from "@tanstack/react-query";
+import UploadMultiImageForUpdate from "./UploadMultiImageForUpdate";
 
 export default function FormEditProduct() {
-  const { state } = useLocation();
   const { control, handleSubmit, reset } = useForm<IProduct>();
+  const { productId } = useParams();
   const [imagesNormal, setImagesNormal] = useState<File[] | []>([]);
   const [imagesThreeD, setImagesThreeD] = useState<File[] | []>([]);
   const [imagesView, setImagesView] = useState<File[] | []>([]);
   const [videoFile, setVideoFile] = useState<File | null>(null);
 
+  // get product by sub category
+  const { data } = useQuery({
+    queryKey: ["GetSingleProductById", productId],
+    queryFn: () => GetSingleProductById(productId),
+    enabled: !!productId,
+  });
+
   const onSubmit: SubmitHandler<IProduct> = (data) => {
     console.log(data);
   };
   useEffect(() => {
-    if (state?.row) {
+    if (data?.data) {
       reset({
-        name_ar: state.row.name_ar || "",
-        name_en: state.row.name_en || "",
-        name_ab: state.row.name_ab || "",
-        normal_price: state.row.normal_price || "",
-        whole_sale_price: state.row.whole_sale_price || "",
-        stock: state.row.stock || "",
-        discount: state.row.discount || "",
-        subCategory: state.row.subCategory || "",
-        desc_ar: state.row.desc_ar || "",
-        desc_en: state.row.desc_en || "",
-        desc_ab: state.row.desc_ab || "",
+        NameAr: data?.data?.nameAr || "",
+        NameEng: data?.data.nameEng || "",
+        NameAbree: data?.data?.nameAbree || "",
+        NormailPrice: data?.data?.NormailPrice || "",
+        WholesalePrice: data?.data?.WholesalePrice || "",
+        stock: data?.data?.stock || "",
+        discount: data?.data?.discount || "",
+        DescriptionAr: data?.data?.descriptionAr || "",
+        DescriptionEng: data?.data?.descriptionEng || "",
+        DescriptionAbree: data?.data?.descriptionAbree || "",
       });
     }
-  }, [state?.row, reset]);
+  }, [data?.data, reset]);
   return (
     <Box
       component={"form"}
@@ -69,25 +70,25 @@ export default function FormEditProduct() {
         >
           <CustomInput
             control={control}
-            name="name_ar"
+            name="NameAr"
             label="الاسم باللغة العربية"
             placeholder="ادخل الاسم بالعربية"
           />
           <CustomInput
             control={control}
-            name="name_en"
+            name="NameEng"
             label="الاسم باللغة الانجليزية"
             placeholder="ادخل الاسم باللغة الانجليزية"
           />
           <CustomInput
             control={control}
-            name="name_ab"
+            name="NameAbree"
             label="الاسم باللغة العبرية"
             placeholder="ادخل الاسم باللغة العبرية"
           />
           <CustomInput
             control={control}
-            name="normal_price"
+            name="NormailPrice"
             label="السعر القطاعي"
             placeholder="ادخل السعر القطاعي"
             type="number"
@@ -95,7 +96,7 @@ export default function FormEditProduct() {
           />
           <CustomInput
             control={control}
-            name="whole_sale_price"
+            name="WholesalePrice"
             label="السعر الجملة"
             placeholder="ادخل سعر الجملة"
             type="number"
@@ -116,32 +117,9 @@ export default function FormEditProduct() {
             type="number"
             step="any"
           />
-
-          <Controller
-            name="subCategory"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <Select
-                {...field}
-                displayEmpty
-                sx={{ width: "100%", height: "55px" }}
-              >
-                <MenuItem value="" disabled>
-                  اختر الفئة الثانوية
-                </MenuItem>
-                {["الكترونيات", "لابتوب", "موبايل"].map((sub) => (
-                  <MenuItem key={sub} value={sub}>
-                    {sub}
-                  </MenuItem>
-                ))}
-              </Select>
-            )}
-          />
-          <br />
           <CustomInput
             control={control}
-            name="desc_ar"
+            name="DescriptionAr"
             label="ألوصف باللغة العربية"
             placeholder="ادخل الوصف باللغة العربية"
             multiline
@@ -149,7 +127,7 @@ export default function FormEditProduct() {
           />
           <CustomInput
             control={control}
-            name="desc_en"
+            name="DescriptionEng"
             label="ألوصف باللغة الانجليزية"
             placeholder="ادخل الوصف باللغة الانجليزية"
             multiline
@@ -157,7 +135,7 @@ export default function FormEditProduct() {
           />
           <CustomInput
             control={control}
-            name="desc_ab"
+            name="DescriptionAbree"
             label="الوصف باللغة العبرية"
             placeholder="ادخل الوصف باللغة العبرية"
             multiline
@@ -165,19 +143,19 @@ export default function FormEditProduct() {
           />
         </div>
         <Stack gap="15px" marginTop={"15px"}>
-          <UploadMultiImage
+          <UploadMultiImageForUpdate
             images={imagesNormal}
             setImages={setImagesNormal}
             text="عادية"
             id="normalFiles"
           />
-          <UploadMultiImage
+          <UploadMultiImageForUpdate
             images={imagesThreeD}
             setImages={setImagesThreeD}
             text="ثلاثية الابعاد"
             id="threeDFiles"
           />
-          <UploadMultiImage
+          <UploadMultiImageForUpdate
             images={imagesView}
             setImages={setImagesView}
             text="طبيعية"

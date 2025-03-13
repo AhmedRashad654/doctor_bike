@@ -32,17 +32,18 @@ export const columnsCities = [
 ];
 
 export const columnsProduct = [
-  { field: "name_ar", label: "الاسم بالعربية" },
-  { field: "name_en", label: "الاسم بالانجليزية" },
-  { field: "name_ab", label: "الاسم بالعبرية" },
-  { field: "normal_price", label: "السعر القطاعي" },
-  { field: "whole_sale_price", label: "سعر الجملة" },
+  { field: "nameAr", label: "الاسم بالعربية" },
+  { field: "nameEng", label: "الاسم بالانجليزية" },
+  { field: "nameAbree", label: "الاسم بالعبرية" },
+  { field: "descriptionAr", label: "الوصف باللغة العربية" },
+  { field: "descriptionEng", label: "الوصف باللغة الانجليزية" },
+  { field: "descriptionAbree", label: "الوصف باللغة العبرية" },
+  { field: "normailPrice", label: "السعر القطاعي" },
+  { field: "wholesalePrice", label: "سعر الجملة" },
   { field: "stock", label: "العدد" },
   { field: "discount", label: "الخصم" },
-  { field: "subCategory", label: "الفئة الثانوية" },
-  { field: "desc_ar", label: "الوصف باللغة العربية" },
-  { field: "desc_en", label: "الوصف باللغة الانجليزية" },
-  { field: "desc_ab", label: "الوصف باللغة العبرية" },
+  { field: "isNewItem", label: "جديد" },
+  { field: "isMoreSales", label: "اكثر مبيعا" },
   { field: "isShow", label: "العرض" },
   { field: "edit", label: "تعديل" },
 ];
@@ -58,7 +59,14 @@ export const columnsOrders = [
   { field: "priceDelivery", label: "سعر التوصيل" },
   { field: "totalPriceWithDiscound", label: "السعر بالخصم" },
   { field: "totalPriceWithOutDiscound", label: "السعر بدون الخصم" },
+  { field: "details", label: "تفاصيل الطلب" },
   { field: "edit", label: "تعديل" },
+];
+
+export const columnDetailsOrder = [
+  { field: "nameAr", label: "اسم ألمنتج" },
+  { field: "quantity", label: "الكمية" },
+  { field: "itemPrice", label: "سعر المنتج" },
 ];
 
 export const columnsReports = [

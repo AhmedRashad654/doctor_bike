@@ -8,7 +8,7 @@ import { useAppSelector } from "../../../redux/hooks";
 import LoadingSkeleton from "../../../componant/shared/LoadingSkeleton";
 
 export default function Product() {
-  const [valueSearch, setValueSearch] = useState<number>(0);
+  const [valueSearch, setValueSearch] = useState<number | null>(null);
 
   // get sub category
   const subCategory = useAppSelector((state) => state?.subCategory);

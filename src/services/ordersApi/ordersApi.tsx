@@ -25,6 +25,21 @@ export const GetOrdersByStatusAndCity = async (
   }
 };
 
+// get single order
+export const GetSingleOrderById = async (orderId: string | undefined) => {
+  try {
+    return await request.post(`/Orders/GetOrderById?orderId=${orderId}`, {
+      listRelatedObjects: ["OrderDetails", "items"],
+      paginationInfo: {
+        pageIndex: 0,
+        pageSize: 0,
+      },
+    });
+  } catch {
+    return null;
+  }
+};
+
 // edit on status order
 export const EditOnStatusOrder = async (
   newData: IDataOrders,

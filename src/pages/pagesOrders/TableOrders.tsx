@@ -17,6 +17,7 @@ import { IDataOrders, IOrders } from "../../types/IOrders";
 import NotFoundData from "../../componant/shared/NotFoundData";
 import notFound from "../../assets/images/not-found.png";
 import { useAppSelector } from "../../redux/hooks";
+import { useNavigate } from "react-router-dom";
 
 export default function TableOrders({
   isLoading,
@@ -29,6 +30,9 @@ export default function TableOrders({
 }) {
   const [openModalEditStatus, setOpenModalEditStatus] =
     useState<IDataOrders | null>(null);
+
+  // route
+  const navigate = useNavigate();
 
   // city from redux
   const city = useAppSelector((state) => state?.city?.data);
@@ -88,6 +92,12 @@ export default function TableOrders({
                       )
                     ) : col.field === "cityId" ? (
                       getNameCityById(row.cityId)
+                    ) : col.field === "details" ? (
+                      <Button
+                        onClick={() => navigate(`/dashboard/orders/${row.id}`)}
+                      >
+                        تفاصيل الاوردر
+                      </Button>
                     ) : (
                       (row[col.field as keyof typeof row] as React.ReactNode)
                     )}

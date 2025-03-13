@@ -23,6 +23,7 @@ import { IComments } from "../../types/IComments";
 import useContextState from "../../componant/hooks/useContextState";
 import ModalForAction from "../../componant/shared/ModalForAction";
 import useToast from "../../componant/hooks/useToast";
+import { formatDate } from "../../componant/shared/formatDate";
 
 export default function TableComments() {
   // state open modal for edit show
@@ -101,7 +102,7 @@ export default function TableComments() {
                         onClick={() => setOpenModalForAction(row)}
                       />
                     ) : col.field === "dateAdd" ? (
-                      row?.dateAdd?.slice(0, 10)
+                      formatDate(row?.dateAdd)
                     ) : (
                       row[col.field as keyof typeof row]
                     )}
