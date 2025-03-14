@@ -13,28 +13,3 @@ export const cardsCount = [
   { name: "تعليق", count: 50, Icon: <People sx={style} /> },
   { name: "اعلان", count: 50, Icon: <People sx={style} /> },
 ];
-
-export const FakeAdvertisement = [
-  {
-    id: 1,
-    name_ar: "اعلان",
-    name_en: "اعلان",
-    name_ab: "اعلان",
-    desc_ar: "اعلان",
-    desc_en: "اعلان",
-    desc_ab: "اعلان",
-    image: "اعلان",
-    isShow: true,
-  },
-  {
-    id: 2,
-    name_ar: "اعلان",
-    name_en: "اعلان",
-    name_ab: "اعلان",
-    desc_ar: "اعلان",
-    desc_en: "اعلان",
-    desc_ab: "اعلان",
-    image: "اعلان",
-    isShow: false,
-  },
-];

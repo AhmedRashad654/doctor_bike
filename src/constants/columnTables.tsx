@@ -85,13 +85,10 @@ export const columnsComment = [
 ];
 
 export const columnsAdvertisement = [
-  { field: "name_ar", label: "الاسم بالعربية" },
-  { field: "name_en", label: "الاسم بالانجليزية" },
-  { field: "name_ab", label: "الاسم بالعبرية" },
-  { field: "desc_ar", label: "الوصف بالعربية" },
-  { field: "desc_en", label: "الوصف بالانجليزية" },
-  { field: "desc_ab", label: "الوصف بالعبرية" },
-  { field: "image", label: "صورة الاعلان" },
+  { field: "title", label: "العنوان" },
+  { field: "description", label: "الوصف " },
+  { field: "urlAds", label: "رابط الاعلان" },
+  { field: "imgUrl", label: "صورة الاعلان" },
   { field: "isShow", label: "العرض" },
   { field: "edit", label: "تعديل" },
 ];

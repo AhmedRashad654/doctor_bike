@@ -8,10 +8,12 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingSkeleton from "../../componant/shared/LoadingSkeleton";
 import NotFoundData from "../../componant/shared/NotFoundData";
 import notFound from "../../assets/images/not-found.png";
+import { useState } from "react";
+import InputSearch from "../../componant/shared/InputSearch";
 
 export default function Users() {
   const [searchParams] = useSearchParams();
-  // const [valueSearch, setValueSearch] = useState<string | null>(null);
+  const [valueSearch, setValueSearch] = useState<string>("");
   const userQuery = searchParams.get("user");
   const page = Number(searchParams.get("page"));
   // get users
@@ -38,8 +40,12 @@ export default function Users() {
             : ""
         }
       />
-      {/* <InputSearch valueSearch={valueSearch} setValueSearch={setValueSearch} /> */}
-      <TableUsers user={data?.data} />
+      <InputSearch
+        valueSearch={valueSearch}
+        setValueSearch={setValueSearch}
+        text={"بحث بالايميل..."}
+      />
+      <TableUsers user={data?.data} valueSearch={valueSearch} />
     </Box>
   );
 }

@@ -1,30 +1,39 @@
 import { Avatar, Box, Button, CardContent, Stack } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
-import { IMainCategory } from "../../../types/category";
 import useImageUpload from "../../../componant/hooks/useImageUpload";
 import CustomInput from "../../../componant/shared/CustomInput";
 import { useEffect } from "react";
+import { IAdvertisement } from "../../../types/IAdvertisement";
+import { EditAndAddAdvertisement } from "../../../services/advertisementApi/advertisementApi";
+import useToast from "../../../componant/hooks/useToast";
 
 export default function FormEditAdvertisement() {
   const { state } = useLocation();
-  const { image, handleImageUpload } = useImageUpload();
-  const { control, handleSubmit, reset } = useForm<IMainCategory>();
-  const onSubmit: SubmitHandler<IMainCategory> = (data) => {
-    console.log(data);
+
+  const { image, previewUrl, handleImageUpload } = useImageUpload();
+  const { control, handleSubmit, reset } = useForm<IAdvertisement>();
+  // hook for show text such alert
+  const { showToast } = useToast();
+
+  const onSubmit: SubmitHandler<IAdvertisement> = async (data) => {
+    const newData: IAdvertisement = {
+      ...state.row,
+      ...data,
+      img: image || state?.imageUrl,
+    };
+    await EditAndAddAdvertisement(newData, null, undefined, showToast);
   };
   useEffect(() => {
     if (state?.row) {
       reset({
-        name_ar: state.row.name_ar || "",
-        name_en: state.row.name_en || "",
-        name_ab: state.row.name_ab || "",
-        description_ar: state.row.desc_ar || "",
-        description_en: state.row.desc_en || "",
-        description_ab: state.row.desc_ab || "",
+        title: state.row.title || "",
+        description: state.row.description || "",
+        urlAds: state.row.urlAds || "",
       });
     }
   }, [state?.row, reset]);
+
   return (
     <Box
       component={"form"}
@@ -47,7 +56,12 @@ export default function FormEditAdvertisement() {
               onChange={handleImageUpload}
             />
             <Avatar
-              src={image || ""}
+              src={
+                previewUrl ||
+                (state?.row?.imgUrl !== null &&
+                  `${import.meta.env.VITE_BASE_URL}${state?.row?.imgUrl}`) ||
+                undefined
+              }
               sx={{
                 width: 100,
                 height: 100,
@@ -58,48 +72,26 @@ export default function FormEditAdvertisement() {
 
           <CustomInput
             control={control}
-            name="name_ar"
-            label="الاسم باللغة العربية"
-            placeholder="ادخل الاسم بالعربية"
+            name="title"
+            label="العنوان"
+            placeholder="ادخل  العنوان"
+            rules={{ required: " العنوان مطلوب" }}
           />
           <CustomInput
             control={control}
-            name="name_en"
-            label="الاسم باللغة الانجليزية"
-            placeholder="ادخل الاسم باللغة الانجليزية"
+            name="urlAds"
+            label="رابط الموقع"
+            placeholder="ادخل  رابط الموقع"
+            rules={{ required: "   رابط الاعلان مطلوب" }}
           />
-
           <CustomInput
             control={control}
-            name="name_ab"
-            label="الاسم باللغة العبرية"
-            placeholder="ادخل الاسم باللغة العبرية"
-          />
-
-          <CustomInput
-            control={control}
-            name="description_ar"
-            label=" الوصف باللغة العربية"
-            placeholder=" ادخل الوصف باللغة العربية"
+            name="description"
+            label=" الوصف  "
+            placeholder=" ادخل الوصف"
             multiline
             rows={4}
-          />
-          <CustomInput
-            control={control}
-            name="description_en"
-            label="الوصف باللغة الانجليزية"
-            placeholder="ادخل الوصف باللغة الانجليزية"
-            multiline
-            rows={4}
-          />
-
-          <CustomInput
-            control={control}
-            name="description_ab"
-            label="الوصف باللغة العبرية"
-            placeholder="ادخل الوصف باللغة العبرية"
-            multiline
-            rows={4}
+            rules={{ required: " الوصف مطلوب" }}
           />
 
           <Button type="submit" variant="contained" color="primary" fullWidth>

@@ -30,7 +30,11 @@ export default function Cities() {
         Icon={<LocationCityIcon sx={{ fontSize: "40px" }} />}
         text={"المدن"}
       />
-      <InputSearch valueSearch={valueSearch} setValueSearch={setValueSearch} />
+      <InputSearch
+        valueSearch={valueSearch}
+        setValueSearch={setValueSearch}
+        text={"بحث بالاسم بالعربية"}
+      />
       <TableCities valueSearch={valueSearch} />
     </Box>
   );

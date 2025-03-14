@@ -5,7 +5,7 @@ import InputSearch from "../../../componant/shared/InputSearch";
 import TableAdvertisement from "./TableAdvertisement";
 import FeaturedVideoIcon from "@mui/icons-material/FeaturedVideo";
 export default function Advertisement() {
-  const [valueSearch, setValueSearch] = useState<string | null>(null);
+  const [valueSearch, setValueSearch] = useState<string>("");
   return (
     <Box>
       <HeaderDashboard
@@ -13,8 +13,12 @@ export default function Advertisement() {
         text={"الاعلانات"}
       />
 
-      <InputSearch valueSearch={valueSearch} setValueSearch={setValueSearch} />
-      <TableAdvertisement />
+      <InputSearch
+        valueSearch={valueSearch}
+        setValueSearch={setValueSearch}
+        text={"بحث بالاسم "}
+      />
+      <TableAdvertisement valueSearch={valueSearch} />
     </Box>
   );
 }

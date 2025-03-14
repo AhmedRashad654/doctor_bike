@@ -5,14 +5,16 @@ import { Dispatch, SetStateAction } from "react";
 export default function InputSearch({
   valueSearch,
   setValueSearch,
+  text,
 }: {
   valueSearch: string;
   setValueSearch: Dispatch<SetStateAction<string>>;
+  text: string;
 }) {
   return (
     <TextField
       variant="standard"
-      placeholder=" ابحث..."
+      placeholder={text}
       value={valueSearch || ""}
       onChange={(e) => setValueSearch(e.target.value)}
       sx={{

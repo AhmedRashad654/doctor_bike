@@ -19,7 +19,6 @@ export default function UploadMuitiImage({
       setImages((prev) => [...prev, ...newImages]);
     }
   };
-
   const removeImage = (index: number) => {
     setImages((prev) => prev.filter((_, i) => i !== index));
   };

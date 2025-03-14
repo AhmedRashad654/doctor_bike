@@ -20,7 +20,13 @@ import { EditBlock } from "../../services/users/user";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import useToast from "../../componant/hooks/useToast";
-export default function TableUsers({ user }: { user: IUserAPI }) {
+export default function TableUsers({
+  user,
+  valueSearch,
+}: {
+  user: IUserAPI;
+  valueSearch: string;
+}) {
   // state open modal for block
   const { openModalForAction, setOpenModalForAction } = useContextState();
   // search params
@@ -52,7 +58,7 @@ export default function TableUsers({ user }: { user: IUserAPI }) {
     <>
       <TableContainer
         component={Paper}
-        sx={{ height: "75vh", marginTop: "30px" }}
+        sx={{ height: "70vh", marginTop: "10px" }}
       >
         <Table>
           <TableHead>
@@ -72,39 +78,45 @@ export default function TableUsers({ user }: { user: IUserAPI }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {user?.rows?.map((row: IDataUserAPI) => (
-              <TableRow key={row.id}>
-                {columnsUser.map((col) => (
-                  <TableCell
-                    key={col.field}
-                    sx={{
-                      textAlign: "right",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {col.field === "block" ? (
-                      <Switch
-                        checked={!row.block}
-                        color="primary"
-                        onClick={() => setOpenModalForAction(row)}
-                      />
-                    ) : col.field === "editRole" ? (
-                      <Button
-                        onClick={() =>
-                          setOpenModalEditRole({
-                            id: row.id,
-                          })
-                        }
-                      >
-                        تعديل الدور
-                      </Button>
-                    ) : (
-                      (row[col.field as keyof typeof row] as React.ReactNode)
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
+            {user?.rows
+              ?.filter(
+                (e) =>
+                  !valueSearch ||
+                  e?.email.toLowerCase().includes(valueSearch.toLowerCase())
+              )
+              .map((row: IDataUserAPI) => (
+                <TableRow key={row.id}>
+                  {columnsUser.map((col) => (
+                    <TableCell
+                      key={col.field}
+                      sx={{
+                        textAlign: "right",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {col.field === "block" ? (
+                        <Switch
+                          checked={!row.block}
+                          color="primary"
+                          onClick={() => setOpenModalForAction(row)}
+                        />
+                      ) : col.field === "editRole" ? (
+                        <Button
+                          onClick={() =>
+                            setOpenModalEditRole({
+                              id: row.id,
+                            })
+                          }
+                        >
+                          تعديل الدور
+                        </Button>
+                      ) : (
+                        (row[col.field as keyof typeof row] as React.ReactNode)
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

@@ -11,6 +11,7 @@ import { ISubCategory } from "../types/subCategory";
 import { ICity } from "../types/cities";
 import { IComments } from "../types/IComments";
 import { IProduct } from "../types/IProduct";
+import { IAdvertisement } from "../types/IAdvertisement";
 
 interface ContextType {
   openModalForAction:
@@ -20,6 +21,7 @@ interface ContextType {
     | ICity
     | IComments
     | IProduct
+    | IAdvertisement
     | null;
   setOpenModalForAction: Dispatch<
     SetStateAction<
@@ -29,6 +31,7 @@ interface ContextType {
       | ICity
       | IComments
       | IProduct
+      | IAdvertisement
       | null
     >
   >;
@@ -42,6 +45,7 @@ function ContextProvider({ children }: { children: ReactNode }) {
     | ICity
     | IComments
     | IProduct
+    | IAdvertisement
     | null
   >(null);
 

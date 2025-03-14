@@ -1,14 +1,24 @@
 import { CardContent, Button, Avatar, Stack, Box } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IMainCategory } from "../../../types/category";
 import useImageUpload from "../../../componant/hooks/useImageUpload";
 import CustomInput from "../../../componant/shared/CustomInput";
+import { IAdvertisement } from "../../../types/IAdvertisement";
+import { EditAndAddAdvertisement } from "../../../services/advertisementApi/advertisementApi";
+import useToast from "../../../componant/hooks/useToast";
 
 export default function FormCreateAdvertisement() {
-  const { image, handleImageUpload } = useImageUpload();
-  const { control, handleSubmit } = useForm<IMainCategory>();
-  const onSubmit: SubmitHandler<IMainCategory> = (data) => {
-    console.log(data);
+  const { previewUrl, image, handleImageUpload } = useImageUpload();
+  const { showToast } = useToast();
+  const { control, handleSubmit } = useForm<IAdvertisement>();
+  const onSubmit: SubmitHandler<IAdvertisement> = async (data) => {
+    if (!image) return showToast("الصورة مطلوبة", "error");
+    const newData: IAdvertisement = {
+      ...data,
+      img: image,
+      id: 0,
+      isShow: true,
+    };
+    await EditAndAddAdvertisement(newData, null, undefined, showToast);
   };
   return (
     <Box
@@ -32,7 +42,7 @@ export default function FormCreateAdvertisement() {
               onChange={handleImageUpload}
             />
             <Avatar
-              src={image || ""}
+              src={previewUrl || ""}
               sx={{
                 width: 100,
                 height: 100,
@@ -43,48 +53,26 @@ export default function FormCreateAdvertisement() {
 
           <CustomInput
             control={control}
-            name="name_ar"
-            label="الاسم باللغة العربية"
-            placeholder="ادخل الاسم بالعربية"
+            name="title"
+            label="العنوان"
+            placeholder="ادخل  العنوان"
+            rules={{ required: " العنوان مطلوب" }}
           />
           <CustomInput
             control={control}
-            name="name_en"
-            label="الاسم باللغة الانجليزية"
-            placeholder="ادخل الاسم باللغة الانجليزية"
+            name="urlAds"
+            label="رابط الاعلان"
+            placeholder="ادخل  رابط الاعلان"
+            rules={{ required: "   رابط الاعلان مطلوب" }}
           />
-
           <CustomInput
             control={control}
-            name="name_ab"
-            label="الاسم باللغة العبرية"
-            placeholder="ادخل الاسم باللغة العبرية"
-          />
-
-          <CustomInput
-            control={control}
-            name="description_ar"
-            label=" الوصف باللغة العربية"
-            placeholder=" ادخل الوصف باللغة العربية"
+            name="description"
+            label=" الوصف"
+            placeholder="ادخل الوصف"
             multiline
             rows={4}
-          />
-          <CustomInput
-            control={control}
-            name="description_en"
-            label="الوصف باللغة الانجليزية"
-            placeholder="ادخل الوصف باللغة الانجليزية"
-            multiline
-            rows={4}
-          />
-
-          <CustomInput
-            control={control}
-            name="description_ab"
-            label="الوصف باللغة العبرية"
-            placeholder="ادخل الوصف باللغة العبرية"
-            multiline
-            rows={4}
+            rules={{ required: " الوصف مطلوب" }}
           />
           <Button type="submit" variant="contained" color="primary" fullWidth>
             انشاء

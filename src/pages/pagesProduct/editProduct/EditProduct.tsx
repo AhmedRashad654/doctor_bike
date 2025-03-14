@@ -10,7 +10,7 @@ export default function EditProduct() {
         Icon={<EditIcon sx={{ fontSize: "40px" }} />}
         text={"تعديل  منتج"}
       />
-      <Stack alignItems={"center"} justifyContent={"center"} minHeight={"80vh"}>
+      <Stack alignItems={"center"} minHeight={"80vh"}>
         <FormEditProduct />
       </Stack>
     </Box>

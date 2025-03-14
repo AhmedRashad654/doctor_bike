@@ -16,7 +16,7 @@ import useContextState from "../../../componant/hooks/useContextState";
 import ModalForAction from "../../../componant/shared/ModalForAction";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  EditProduct,
+  EditShowProduct,
   GetProductBySubCategory,
 } from "../../../services/productApi/productApi";
 import LoadingSkeleton from "../../../componant/shared/LoadingSkeleton";
@@ -82,7 +82,7 @@ export default function TableProduct({
             : openModalForAction?.isMoreSales
           : false,
     };
-    await EditProduct(newData, queryClient, valueSearch, page, showToast);
+    await EditShowProduct(newData, queryClient, valueSearch, page, showToast);
   };
   return (
     <>

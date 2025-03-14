@@ -31,7 +31,7 @@ export default function MainCategory() {
         Icon={<CategoryIcon sx={{ fontSize: "40px" }} />}
         text={"الفئات الرئيسية"}
       />
-      <InputSearch valueSearch={valueSearch} setValueSearch={setValueSearch} />
+      <InputSearch valueSearch={valueSearch} setValueSearch={setValueSearch} text={ "بحث بالاسم بالعربية..."} />
 
       <TableMainCategory valueSearch={valueSearch} />
     </Box>

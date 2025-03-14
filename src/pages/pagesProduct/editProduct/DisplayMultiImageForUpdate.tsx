@@ -1,25 +1,50 @@
-import { Dispatch, SetStateAction } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { IImageProduct } from "../../../types/IProduct";
+import {
+  AddImgToItem,
+  RemoveImgToItem,
+} from "../../../services/productApi/productApi";
+import { useParams } from "react-router-dom";
+import useToast from "../../../componant/hooks/useToast";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function DisplayMuitiImageForUpdate({
   images,
-  setImages,
+  typeImage,
   text,
   id,
 }: {
   images: IImageProduct[];
-  setImages: Dispatch<SetStateAction<File | null>>;
+  typeImage: string;
   text: string;
   id: string;
 }) {
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const { productId } = useParams();
+  const { showToast } = useToast();
+  const queryClient = useQueryClient();
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (event.target.files) {
-      setImages(event.target.files[0]);
+      await AddImgToItem(
+        typeImage,
+        productId,
+        queryClient,
+        event.target.files[0],
+        showToast
+      );
     }
   };
-
+  const removeImage = async (imageId: number) => {
+    await RemoveImgToItem(
+      typeImage,
+      productId,
+      queryClient,
+      imageId,
+      showToast
+    );
+  };
   return (
     <Box
       sx={{
@@ -45,7 +70,7 @@ export default function DisplayMuitiImageForUpdate({
         hidden
         onChange={handleFileChange}
       />
-      {images.length > 0 ? (
+      {images?.length > 0 ? (
         images.map((image, index) => (
           <Box
             key={index}
@@ -72,7 +97,7 @@ export default function DisplayMuitiImageForUpdate({
               }}
               onClick={(e) => {
                 e.stopPropagation();
-                // removeImage(index);
+                removeImage(image?.id);
               }}
             >
               <Delete color="error" />

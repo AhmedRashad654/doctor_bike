@@ -157,7 +157,7 @@ export const getMenuItems = (firstCategory: string) => [
       {
         name: "جميع الاعلانات",
         icon: <FeaturedVideoIcon sx={styleIcon} />,
-        route: "/dashboard/advertisement",
+        route: "/dashboard/advertisement?page=1",
       },
     ],
   },

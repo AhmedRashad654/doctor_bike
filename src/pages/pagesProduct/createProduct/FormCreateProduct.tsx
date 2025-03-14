@@ -7,12 +7,16 @@ import {
   Stack,
 } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IMainCategory } from "../../../types/category";
 import CustomInput from "../../../componant/shared/CustomInput";
 import logo_Bike from "../../../assets/images/logo_Bike.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UploadMultiImage from "./UploadMultiImage";
 import UploadVideo from "./UploadVideo";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { fetchSubCategory } from "../../../redux/features/subCategorySlice";
+import { IProduct } from "../../../types/IProduct";
+import { EditAndAddProduct } from "../../../services/productApi/productApi";
+import useToast from "../../../componant/hooks/useToast";
 
 export default function FormCreateProduct() {
   const [selectedSubCategory, setSelectedSubCategory] = useState<string>("");
@@ -20,10 +24,34 @@ export default function FormCreateProduct() {
   const [imagesThreeD, setImagesThreeD] = useState<File[] | []>([]);
   const [imagesView, setImagesView] = useState<File[] | []>([]);
   const [videoFile, setVideoFile] = useState<File | null>(null);
-  const { control, handleSubmit } = useForm<IMainCategory>();
-  const onSubmit: SubmitHandler<IMainCategory> = (data) => {
-    console.log(data);
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<IProduct>();
+  const { showToast } = useToast();
+  // create new product
+  const onSubmit: SubmitHandler<IProduct> = async (data) => {
+    if (!selectedSubCategory) return showToast("الفئة الثانوية مطلوب", "error");
+    const newData: IProduct = {
+      ...data,
+      SupCategoryId: selectedSubCategory,
+      id: 0,
+      Video: videoFile,
+      NormalImg: imagesNormal,
+      threeDImg: imagesThreeD,
+      ViewImg: imagesView,
+    };
+    await EditAndAddProduct(newData, null, undefined, showToast);
   };
+
+  const dispatch = useAppDispatch();
+  const subCategory = useAppSelector((state) => state?.subCategory);
+  useEffect(() => {
+    if (subCategory.status === "idle") {
+      dispatch(fetchSubCategory());
+    }
+  }, [dispatch, subCategory.status]);
   return (
     <Box
       component={"form"}
@@ -50,53 +78,68 @@ export default function FormCreateProduct() {
         >
           <CustomInput
             control={control}
-            name="name_ar"
+            name="NameAr"
             label="الاسم باللغة العربية"
             placeholder="ادخل الاسم بالعربية"
+            rules={{ required: " الاسم باللغة العربية مطلوب" }}
           />
           <CustomInput
             control={control}
-            name="name_en"
+            name="NameEng"
             label="الاسم باللغة الانجليزية"
             placeholder="ادخل الاسم باللغة الانجليزية"
+            rules={{ required: " الاسم باللغة الانجليزية مطلوب" }}
           />
 
           <CustomInput
             control={control}
-            name="name_ab"
+            name="NameAbree"
             label="الاسم باللغة العبرية"
             placeholder="ادخل الاسم باللغة العبرية"
+            rules={{ required: " الاسم باللغة العبرية مطلوب" }}
           />
           <CustomInput
             control={control}
-            name="normal_price"
+            name="NormailPrice"
             label="السعر القطاعي"
             placeholder="ادخل السعر القطاعي"
             type="number"
             step="any"
+            rules={{ required: " السعر القطاعي مطلوب" }}
           />
           <CustomInput
             control={control}
-            name="whole_sale_price"
+            name="WholesalePrice"
             label="سعر الجملة"
             placeholder="ادخل سعر الجملة"
             type="number"
             step="any"
+            rules={{ required: " السعر الجملة مطلوب" }}
           />
           <CustomInput
             control={control}
-            name="stock"
+            name="Stock"
             label="العدد"
             placeholder="ادخل عدد المنتج"
             type="number"
+            rules={{ required: " العدد مطلوب" }}
           />
           <CustomInput
             control={control}
-            name="discount"
+            name="ManufactureYear"
+            label="سنة الصنع"
+            placeholder="ادخل سنة صنع المنتج"
+            type="number"
+            rules={{ required: " سنة الصنع مطلوبة" }}
+          />
+          <CustomInput
+            control={control}
+            name="Discount"
             label="الخصم"
             placeholder="ادخل الخصم"
             type="number"
             step="any"
+            rules={{ required: " الخصم  مطلوب" }}
           />
           <Select
             value={selectedSubCategory}
@@ -107,37 +150,40 @@ export default function FormCreateProduct() {
             <MenuItem value="" disabled>
               اختر الفئة الثانوية
             </MenuItem>
-            {["الكترونيات", "لابتوب", "موبايل"].map((role) => (
-              <MenuItem key={role} value={role}>
-                {role}
+            {subCategory?.data?.map((sub) => (
+              <MenuItem key={sub.id} value={sub.id}>
+                {sub?.nameAr}
               </MenuItem>
             ))}
           </Select>
           <br />
           <CustomInput
             control={control}
-            name="description_ar"
+            name="DescriptionAr"
             label=" الوصف باللغة العربية"
             placeholder=" ادخل الوصف باللغة العربية"
             multiline
             rows={4}
+            rules={{ required: "  الوصف باللغة العربية مطلوب" }}
           />
           <CustomInput
             control={control}
-            name="description_en"
+            name="DescriptionEng"
             label="الوصف باللغة الانجليزية"
             placeholder="ادخل الوصف باللغة الانجليزية"
             multiline
             rows={4}
+            rules={{ required: "  الوصف باللغة الانجليزية مطلوب" }}
           />
 
           <CustomInput
             control={control}
-            name="description_ab"
+            name="DescriptionAbree"
             label="الوصف باللغة العبرية"
             placeholder="ادخل الوصف باللغة العبرية"
             multiline
             rows={4}
+            rules={{ required: " الوصف باللغة العبرية مطلوب" }}
           />
         </div>
         <Stack gap="15px" marginTop={"15px"}>
@@ -170,8 +216,9 @@ export default function FormCreateProduct() {
             color="primary"
             fullWidth
             sx={{ marginTop: "10px" }}
+            disabled={isSubmitting}
           >
-            انشاء
+            {isSubmitting ? "جاري الاضافة ..." : "انشاء"}
           </Button>
         </Stack>
       </CardContent>
